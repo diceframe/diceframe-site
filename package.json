@@ -11,7 +11,7 @@
     "start": "vinext start",
     "deploy:cloudflare": "npm run build && wrangler deploy",
     "test": "npm run build && node --test tests/rendered-html.test.mjs",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next"
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern .vinext --ignore-pattern .wrangler"
   },
   "dependencies": {
     "next": "16.2.6",
