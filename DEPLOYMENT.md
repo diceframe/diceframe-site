@@ -1,23 +1,27 @@
 # DiceFrame 官网部署
 
-## 推荐：GitHub 存源码 + Cloudflare Workers 运行
+## 当前方案：GitHub 私有仓库 + Cloudflare Workers Builds
 
-这套官网使用 vinext 输出 Cloudflare Worker 兼容的应用，因此最合适的方式是：
+官网源码位于私有仓库 `diceframe/diceframe-site`。Cloudflare Workers
+Builds 连接该仓库后，会监听 `main` 分支；每次提交都会自动构建并发布。
 
-1. 新建 GitHub 仓库并推送本目录。
-2. 在 Cloudflare Dashboard 打开 **Workers & Pages**。
-3. 创建 Worker，连接该 GitHub 仓库。
-4. 让 Workers Builds 自动识别项目；若 Cloudflare 创建配置 PR，合并该 PR。
-5. 生产分支选择 `main`，推送后自动构建与部署。
-6. 把构建环境变量 `NEXT_PUBLIC_SITE_URL` 设为正式官网地址，例如 `https://www.example.com`。
-7. 在 Worker 的自定义域名设置中绑定同一个官网域名。
+首次连接：
 
-这种方案中：
+1. 在 Cloudflare Dashboard 打开 **Workers & Pages**。
+2. 选择 **Create application** → **Import a repository**。
+3. 授权 Cloudflare 读取私有仓库 `diceframe/diceframe-site`。
+4. 生产分支选择 `main`。
+5. 构建命令填写 `npm run build`。
+6. 部署命令填写 `npx wrangler deploy`。
+7. 保存并开始第一次部署。
 
-- GitHub 是源码和技术文档的事实来源；
-- Cloudflare 负责构建、运行、CDN、HTTPS 和自定义域名；
-- Pull Request 可以生成独立预览；
-- 技术帮助页仍在访问时读取 `diceframe/diceframe@main` 的最新 Markdown。
+项目根目录的 `wrangler.jsonc` 是 Worker 配置来源。首次部署会先使用
+Cloudflare 分配的 `workers.dev` 地址进行验证。确认页面正常后，再把
+`diceframe.com` 添加为 Worker 的自定义域名，并移除旧托管入口所需的
+两条 A 记录。Cloudflare 会自动管理新域名记录与 HTTPS 证书。
+
+以后只需修改 GitHub 的 `main` 分支，Workers Builds 就会自动发布。
+技术帮助页仍会在访问时读取 `diceframe/diceframe@main` 的最新 Markdown。
 
 ## GitHub Pages 能不能用
 
@@ -25,10 +29,11 @@
 
 因此不建议把当前项目直接交给 GitHub Pages。若以后必须使用 GitHub Pages，需要增加一套独立的静态导出流程，并处理仓库子路径、路由回退和资源前缀。对目前这个官网而言，GitHub + Cloudflare Workers 的链路更短，也更适合后续扩展。
 
-## 域名建议
+## 正式域名
 
-- 官网：`diceframe.dev` 或 `www.diceframe.dev`
+- 官网：`https://diceframe.com`
 - 文档仍使用官网内的 `/docs`
 - GitHub 主仓库：`github.com/diceframe/diceframe`
 
-正式绑定域名前，需要在 Cloudflare 构建设置中把 `NEXT_PUBLIC_SITE_URL` 设为实际域名。未设置时，本地开发会回退到 `http://localhost:3000`。
+站点元数据默认使用 `https://diceframe.com`。如果以后更换域名，可以在
+Cloudflare 构建环境中设置 `NEXT_PUBLIC_SITE_URL` 覆盖默认值。
