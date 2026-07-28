@@ -188,7 +188,7 @@ export default function Home() {
           <i />
           <span>DND · COC · CUSTOM RULES</span>
           <i />
-          <span>WEB · QQ BOT</span>
+          <span>BOT</span>
         </div>
       </section>
 
