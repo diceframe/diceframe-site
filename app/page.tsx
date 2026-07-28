@@ -126,7 +126,10 @@ export default function Home() {
               状态追踪和 QQ 群聊连接成一场可以持续推进的线上跑团。
             </p>
             <div className="hero-actions">
-              <Link className="button button-primary" href="/docs">
+              <Link
+                className="button button-primary"
+                href="/docs?doc=readme"
+              >
                 5 分钟开始第一局
                 <span aria-hidden="true">→</span>
               </Link>
