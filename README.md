@@ -28,10 +28,12 @@ $env:WRANGLER_LOG_PATH=".wrangler/wrangler.log"
 node --test tests/rendered-html.test.mjs
 ```
 
-## 部署建议
+## 自动部署
 
-推荐把本仓库放在 GitHub，然后使用 Cloudflare Workers Builds 连接仓库。每次推送都由 Cloudflare 自动构建并部署，既保留 GitHub 作为代码源，又可以使用 Cloudflare 的全球网络、预览部署与自定义域名。
+本仓库使用 Cloudflare Workers Builds 自动部署。Cloudflare 连接
+`diceframe/diceframe-site` 私有仓库后，每次推送 `main` 分支都会自动构建并发布。
 
 完整说明见 [DEPLOYMENT.md](DEPLOYMENT.md)。
 
-生产环境还应设置 `NEXT_PUBLIC_SITE_URL`，用于生成正确的站点元数据与图标绝对地址。
+正式站点地址默认为 `https://diceframe.com`；如需更换，可以通过
+`NEXT_PUBLIC_SITE_URL` 覆盖。
