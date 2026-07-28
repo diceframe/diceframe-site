@@ -145,8 +145,6 @@ export default function Home() {
             </div>
             <div className="hero-trust" aria-label="项目特性">
               <span>AGPL-3.0 开源</span>
-              <span>数据自主掌控</span>
-              <span>兼容 OpenAI API</span>
             </div>
           </div>
 
@@ -370,7 +368,7 @@ export default function Home() {
           />
           <p className="section-kicker">YOUR WORLD. YOUR RULES. YOUR TABLE.</p>
           <h2>下一场 TRPG 冒险，从你自己的服务器开始。</h2>
-          <p>开源、自托管、可扩展。下载 DiceFrame，把朋友叫到 AI 跑团桌边。</p>
+          <p>开源、自托管、可扩展。下载 DiceFrame，把朋友叫到 DiceFrame 一起游戏。</p>
           <div className="hero-actions">
             <a
               className="button button-primary"
