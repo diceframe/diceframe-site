@@ -534,7 +534,6 @@ export function DocsExplorer() {
             <div className="docs-loading" role="status">
               <i />
               <strong>正在从 GitHub 读取文档…</strong>
-              <span>内容不会在官网保存副本</span>
             </div>
           )}
 
