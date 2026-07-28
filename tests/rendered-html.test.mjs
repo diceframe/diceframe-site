@@ -39,6 +39,7 @@ test("server-renders the DiceFrame homepage", async () => {
   assert.match(html, /把故事/);
   assert.match(html, /跑下去/);
   assert.match(html, /<span>BOT<\/span>/i);
+  assert.match(html, /href="\/docs\?doc=readme"/i);
   assert.match(html, /一套 AI TRPG 引擎/);
   assert.match(html, /AI 跑团（TRPG）平台/);
   assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/"/i);
