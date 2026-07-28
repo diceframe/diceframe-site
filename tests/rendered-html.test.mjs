@@ -33,7 +33,10 @@ test("server-renders the DiceFrame homepage", async () => {
     html,
     /<title>DiceFrame — 开源自托管 AI 跑团（TRPG）平台<\/title>/i,
   );
-  assert.match(html, /带到同一张/);
+  assert.match(html, /让 AI 做 GM/);
+  assert.match(html, /和朋友一起把故事/);
+  assert.match(html, /跑下去/);
+  assert.match(html, /<span>BOT<\/span>/i);
   assert.match(html, /一套 AI TRPG 引擎/);
   assert.match(html, /AI 跑团（TRPG）平台/);
   assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/"/i);
