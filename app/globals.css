@@ -321,6 +321,11 @@ summary {
   letter-spacing: -0.04em;
 }
 
+.hero-copy h1 > span {
+  display: block;
+  white-space: nowrap;
+}
+
 .hero-copy h1 em {
   position: relative;
   color: var(--gold-bright);
@@ -1882,12 +1887,8 @@ summary {
   }
 
   .hero-copy h1 {
-    font-size: clamp(41px, 12vw, 58px);
+    font-size: clamp(38px, 12vw, 58px);
     line-height: 1.2;
-  }
-
-  .hero-copy h1 br {
-    display: none;
   }
 
   .hero-lead {
