@@ -15,7 +15,7 @@ export function SiteHeader() {
           />
           <span>
             <strong>DiceFrame</strong>
-            <small>AI TABLETOP ENGINE</small>
+            <small>OPEN-SOURCE AI TRPG</small>
           </span>
         </Link>
 
@@ -79,10 +79,10 @@ export function SiteFooter() {
             />
             <span>
               <strong>DiceFrame</strong>
-              <small>AI TABLETOP ENGINE</small>
+              <small>OPEN-SOURCE AI TRPG</small>
             </span>
           </Link>
-          <p>让规则、角色与想象，在你自己的服务器上共同生长。</p>
+          <p>开源自托管的 AI 跑团（TRPG）平台，让规则、角色与想象持续生长。</p>
         </div>
         <div className="footer-links">
           <div>

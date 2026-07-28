@@ -6,37 +6,54 @@ export const metadata: Metadata = {
     process.env.NEXT_PUBLIC_SITE_URL ?? "https://diceframe.com",
   ),
   title: {
-    default: "DiceFrame — 自托管 AI 跑团引擎",
+    default: "DiceFrame — 开源自托管 AI 跑团（TRPG）平台",
     template: "%s · DiceFrame",
   },
   description:
-    "把 Web 桌面、角色卡、世界书、骰子、状态追踪与群聊 Bot 连接到同一场持续生长的冒险。",
+    "DiceFrame 是支持 DND、COC 与自定义规则的开源自托管 AI 跑团（TRPG）平台，提供 AI GM、多人 WebUI、角色卡、世界书、骰子和 QQ Bot。",
   keywords: [
     "DiceFrame",
     "AI 跑团",
+    "AI TRPG",
     "TRPG",
     "DND",
     "COC",
+    "AI GM",
+    "AI KP",
+    "线上跑团",
+    "跑团工具",
+    "TRPG 平台",
     "自托管",
     "多人 WebUI",
   ],
+  authors: [{ name: "DiceFrame Contributors" }],
+  creator: "DiceFrame Contributors",
+  publisher: "DiceFrame Contributors",
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
   },
   openGraph: {
     type: "website",
+    url: "/",
     locale: "zh_CN",
     siteName: "DiceFrame",
-    title: "DiceFrame — 自托管 AI 跑团引擎",
+    title: "DiceFrame — 开源自托管 AI 跑团（TRPG）平台",
     description:
-      "从灵感到开团，把规则、角色、世界与叙事放进同一张桌子。",
+      "支持 DND、COC 与自定义规则，把 AI GM、玩家、角色卡、世界书和骰子带到同一张线上跑团桌。",
   },
   twitter: {
-    card: "summary_large_image",
-    title: "DiceFrame — 自托管 AI 跑团引擎",
+    card: "summary",
+    title: "DiceFrame — 开源自托管 AI 跑团（TRPG）平台",
     description:
-      "从灵感到开团，把规则、角色、世界与叙事放进同一张桌子。",
+      "支持 DND、COC 与自定义规则的开源自托管 AI 跑团平台。",
   },
 };
 
