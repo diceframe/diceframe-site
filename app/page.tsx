@@ -114,10 +114,11 @@ export default function Home() {
               OPEN-SOURCE · SELF-HOSTED · AI TRPG
             </p>
             <h1>
-              让 AI 做 GM，
-              <br />
-              和朋友一起把故事
-              <em>跑下去</em>。
+              <span>让 AI 做 GM，</span>
+              <span>和朋友一起，</span>
+              <span>
+                把故事<em>跑下去</em>。
+              </span>
             </h1>
             <p className="hero-lead">
               DiceFrame 是一套开源、自托管的 AI 跑团（TRPG）平台，支持 DND、
