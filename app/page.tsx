@@ -5,11 +5,53 @@ import { SiteFooter, SiteHeader } from "./components/SiteChrome";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "DiceFrame — 自托管 AI 跑团引擎",
+    absolute: "DiceFrame — 开源自托管 AI 跑团（TRPG）平台",
   },
   description:
-    "支持 DND、COC 与自定义规则的多人 AI 跑团引擎。自己部署，自己掌控数据与世界。",
+    "DiceFrame 是支持 DND、COC 与自定义规则的开源自托管 AI 跑团（TRPG）平台，提供 AI GM、多人 WebUI、角色卡、世界书、骰子和 QQ Bot。",
+  alternates: {
+    canonical: "/",
+  },
 };
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://diceframe.com/#website",
+    url: "https://diceframe.com/",
+    name: "DiceFrame",
+    alternateName: "DiceFrame AI 跑团平台",
+    description:
+      "支持 DND、COC 与自定义规则的开源自托管 AI 跑团（TRPG）平台。",
+    inLanguage: "zh-CN",
+    publisher: {
+      "@id": "https://diceframe.com/#organization",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://diceframe.com/#organization",
+    name: "DiceFrame Contributors",
+    url: "https://diceframe.com/",
+    logo: "https://diceframe.com/diceframe-logo.svg",
+    sameAs: ["https://github.com/diceframe/diceframe"],
+    description: "DiceFrame 开源 AI 跑团（TRPG）平台的开发与维护社区。",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "@id": "https://diceframe.com/#source",
+    name: "DiceFrame",
+    url: "https://diceframe.com/",
+    operatingSystem: "Windows, Linux, Docker, NAS, Web Browser",
+    description:
+      "连接 AI GM、多人 WebUI、角色卡、世界书、骰子、状态追踪与群聊 Bot 的自托管 TRPG 平台。",
+    codeRepository: "https://github.com/diceframe/diceframe",
+    license: "https://www.gnu.org/licenses/agpl-3.0.html",
+  },
+] as const;
 
 const features = [
   {
@@ -54,6 +96,12 @@ const steps = [
 export default function Home() {
   return (
     <main>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+        }}
+      />
       <SiteHeader />
 
       <section className="hero">
@@ -63,18 +111,18 @@ export default function Home() {
           <div className="hero-copy">
             <p className="eyebrow">
               <span />
-              OPEN-SOURCE AI GAME ENGINE
+              OPEN-SOURCE · SELF-HOSTED · AI TRPG
             </p>
             <h1>
-              让每一次掷骰，
+              把 AI、规则与玩家，
               <br />
-              成为一个真正会
-              <em>延续</em>的世界。
+              带到同一张
+              <em>TRPG</em> 桌。
             </h1>
             <p className="hero-lead">
-              DiceFrame
-              把规则、角色、世界书、骰子与群聊放进同一张桌子。你负责想象，AI
-              负责叙事，引擎负责让一切真的发生。
+              DiceFrame 是一套开源、自托管的 AI 跑团（TRPG）平台，支持 DND、
+              COC 与自定义规则。它把 AI GM、多人 WebUI、角色卡、世界书、骰子、
+              状态追踪和 QQ 群聊连接成一场可以持续推进的线上跑团。
             </p>
             <div className="hero-actions">
               <Link className="button button-primary" href="/docs">
@@ -149,11 +197,11 @@ export default function Home() {
           <div className="section-heading split-heading">
             <div>
               <p className="section-kicker">BUILT FOR THE WHOLE TABLE</p>
-              <h2>一个引擎，撑起整张桌子。</h2>
+              <h2>一套 AI TRPG 引擎，撑起整张跑团桌。</h2>
             </div>
             <p>
-              DiceFrame
-              不是一个只会续写剧情的聊天框。它把每个玩家、每张角色卡和每次状态变化放进同一个可追踪的游戏世界。
+              DiceFrame 不是一个只会续写剧情的聊天框。它让 AI GM、每位玩家、
+              每张角色卡和每次状态变化，都进入同一个可追踪的 TRPG 世界。
             </p>
           </div>
           <div className="feature-grid">
@@ -222,10 +270,10 @@ export default function Home() {
         <div className="page-shell">
           <div className="section-heading centered-heading">
             <p className="section-kicker">FROM ZERO TO SESSION ONE</p>
-            <h2>四步，把灵感变成第一局。</h2>
+            <h2>四步，开始第一场 AI 跑团。</h2>
             <p>
-              没有复杂的云端账户体系。把 DiceFrame
-              放到你的机器上，配置模型接口，然后邀请朋友入席。
+              无论是 DND、COC 还是自定义 TRPG 规则，把 DiceFrame
+              部署到自己的机器上，配置模型接口，然后邀请朋友入席。
             </p>
           </div>
           <div className="steps-grid">
@@ -317,8 +365,8 @@ export default function Home() {
             height={116}
           />
           <p className="section-kicker">YOUR WORLD. YOUR RULES. YOUR TABLE.</p>
-          <h2>下一场冒险，从你自己的服务器开始。</h2>
-          <p>开源、自托管、可扩展。先下载，再把朋友叫到桌边。</p>
+          <h2>下一场 TRPG 冒险，从你自己的服务器开始。</h2>
+          <p>开源、自托管、可扩展。下载 DiceFrame，把朋友叫到 AI 跑团桌边。</p>
           <div className="hero-actions">
             <a
               className="button button-primary"

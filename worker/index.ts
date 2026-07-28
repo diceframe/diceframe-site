@@ -29,6 +29,14 @@ const worker = {
   async fetch(request: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(request.url);
 
+    if (
+      url.hostname.endsWith(".workers.dev") ||
+      url.hostname.endsWith(".chatgpt.site")
+    ) {
+      const canonicalUrl = new URL(`${url.pathname}${url.search}`, "https://diceframe.com");
+      return Response.redirect(canonicalUrl, 308);
+    }
+
     if (url.pathname === "/_vinext/image") {
       const allowedWidths = [...DEFAULT_DEVICE_SIZES, ...DEFAULT_IMAGE_SIZES];
       return handleImageOptimization(request, {

@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import test from "node:test";
 
 async function render(path = "/") {
@@ -28,9 +29,16 @@ test("server-renders the DiceFrame homepage", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
 
   const html = await response.text();
-  assert.match(html, /<title>DiceFrame — 自托管 AI 跑团引擎<\/title>/i);
-  assert.match(html, /让每一次掷骰/);
-  assert.match(html, /一个引擎，撑起整张桌子/);
+  assert.match(
+    html,
+    /<title>DiceFrame — 开源自托管 AI 跑团（TRPG）平台<\/title>/i,
+  );
+  assert.match(html, /带到同一张/);
+  assert.match(html, /一套 AI TRPG 引擎/);
+  assert.match(html, /AI 跑团（TRPG）平台/);
+  assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/"/i);
+  assert.match(html, /"@type":"WebSite"/);
+  assert.match(html, /"@type":"SoftwareSourceCode"/);
   assert.match(html, /diceframe-app\.png/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
@@ -40,8 +48,48 @@ test("server-renders the GitHub-sourced documentation shell", async () => {
   assert.equal(response.status, 200);
   const html = await response.text();
 
-  assert.match(html, /技术帮助/);
-  assert.match(html, /GITHUB-SOURCED DOCUMENTATION/);
+  assert.match(html, /DiceFrame 使用与部署文档/);
+  assert.match(html, /DICEFRAME · TRPG HELP CENTER/);
   assert.match(html, /diceframe\/diceframe/);
-  assert.match(html, /GitHub 为准|main/);
+  assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/docs"/i);
+  assert.match(html, /main/);
+});
+
+test("redirects alternate production hosts to the canonical domain", async () => {
+  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+  workerUrl.searchParams.set("redirect-test", `${process.pid}-${Date.now()}`);
+  const { default: worker } = await import(workerUrl.href);
+
+  const response = await worker.fetch(
+    new Request(
+      "https://diceframe-official.yurloe0.workers.dev/docs?doc=USER_GUIDE_CN.md",
+    ),
+    {},
+    {
+      waitUntil() {},
+      passThroughOnException() {},
+    },
+  );
+
+  assert.equal(response.status, 308);
+  assert.equal(
+    response.headers.get("location"),
+    "https://diceframe.com/docs?doc=USER_GUIDE_CN.md",
+  );
+});
+
+test("publishes crawl directives and canonical sitemap URLs", async () => {
+  const robots = await readFile(
+    new URL("../public/robots.txt", import.meta.url),
+    "utf8",
+  );
+  const sitemap = await readFile(
+    new URL("../public/sitemap.xml", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(robots, /User-agent: \*/);
+  assert.match(robots, /Sitemap: https:\/\/diceframe\.com\/sitemap\.xml/);
+  assert.match(sitemap, /<loc>https:\/\/diceframe\.com\/<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/diceframe\.com\/docs<\/loc>/);
 });
