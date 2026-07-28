@@ -39,6 +39,10 @@ test("server-renders the DiceFrame homepage", async () => {
   assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/"/i);
   assert.match(html, /"@type":"WebSite"/);
   assert.match(html, /"@type":"SoftwareSourceCode"/);
+  assert.match(
+    html,
+    /<meta name="msvalidate\.01" content="D836E0E0DD0B81055E1D84C58E0C9A93"\/?>/i,
+  );
   assert.match(html, /diceframe-app\.png/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
