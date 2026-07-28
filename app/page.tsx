@@ -256,15 +256,15 @@ export default function Home() {
       <section className="section docs-section" id="docs">
         <div className="page-shell docs-callout">
           <div>
-            <p className="section-kicker">DOCUMENTATION, SOURCE OF TRUTH</p>
-            <h2>帮助文档，始终跟着代码走。</h2>
+            <p className="section-kicker">GUIDES &amp; DOCUMENTATION</p>
+            <h2>需要帮助？从这里开始。</h2>
             <p>
-              官网不维护一份容易过期的副本。用户手册、部署说明、更新流程与插件开发文档都会直接读取
-              GitHub 主仓库；代码更新后，官网看到的就是最新版本。
+              无论是第一次部署 DiceFrame，还是配置更新、开发插件，都能在这里找到对应的说明。
+              文档会随 DiceFrame 的新版本持续更新。
             </p>
             <div className="docs-actions">
               <Link className="button button-primary" href="/docs">
-                打开技术帮助
+                查看使用文档
                 <span aria-hidden="true">→</span>
               </Link>
               <a
@@ -273,7 +273,7 @@ export default function Home() {
                 target="_blank"
                 rel="noreferrer"
               >
-                在 GitHub 查看原文 <span aria-hidden="true">↗</span>
+                前往 GitHub 文档库 <span aria-hidden="true">↗</span>
               </a>
             </div>
           </div>
@@ -300,8 +300,8 @@ export default function Home() {
               </ul>
             </div>
             <div className="repo-sync">
-              <span><i /> LIVE FROM MAIN</span>
-              <span>GitHub 为准</span>
+              <span><i /> CONTINUOUSLY UPDATED</span>
+              <span>持续更新</span>
             </div>
           </div>
         </div>
