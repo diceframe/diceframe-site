@@ -34,6 +34,7 @@ node --test tests/rendered-html.test.mjs
 `diceframe/diceframe-site` 私有仓库后，每次推送 `main` 分支都会自动构建并发布。
 
 完整说明见 [DEPLOYMENT.md](DEPLOYMENT.md)。
+日常修改和上线规则见 [RELEASE.md](RELEASE.md)。
 
 正式站点地址默认为 `https://diceframe.com`；如需更换，可以通过
 `NEXT_PUBLIC_SITE_URL` 覆盖。
