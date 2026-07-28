@@ -7,6 +7,7 @@ import {
   useState,
 } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { normalizeGitHubMarkdown } from "./normalizeGitHubMarkdown";
 
 const OWNER = "diceframe";
 const REPO = "diceframe";
@@ -136,7 +137,7 @@ function InlineMarkdown({
   currentPath: string;
 }) {
   const tokenPattern =
-    /(`[^`]+`|\*\*[^*]+\*\*|!\[[^\]]*\]\([^)]+\)|\[[^\]]+\]\([^)]+\))/g;
+    /(\[!\[[^\]]*\]\([^)]+\)\]\([^)]+\)|`[^`]+`|\*\*[^*]+\*\*|!\[[^\]]*\]\([^)]+\)|\[[^\]]+\]\([^)]+\))/g;
   const parts = text.split(tokenPattern).filter(Boolean);
 
   return (
@@ -147,6 +148,29 @@ function InlineMarkdown({
         }
         if (part.startsWith("**") && part.endsWith("**")) {
           return <strong key={index}>{part.slice(2, -2)}</strong>;
+        }
+        const linkedImage = part.match(
+          /^\[!\[([^\]]*)\]\(([^)]+)\)\]\(([^)]+)\)$/,
+        );
+        if (linkedImage) {
+          const href = resolveLink(linkedImage[3], currentPath);
+          const external = href.startsWith("http");
+          return (
+            <a
+              className="md-image-link"
+              href={href}
+              key={index}
+              target={external ? "_blank" : undefined}
+              rel={external ? "noreferrer" : undefined}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={resolveAsset(linkedImage[2], currentPath)}
+                alt={linkedImage[1]}
+                loading="lazy"
+              />
+            </a>
+          );
         }
         const image = part.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
         if (image) {
@@ -203,7 +227,9 @@ function MarkdownDocument({
   currentPath: string;
 }) {
   const nodes: ReactNode[] = [];
-  const lines = markdown.replace(/\r\n/g, "\n").split("\n");
+  const lines = normalizeGitHubMarkdown(markdown)
+    .replace(/\r\n/g, "\n")
+    .split("\n");
   let index = 0;
 
   while (index < lines.length) {

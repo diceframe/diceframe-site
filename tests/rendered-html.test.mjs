@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { normalizeGitHubMarkdown } from "../app/docs/normalizeGitHubMarkdown.js";
 
 async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -100,4 +101,30 @@ test("publishes crawl directives and canonical sitemap URLs", async () => {
   assert.match(robots, /Sitemap: https:\/\/diceframe\.com\/sitemap\.xml/);
   assert.match(sitemap, /<loc>https:\/\/diceframe\.com\/<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/diceframe\.com\/docs<\/loc>/);
+});
+
+test("normalizes common GitHub README HTML without injecting raw markup", () => {
+  const markdown = normalizeGitHubMarkdown(`
+<p align="center">
+  <img src="docs/assets/diceframe-logo.svg" width="144" height="144" alt="DiceFrame Logo">
+</p>
+<h1 align="center">DiceFrame</h1>
+<p align="center"><a href="README_EN.md">English</a> | 中文</p>
+<p align="center">
+  <a href="https://github.com/diceframe/diceframe/stargazers"><img src="https://img.shields.io/github/stars/diceframe/diceframe" alt="GitHub Stars"></a>
+  <script>alert("unsafe")</script>
+</p>
+`);
+
+  assert.match(
+    markdown,
+    /!\[DiceFrame Logo\]\(docs\/assets\/diceframe-logo\.svg\)/,
+  );
+  assert.match(markdown, /# DiceFrame/);
+  assert.match(markdown, /\[English\]\(README_EN\.md\) \| 中文/);
+  assert.match(
+    markdown,
+    /\[!\[GitHub Stars\]\(https:\/\/img\.shields\.io\/github\/stars\/diceframe\/diceframe\)\]\(https:\/\/github\.com\/diceframe\/diceframe\/stargazers\)/,
+  );
+  assert.doesNotMatch(markdown, /<(?:p|h1|a|img|script)\b/i);
 });
