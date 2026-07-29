@@ -19,9 +19,15 @@ type DocDefinition = {
   id: string;
   zh: string;
   en: string;
-  title: string;
-  description: string;
-  group: "使用" | "部署" | "扩展" | "维护";
+  title: {
+    zh: string;
+    en: string;
+  };
+  description: {
+    zh: string;
+    en: string;
+  };
+  group: "use" | "deploy" | "extend" | "maintain";
 };
 
 const docs: DocDefinition[] = [
@@ -29,65 +35,89 @@ const docs: DocDefinition[] = [
     id: "guide",
     zh: "docs/USER_GUIDE_CN.md",
     en: "docs/USER_GUIDE_EN.md",
-    title: "用户手册",
-    description: "开第一局、多人玩法、掷骰、状态与群聊 Bot",
-    group: "使用",
+    title: { zh: "用户手册", en: "User guide" },
+    description: {
+      zh: "开第一局、多人玩法、掷骰、状态与群聊 Bot",
+      en: "First session, multiplayer, dice, state, and chat bots",
+    },
+    group: "use",
   },
   {
     id: "readme",
     zh: "README.md",
     en: "README_EN.md",
-    title: "项目总览",
-    description: "功能概览、快速开始、数据与项目结构",
-    group: "使用",
+    title: { zh: "项目总览", en: "Project overview" },
+    description: {
+      zh: "功能概览、快速开始、数据与项目结构",
+      en: "Features, quick start, data, and project structure",
+    },
+    group: "use",
   },
   {
     id: "docker",
     zh: "docs/DOCKER_DEPLOY_CN.md",
     en: "docs/DOCKER_DEPLOY_EN.md",
-    title: "Docker 部署",
-    description: "Docker、Compose、NAS 与数据挂载",
-    group: "部署",
+    title: { zh: "Docker 部署", en: "Docker deployment" },
+    description: {
+      zh: "Docker、Compose、NAS 与数据挂载",
+      en: "Docker, Compose, NAS, and data volumes",
+    },
+    group: "deploy",
   },
   {
     id: "updater",
     zh: "docs/UPDATER_CN.md",
     en: "docs/UPDATER_EN.md",
-    title: "应用更新",
-    description: "便携版、源码与 Docker 的安全升级流程",
-    group: "部署",
+    title: { zh: "应用更新", en: "Application updates" },
+    description: {
+      zh: "便携版、源码与 Docker 的安全升级流程",
+      en: "Safe upgrades for portable, source, and Docker installs",
+    },
+    group: "deploy",
   },
   {
     id: "plugin-dev",
     zh: "docs/PLUGIN_DEVELOPMENT_CN.md",
     en: "docs/PLUGIN_DEVELOPMENT_EN.md",
-    title: "插件开发",
-    description: "插件结构、能力、打包与本地测试",
-    group: "扩展",
+    title: { zh: "插件开发", en: "Plugin development" },
+    description: {
+      zh: "插件结构、能力、打包与本地测试",
+      en: "Plugin structure, capabilities, packaging, and local testing",
+    },
+    group: "extend",
   },
   {
     id: "plugin-registry",
     zh: "docs/PLUGIN_REGISTRY_CN.md",
     en: "docs/PLUGIN_REGISTRY_EN.md",
-    title: "插件索引与审核",
-    description: "插件中心投稿、审核与安全边界",
-    group: "扩展",
+    title: { zh: "插件索引与审核", en: "Plugin registry and review" },
+    description: {
+      zh: "插件中心投稿、审核与安全边界",
+      en: "Registry submissions, review, and security boundaries",
+    },
+    group: "extend",
   },
   {
     id: "bot-bridge",
     zh: "docs/BOT_BRIDGE_CORE_CN.md",
     en: "docs/BOT_BRIDGE_CORE_EN.md",
-    title: "Bot Bridge 核心",
-    description: "群聊适配器与 Web 服务之间的接口",
-    group: "扩展",
+    title: { zh: "Bot Bridge 核心", en: "Bot Bridge core" },
+    description: {
+      zh: "群聊适配器与 Web 服务之间的接口",
+      en: "The interface between chat adapters and the Web service",
+    },
+    group: "extend",
   },
   {
     id: "release-notes",
     zh: "RELEASE_NOTES.md",
     en: "RELEASE_NOTES.md",
-    title: "发布说明",
-    description: "当前版本变化与历史发布记录",
-    group: "维护",
+    title: { zh: "发布说明", en: "Release notes" },
+    description: {
+      zh: "当前版本变化与历史发布记录",
+      en: "Current changes and previous release history",
+    },
+    group: "maintain",
   },
 ];
 
@@ -124,7 +154,8 @@ function resolveLink(path: string, currentPath: string) {
   );
   if (known) {
     const lang = known.en.endsWith(cleanPath) ? "en" : "zh";
-    return `/docs?doc=${known.id}&lang=${lang}`;
+    const basePath = lang === "en" ? "/en/docs" : "/docs";
+    return `${basePath}?doc=${known.id}`;
   }
   return `${BLOB_ROOT}/${normalizeRelativePath(path, currentPath)}`;
 }
@@ -397,11 +428,52 @@ function MarkdownDocument({
   return <article className="markdown-body">{nodes}</article>;
 }
 
-export function DocsExplorer() {
+const interfaceCopy = {
+  zh: {
+    languageLabel: "文档语言",
+    groups: {
+      use: "使用",
+      deploy: "部署",
+      extend: "扩展",
+      maintain: "维护",
+    },
+    original: "GitHub 原文 ↗",
+    sourceStatus: "文档来源",
+    loading: "正在读取文档…",
+    errorTitle: "文档读取失败",
+    error:
+      "暂时无法读取文档。你仍然可以打开 GitHub 原文继续查看。",
+    openOriginal: "打开 GitHub 原文 ↗",
+  },
+  en: {
+    languageLabel: "Documentation language",
+    groups: {
+      use: "Use",
+      deploy: "Deployment",
+      extend: "Extensions",
+      maintain: "Maintenance",
+    },
+    original: "View on GitHub ↗",
+    sourceStatus: "Documentation source",
+    loading: "Loading documentation…",
+    errorTitle: "Unable to load documentation",
+    error:
+      "The documentation is temporarily unavailable. You can still read the source on GitHub.",
+    openOriginal: "Open on GitHub ↗",
+  },
+} as const;
+
+export function DocsExplorer({
+  initialLanguage,
+}: {
+  initialLanguage?: Language;
+}) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const requested = searchParams.get("doc");
-  const language: Language = searchParams.get("lang") === "en" ? "en" : "zh";
+  const language: Language =
+    initialLanguage ?? (searchParams.get("lang") === "en" ? "en" : "zh");
+  const copy = interfaceCopy[language];
   const selectedDoc =
     docs.find(
       (entry) =>
@@ -446,7 +518,7 @@ export function DocsExplorer() {
           setDocumentState({
             path: currentPath,
             markdown: "",
-            error: "暂时无法读取 GitHub 文档。你仍然可以打开原文继续查看。",
+            error: copy.error,
           });
         }
       });
@@ -454,26 +526,28 @@ export function DocsExplorer() {
     return () => {
       active = false;
     };
-  }, [currentPath]);
+  }, [copy.error, currentPath]);
 
   function selectDoc(doc: DocDefinition) {
-    router.replace(`/docs?doc=${doc.id}&lang=${language}`, { scroll: false });
+    const basePath = language === "en" ? "/en/docs" : "/docs";
+    router.replace(`${basePath}?doc=${doc.id}`, { scroll: false });
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   function selectLanguage(nextLanguage: Language) {
-    router.replace(`/docs?doc=${selectedDoc.id}&lang=${nextLanguage}`, {
+    const basePath = nextLanguage === "en" ? "/en/docs" : "/docs";
+    router.push(`${basePath}?doc=${selectedDoc.id}`, {
       scroll: false,
     });
   }
 
-  const groups = ["使用", "部署", "扩展", "维护"] as const;
+  const groups = ["use", "deploy", "extend", "maintain"] as const;
 
   return (
     <section className="docs-workspace">
       <div className="page-shell docs-layout">
         <aside className="docs-sidebar">
-          <div className="docs-language" aria-label="文档语言">
+          <div className="docs-language" aria-label={copy.languageLabel}>
             <button
               type="button"
               className={language === "zh" ? "active" : ""}
@@ -491,7 +565,7 @@ export function DocsExplorer() {
           </div>
           {groups.map((group) => (
             <div className="docs-group" key={group}>
-              <span>{group}</span>
+              <span>{copy.groups[group]}</span>
               {docs
                 .filter((doc) => doc.group === group)
                 .map((doc) => (
@@ -501,8 +575,8 @@ export function DocsExplorer() {
                     className={selectedDoc.id === doc.id ? "active" : ""}
                     onClick={() => selectDoc(doc)}
                   >
-                    <strong>{doc.title}</strong>
-                    <small>{doc.description}</small>
+                    <strong>{doc.title[language]}</strong>
+                    <small>{doc.description[language]}</small>
                   </button>
                 ))}
             </div>
@@ -515,17 +589,17 @@ export function DocsExplorer() {
               <span className="docs-breadcrumb">
                 docs / {currentPath.split("/").at(-1)}
               </span>
-              <h2>{selectedDoc.title}</h2>
-              <p>{selectedDoc.description}</p>
+              <h2>{selectedDoc.title[language]}</h2>
+              <p>{selectedDoc.description[language]}</p>
             </div>
             <a href={sourceUrl} target="_blank" rel="noreferrer">
-              GitHub 原文 ↗
+              {copy.original}
             </a>
           </header>
 
           <div className="source-notice">
             <span>
-              <i /> 正在读取 GitHub
+              <i /> {copy.sourceStatus}
             </span>
             <code>{OWNER}/{REPO}@{BRANCH}</code>
           </div>
@@ -533,16 +607,16 @@ export function DocsExplorer() {
           {loading && (
             <div className="docs-loading" role="status">
               <i />
-              <strong>正在从 GitHub 读取文档…</strong>
+              <strong>{copy.loading}</strong>
             </div>
           )}
 
           {error && (
             <div className="docs-error" role="alert">
-              <strong>文档读取失败</strong>
+              <strong>{copy.errorTitle}</strong>
               <p>{error}</p>
               <a href={sourceUrl} target="_blank" rel="noreferrer">
-                打开 GitHub 原文 ↗
+                {copy.openOriginal}
               </a>
             </div>
           )}

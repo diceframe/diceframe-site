@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  DocumentLanguage,
+  LanguageSuggestion,
+} from "./components/LanguageSuggestion";
 import { SiteFooter, SiteHeader } from "./components/SiteChrome";
 
 export const metadata: Metadata = {
@@ -11,6 +15,11 @@ export const metadata: Metadata = {
     "DiceFrame 是支持 DND、COC 与自定义规则的开源自托管 AI 跑团（TRPG）平台，提供 AI GM、多人 WebUI、角色卡、世界书、骰子和 QQ Bot。",
   alternates: {
     canonical: "/",
+    languages: {
+      "zh-CN": "/",
+      en: "/en",
+      "x-default": "/",
+    },
   },
 };
 
@@ -96,6 +105,8 @@ const steps = [
 export default function Home() {
   return (
     <main>
+      <DocumentLanguage language="zh" />
+      <LanguageSuggestion currentLanguage="zh" />
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -114,8 +125,8 @@ export default function Home() {
               OPEN-SOURCE · SELF-HOSTED · AI TRPG
             </p>
             <h1>
-              <span>让 AI 做 GM，</span>
               <span>和朋友一起，</span>
+              <span>在 DiceFrame，</span>
               <span>
                 把故事<em>跑下去</em>。
               </span>
@@ -123,7 +134,7 @@ export default function Home() {
             <p className="hero-lead">
               DiceFrame 是一套开源、自托管的 AI 跑团（TRPG）平台，支持 DND、
               COC 与自定义规则。它把 AI GM、多人 WebUI、角色卡、世界书、骰子、
-              状态追踪和 QQ 群聊连接成一场可以持续推进的线上跑团。
+              状态追踪和群聊连接成一场可以持续推进的线上跑团。
             </p>
             <div className="hero-actions">
               <Link

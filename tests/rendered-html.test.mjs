@@ -34,8 +34,8 @@ test("server-renders the DiceFrame homepage", async () => {
     html,
     /<title>DiceFrame — 开源自托管 AI 跑团（TRPG）平台<\/title>/i,
   );
-  assert.match(html, /<span>让 AI 做 GM，<\/span>/);
   assert.match(html, /<span>和朋友一起，<\/span>/);
+  assert.match(html, /<span>在 DiceFrame，<\/span>/);
   assert.match(html, /把故事/);
   assert.match(html, /跑下去/);
   assert.match(html, /<span>BOT<\/span>/i);
@@ -53,6 +53,23 @@ test("server-renders the DiceFrame homepage", async () => {
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 
+test("server-renders the English homepage with language alternates", async () => {
+  const response = await render("/en");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+
+  assert.match(
+    html,
+    /<title>DiceFrame — Open-source, self-hosted AI TRPG platform<\/title>/i,
+  );
+  assert.match(html, /Gather your party/);
+  assert.match(html, /Let the story/);
+  assert.match(html, /unfold/);
+  assert.match(html, /href="\/en\/docs\?doc=readme"/i);
+  assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/en"/i);
+  assert.match(html, /hrefLang="zh-CN" href="https:\/\/diceframe\.com\/"/i);
+});
+
 test("server-renders the GitHub-sourced documentation shell", async () => {
   const response = await render("/docs");
   assert.equal(response.status, 200);
@@ -63,6 +80,19 @@ test("server-renders the GitHub-sourced documentation shell", async () => {
   assert.match(html, /diceframe\/diceframe/);
   assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/docs"/i);
   assert.match(html, /main/);
+});
+
+test("server-renders the English documentation shell", async () => {
+  const response = await render("/en/docs");
+  assert.equal(response.status, 200);
+  const html = await response.text();
+
+  assert.match(html, /DiceFrame setup and user documentation/);
+  assert.match(html, /Project overview/);
+  assert.match(
+    html,
+    /rel="canonical" href="https:\/\/diceframe\.com\/en\/docs"/i,
+  );
 });
 
 test("redirects alternate production hosts to the canonical domain", async () => {

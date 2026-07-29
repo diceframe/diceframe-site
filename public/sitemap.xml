@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
+>
   <url>
     <loc>https://diceframe.com/</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/" />
   </url>
   <url>
     <loc>https://diceframe.com/docs</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/docs</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs" />
   </url>
 </urlset>
