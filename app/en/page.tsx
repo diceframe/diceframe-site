@@ -138,19 +138,21 @@ export default function EnglishHome() {
               group chat into one persistent online campaign.
             </p>
             <div className="hero-actions">
-              <Link className="button button-primary" href="/en/docs?doc=readme">
-                Start your first session
+              <a className="button button-primary" href="#download">
+                Download DiceFrame
+                <span aria-hidden="true">→</span>
+              </a>
+              <Link className="button button-quiet" href="/en/demo">
+                View demo
                 <span aria-hidden="true">→</span>
               </Link>
-              <a
+              <Link
                 className="button button-quiet"
-                href="https://github.com/diceframe/diceframe"
-                target="_blank"
-                rel="noreferrer"
+                href="/en/docs?doc=readme"
               >
-                View on GitHub
-                <span aria-hidden="true">↗</span>
-              </a>
+                Set up DiceFrame
+                <span aria-hidden="true">→</span>
+              </Link>
             </div>
             <div className="hero-trust" aria-label="Project highlights">
               <span>AGPL-3.0 open source</span>
@@ -368,7 +370,7 @@ export default function EnglishHome() {
         </div>
       </section>
 
-      <section className="final-cta">
+      <section className="final-cta" id="download">
         <div className="page-shell final-cta-inner">
           <Image
             className="cta-logo"

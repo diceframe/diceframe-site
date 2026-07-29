@@ -137,22 +137,21 @@ export default function Home() {
               状态追踪和群聊连接成一场可以持续推进的线上跑团。
             </p>
             <div className="hero-actions">
+              <a className="button button-primary" href="#download">
+                下载 DiceFrame
+                <span aria-hidden="true">→</span>
+              </a>
+              <Link className="button button-quiet" href="/demo">
+                查看演示
+                <span aria-hidden="true">→</span>
+              </Link>
               <Link
-                className="button button-primary"
+                className="button button-quiet"
                 href="/docs?doc=readme"
               >
                 5 分钟开始第一局
                 <span aria-hidden="true">→</span>
               </Link>
-              <a
-                className="button button-quiet"
-                href="https://github.com/diceframe/diceframe"
-                target="_blank"
-                rel="noreferrer"
-              >
-                查看 GitHub
-                <span aria-hidden="true">↗</span>
-              </a>
             </div>
             <div className="hero-trust" aria-label="项目特性">
               <span>AGPL-3.0 开源</span>
@@ -368,7 +367,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="final-cta">
+      <section className="final-cta" id="download">
         <div className="page-shell final-cta-inner">
           <Image
             className="cta-logo"
