@@ -175,7 +175,7 @@ export default function Home() {
               </div>
               <Image
                 className="app-screenshot"
-                src="/diceframe-app.png"
+                src="/diceframe-app.png?v=161c67c"
                 alt="DiceFrame 多人跑团 WebUI，包含叙事、角色状态与行动区"
                 width={1904}
                 height={1224}
