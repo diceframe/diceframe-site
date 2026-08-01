@@ -176,7 +176,7 @@ export default function EnglishHome() {
               </div>
               <Image
                 className="app-screenshot"
-                src="/diceframe-app.png"
+                src="/diceframe-app.png?v=161c67c"
                 alt="DiceFrame multiplayer TRPG WebUI with narration, character status, and actions"
                 width={1904}
                 height={1224}
