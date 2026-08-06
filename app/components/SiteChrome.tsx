@@ -95,7 +95,7 @@ export function SiteHeader({
           />
           <a
             className="header-download"
-            href="https://github.com/diceframe/diceframe/releases"
+            href="https://github.com/diceframe/diceframe/releases/latest"
             target="_blank"
             rel="noreferrer"
           >
