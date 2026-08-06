@@ -408,7 +408,7 @@ export function DemoExperience({ language }: { language: DemoLanguage }) {
                     <p>{t.complete}</p>
                   </div>
                   <div>
-                    <a href="https://github.com/diceframe/diceframe/releases" target="_blank" rel="noreferrer">
+                    <a href="https://github.com/diceframe/diceframe/releases/latest" target="_blank" rel="noreferrer">
                       {t.download} ↗
                     </a>
                     <Link href={language === "en" ? "/en/docs?doc=docker" : "/docs?doc=docker"}>

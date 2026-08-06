@@ -382,7 +382,7 @@ export default function Home() {
           <div className="hero-actions">
             <a
               className="button button-primary"
-              href="https://github.com/diceframe/diceframe/releases"
+              href="https://github.com/diceframe/diceframe/releases/latest"
               target="_blank"
               rel="noreferrer"
             >
