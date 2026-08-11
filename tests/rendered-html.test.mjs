@@ -49,7 +49,7 @@ test("server-renders the DiceFrame homepage", async () => {
     html,
     /<meta name="msvalidate\.01" content="D836E0E0DD0B81055E1D84C58E0C9A93"\/?>/i,
   );
-  assert.match(html, /diceframe-app\.png/);
+  assert.match(html, /diceframe-app\.jpg/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 
@@ -77,7 +77,7 @@ test("server-renders the GitHub-sourced documentation shell", async () => {
 
   assert.match(html, /DiceFrame 使用与部署文档/);
   assert.match(html, /DICEFRAME · TRPG HELP CENTER/);
-  assert.match(html, /diceframe\/diceframe/);
+  assert.match(html, /diceframe\/diceframe-content/);
   assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/docs"/i);
   assert.match(html, /main/);
 });
@@ -88,7 +88,7 @@ test("server-renders the English documentation shell", async () => {
   const html = await response.text();
 
   assert.match(html, /DiceFrame setup and user documentation/);
-  assert.match(html, /Project overview/);
+  assert.match(html, /User guide/);
   assert.match(
     html,
     /rel="canonical" href="https:\/\/diceframe\.com\/en\/docs"/i,
@@ -120,7 +120,7 @@ test("redirects alternate production hosts to the canonical domain", async () =>
 
   const response = await worker.fetch(
     new Request(
-      "https://diceframe-official.yurloe0.workers.dev/docs?doc=USER_GUIDE_CN.md",
+      "https://diceframe-official.yurloe0.workers.dev/docs?doc=guide",
     ),
     {},
     {
@@ -132,7 +132,7 @@ test("redirects alternate production hosts to the canonical domain", async () =>
   assert.equal(response.status, 308);
   assert.equal(
     response.headers.get("location"),
-    "https://diceframe.com/docs?doc=USER_GUIDE_CN.md",
+    "https://diceframe.com/docs?doc=guide",
   );
 });
 
