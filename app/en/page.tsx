@@ -148,7 +148,7 @@ export default function EnglishHome() {
               </Link>
               <Link
                 className="button button-quiet"
-                href="/en/docs?doc=readme"
+                href="/en/docs?doc=guide"
               >
                 Set up DiceFrame
                 <span aria-hidden="true">→</span>
@@ -176,7 +176,7 @@ export default function EnglishHome() {
               </div>
               <Image
                 className="app-screenshot"
-                src="/diceframe-app.png?v=161c67c"
+                src="/diceframe-app.jpg?v=2"
                 alt="DiceFrame multiplayer TRPG WebUI with narration, character status, and actions"
                 width={1904}
                 height={1224}
@@ -337,7 +337,7 @@ export default function EnglishHome() {
               </Link>
               <a
                 className="text-link"
-                href="https://github.com/diceframe/diceframe/tree/main/docs"
+                href="https://github.com/diceframe/diceframe-content/tree/main/docs"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -350,16 +350,16 @@ export default function EnglishHome() {
               <Image src="/diceframe-logo.svg" alt="" width={52} height={52} />
               <div>
                 <span>github.com</span>
-                <strong>diceframe / diceframe</strong>
+                <strong>diceframe / diceframe-content</strong>
               </div>
             </div>
             <div className="repo-tree">
               <span>main</span>
               <ul>
-                <li><i /> docs / USER_GUIDE_EN.md</li>
-                <li><i /> docs / DOCKER_DEPLOY_EN.md</li>
-                <li><i /> docs / PLUGIN_DEVELOPMENT_EN.md</li>
-                <li><i /> docs / UPDATER_EN.md</li>
+                <li><i /> docs / en/guide.md</li>
+                <li><i /> docs / en/deploy.md</li>
+                <li><i /> docs / en/plugin-development.md</li>
+                <li><i /> docs / en/updates.md</li>
               </ul>
             </div>
             <div className="repo-sync">

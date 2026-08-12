@@ -147,7 +147,7 @@ export default function Home() {
               </Link>
               <Link
                 className="button button-quiet"
-                href="/docs?doc=readme"
+                href="/docs?doc=guide"
               >
                 5 分钟开始第一局
                 <span aria-hidden="true">→</span>
@@ -175,7 +175,7 @@ export default function Home() {
               </div>
               <Image
                 className="app-screenshot"
-                src="/diceframe-app.png?v=161c67c"
+                src="/diceframe-app.jpg?v=2"
                 alt="DiceFrame 多人跑团 WebUI，包含叙事、角色状态与行动区"
                 width={1904}
                 height={1224}
@@ -271,7 +271,7 @@ export default function Home() {
               <li>支付需要玩家确认，余额校验后生效</li>
               <li>网页与 Bot 消费同一套游戏状态</li>
             </ul>
-            <Link className="text-link" href="/docs?doc=USER_GUIDE_CN.md">
+            <Link className="text-link" href="/docs?doc=guide">
               阅读游戏流程 <span aria-hidden="true">→</span>
             </Link>
           </div>
@@ -329,7 +329,7 @@ export default function Home() {
               </Link>
               <a
                 className="text-link"
-                href="https://github.com/diceframe/diceframe/tree/main/docs"
+                href="https://github.com/diceframe/diceframe-content/tree/main/docs"
                 target="_blank"
                 rel="noreferrer"
               >
@@ -347,16 +347,16 @@ export default function Home() {
               />
               <div>
                 <span>github.com</span>
-                <strong>diceframe / diceframe</strong>
+                <strong>diceframe / diceframe-content</strong>
               </div>
             </div>
             <div className="repo-tree">
               <span>main</span>
               <ul>
-                <li><i /> docs / USER_GUIDE_CN.md</li>
-                <li><i /> docs / DOCKER_DEPLOY_CN.md</li>
-                <li><i /> docs / PLUGIN_DEVELOPMENT_CN.md</li>
-                <li><i /> docs / UPDATER_CN.md</li>
+                <li><i /> docs / zh/guide.md</li>
+                <li><i /> docs / zh/deploy.md</li>
+                <li><i /> docs / zh/plugin-development.md</li>
+                <li><i /> docs / zh/updates.md</li>
               </ul>
             </div>
             <div className="repo-sync">
@@ -389,7 +389,7 @@ export default function Home() {
               下载 Windows 便携版
               <span aria-hidden="true">↗</span>
             </a>
-            <Link className="button button-quiet" href="/docs?doc=DOCKER_DEPLOY_CN.md">
+            <Link className="button button-quiet" href="/docs?doc=docker">
               查看 Docker 部署
               <span aria-hidden="true">→</span>
             </Link>

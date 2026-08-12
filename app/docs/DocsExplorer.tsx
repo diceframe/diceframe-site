@@ -10,7 +10,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { normalizeGitHubMarkdown } from "./normalizeGitHubMarkdown";
 
 const OWNER = "diceframe";
-const REPO = "diceframe";
+const REPO = "diceframe-content";
 const BRANCH = "main";
 const RAW_ROOT = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}`;
 const BLOB_ROOT = `https://github.com/${OWNER}/${REPO}/blob/${BRANCH}`;
@@ -33,8 +33,8 @@ type DocDefinition = {
 const docs: DocDefinition[] = [
   {
     id: "guide",
-    zh: "docs/USER_GUIDE_CN.md",
-    en: "docs/USER_GUIDE_EN.md",
+    zh: "docs/zh/guide.md",
+    en: "docs/en/guide.md",
     title: { zh: "用户手册", en: "User guide" },
     description: {
       zh: "开第一局、多人玩法、掷骰、状态与群聊 Bot",
@@ -43,42 +43,31 @@ const docs: DocDefinition[] = [
     group: "use",
   },
   {
-    id: "readme",
-    zh: "README.md",
-    en: "README_EN.md",
-    title: { zh: "项目总览", en: "Project overview" },
-    description: {
-      zh: "功能概览、快速开始、数据与项目结构",
-      en: "Features, quick start, data, and project structure",
-    },
-    group: "use",
-  },
-  {
     id: "docker",
-    zh: "docs/DOCKER_DEPLOY_CN.md",
-    en: "docs/DOCKER_DEPLOY_EN.md",
+    zh: "docs/zh/deploy.md",
+    en: "docs/en/deploy.md",
     title: { zh: "Docker 部署", en: "Docker deployment" },
     description: {
-      zh: "Docker、Compose、NAS 与数据挂载",
-      en: "Docker, Compose, NAS, and data volumes",
+      zh: "Docker、Linux 与本地启动方式",
+      en: "Docker, Linux, and local launch options",
     },
     group: "deploy",
   },
   {
     id: "updater",
-    zh: "docs/UPDATER_CN.md",
-    en: "docs/UPDATER_EN.md",
+    zh: "docs/zh/updates.md",
+    en: "docs/en/updates.md",
     title: { zh: "应用更新", en: "Application updates" },
     description: {
-      zh: "便携版、源码与 Docker 的安全升级流程",
-      en: "Safe upgrades for portable, source, and Docker installs",
+      zh: "主程序与插件的更新流程",
+      en: "Updating DiceFrame and its plugins",
     },
     group: "deploy",
   },
   {
     id: "plugin-dev",
-    zh: "docs/PLUGIN_DEVELOPMENT_CN.md",
-    en: "docs/PLUGIN_DEVELOPMENT_EN.md",
+    zh: "docs/zh/plugin-development.md",
+    en: "docs/en/plugin-development.md",
     title: { zh: "插件开发", en: "Plugin development" },
     description: {
       zh: "插件结构、能力、打包与本地测试",
@@ -88,36 +77,14 @@ const docs: DocDefinition[] = [
   },
   {
     id: "plugin-registry",
-    zh: "docs/PLUGIN_REGISTRY_CN.md",
-    en: "docs/PLUGIN_REGISTRY_EN.md",
+    zh: "docs/zh/plugin-registry.md",
+    en: "docs/en/plugin-registry.md",
     title: { zh: "插件索引与审核", en: "Plugin registry and review" },
     description: {
       zh: "插件中心投稿、审核与安全边界",
       en: "Registry submissions, review, and security boundaries",
     },
     group: "extend",
-  },
-  {
-    id: "bot-bridge",
-    zh: "docs/BOT_BRIDGE_CORE_CN.md",
-    en: "docs/BOT_BRIDGE_CORE_EN.md",
-    title: { zh: "Bot Bridge 核心", en: "Bot Bridge core" },
-    description: {
-      zh: "群聊适配器与 Web 服务之间的接口",
-      en: "The interface between chat adapters and the Web service",
-    },
-    group: "extend",
-  },
-  {
-    id: "release-notes",
-    zh: "RELEASE_NOTES.md",
-    en: "RELEASE_NOTES.md",
-    title: { zh: "发布说明", en: "Release notes" },
-    description: {
-      zh: "当前版本变化与历史发布记录",
-      en: "Current changes and previous release history",
-    },
-    group: "maintain",
   },
 ];
 
@@ -541,7 +508,7 @@ export function DocsExplorer({
     });
   }
 
-  const groups = ["use", "deploy", "extend", "maintain"] as const;
+  const groups = ["use", "deploy", "extend"] as const;
 
   return (
     <section className="docs-workspace">
