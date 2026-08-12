@@ -10,10 +10,15 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { normalizeGitHubMarkdown } from "./normalizeGitHubMarkdown";
 
 const OWNER = "diceframe";
-const REPO = "diceframe-content";
 const BRANCH = "main";
-const RAW_ROOT = `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}`;
-const BLOB_ROOT = `https://github.com/${OWNER}/${REPO}/blob/${BRANCH}`;
+
+function rawRoot(repo: string) {
+  return `https://raw.githubusercontent.com/${OWNER}/${repo}/${BRANCH}`;
+}
+
+function blobRoot(repo: string) {
+  return `https://github.com/${OWNER}/${repo}/blob/${BRANCH}`;
+}
 
 type DocDefinition = {
   id: string;
@@ -28,6 +33,7 @@ type DocDefinition = {
     en: string;
   };
   group: "use" | "deploy" | "extend" | "maintain";
+  repo: string;
 };
 
 const docs: DocDefinition[] = [
@@ -41,6 +47,7 @@ const docs: DocDefinition[] = [
       en: "First session, multiplayer, dice, state, and chat bots",
     },
     group: "use",
+    repo: "diceframe-content",
   },
   {
     id: "docker",
@@ -52,6 +59,7 @@ const docs: DocDefinition[] = [
       en: "Docker, Linux, and local launch options",
     },
     group: "deploy",
+    repo: "diceframe-content",
   },
   {
     id: "updater",
@@ -63,6 +71,7 @@ const docs: DocDefinition[] = [
       en: "Updating DiceFrame and its plugins",
     },
     group: "deploy",
+    repo: "diceframe",
   },
   {
     id: "plugin-dev",
@@ -74,6 +83,7 @@ const docs: DocDefinition[] = [
       en: "Plugin structure, capabilities, packaging, and local testing",
     },
     group: "extend",
+    repo: "diceframe",
   },
   {
     id: "plugin-registry",
@@ -85,6 +95,7 @@ const docs: DocDefinition[] = [
       en: "Registry submissions, review, and security boundaries",
     },
     group: "extend",
+    repo: "diceframe",
   },
 ];
 
@@ -104,12 +115,12 @@ function normalizeRelativePath(path: string, currentPath: string) {
   return resolved.join("/");
 }
 
-function resolveAsset(path: string, currentPath: string) {
+function resolveAsset(path: string, currentPath: string, repo: string) {
   if (/^(https?:|mailto:|#)/i.test(path)) return path;
-  return `${RAW_ROOT}/${normalizeRelativePath(path, currentPath)}`;
+  return `${rawRoot(repo)}/${normalizeRelativePath(path, currentPath)}`;
 }
 
-function resolveLink(path: string, currentPath: string) {
+function resolveLink(path: string, currentPath: string, repo: string) {
   if (/^(https?:|mailto:|#)/i.test(path)) return path;
   const cleanPath = path.split("#")[0];
   const known = docs.find(
@@ -124,15 +135,17 @@ function resolveLink(path: string, currentPath: string) {
     const basePath = lang === "en" ? "/en/docs" : "/docs";
     return `${basePath}?doc=${known.id}`;
   }
-  return `${BLOB_ROOT}/${normalizeRelativePath(path, currentPath)}`;
+  return `${blobRoot(repo)}/${normalizeRelativePath(path, currentPath)}`;
 }
 
 function InlineMarkdown({
   text,
   currentPath,
+  repo,
 }: {
   text: string;
   currentPath: string;
+  repo: string;
 }) {
   const tokenPattern =
     /(\[!\[[^\]]*\]\([^)]+\)\]\([^)]+\)|`[^`]+`|\*\*[^*]+\*\*|!\[[^\]]*\]\([^)]+\)|\[[^\]]+\]\([^)]+\))/g;
@@ -151,7 +164,7 @@ function InlineMarkdown({
           /^\[!\[([^\]]*)\]\(([^)]+)\)\]\(([^)]+)\)$/,
         );
         if (linkedImage) {
-          const href = resolveLink(linkedImage[3], currentPath);
+          const href = resolveLink(linkedImage[3], currentPath, repo);
           const external = href.startsWith("http");
           return (
             <a
@@ -163,7 +176,7 @@ function InlineMarkdown({
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                src={resolveAsset(linkedImage[2], currentPath)}
+                src={resolveAsset(linkedImage[2], currentPath, repo)}
                 alt={linkedImage[1]}
                 loading="lazy"
               />
@@ -177,7 +190,7 @@ function InlineMarkdown({
             // eslint-disable-next-line @next/next/no-img-element
             <img
               key={index}
-              src={resolveAsset(image[2], currentPath)}
+              src={resolveAsset(image[2], currentPath, repo)}
               alt={image[1]}
               loading="lazy"
             />
@@ -185,7 +198,7 @@ function InlineMarkdown({
         }
         const link = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
         if (link) {
-          const href = resolveLink(link[2], currentPath);
+          const href = resolveLink(link[2], currentPath, repo);
           const external = href.startsWith("http");
           return (
             <a
@@ -220,9 +233,11 @@ function tableCells(line: string) {
 function MarkdownDocument({
   markdown,
   currentPath,
+  repo,
 }: {
   markdown: string;
   currentPath: string;
+  repo: string;
 }) {
   const nodes: ReactNode[] = [];
   const lines = normalizeGitHubMarkdown(markdown)
@@ -269,7 +284,7 @@ function MarkdownDocument({
         .replace(/\s+/g, "-");
       nodes.push(
         <Tag id={id} key={`heading-${index}`}>
-          <InlineMarkdown text={heading[2]} currentPath={currentPath} />
+          <InlineMarkdown text={heading[2]} currentPath={currentPath} repo={repo} />
         </Tag>,
       );
       index += 1;
@@ -295,7 +310,7 @@ function MarkdownDocument({
               <tr>
                 {header.map((cell, cellIndex) => (
                   <th key={cellIndex}>
-                    <InlineMarkdown text={cell} currentPath={currentPath} />
+                    <InlineMarkdown text={cell} currentPath={currentPath} repo={repo} />
                   </th>
                 ))}
               </tr>
@@ -305,7 +320,7 @@ function MarkdownDocument({
                 <tr key={rowIndex}>
                   {row.map((cell, cellIndex) => (
                     <td key={cellIndex}>
-                      <InlineMarkdown text={cell} currentPath={currentPath} />
+                      <InlineMarkdown text={cell} currentPath={currentPath} repo={repo} />
                     </td>
                   ))}
                 </tr>
@@ -332,7 +347,7 @@ function MarkdownDocument({
         <List key={`list-${index}`}>
           {items.map((item, itemIndex) => (
             <li key={itemIndex}>
-              <InlineMarkdown text={item} currentPath={currentPath} />
+              <InlineMarkdown text={item} currentPath={currentPath} repo={repo} />
             </li>
           ))}
         </List>,
@@ -456,7 +471,8 @@ export function DocsExplorer({
 
   const currentPath =
     language === "zh" ? selectedDoc.zh : selectedDoc.en;
-  const sourceUrl = `${BLOB_ROOT}/${currentPath}`;
+  const repo = selectedDoc.repo;
+  const sourceUrl = `${blobRoot(repo)}/${currentPath}`;
   const loading = documentState.path !== currentPath;
   const markdown = loading ? "" : documentState.markdown;
   const error = loading ? "" : documentState.error;
@@ -464,7 +480,7 @@ export function DocsExplorer({
   useEffect(() => {
     let active = true;
 
-    fetch(`${RAW_ROOT}/${currentPath}`, { cache: "no-store" })
+    fetch(`${rawRoot(repo)}/${currentPath}`, { cache: "no-store" })
       .then((response) => {
         if (!response.ok) {
           throw new Error(`GitHub returned ${response.status}`);
@@ -493,7 +509,7 @@ export function DocsExplorer({
     return () => {
       active = false;
     };
-  }, [copy.error, currentPath]);
+  }, [copy.error, currentPath, repo]);
 
   function selectDoc(doc: DocDefinition) {
     const basePath = language === "en" ? "/en/docs" : "/docs";
@@ -568,7 +584,7 @@ export function DocsExplorer({
             <span>
               <i /> {copy.sourceStatus}
             </span>
-            <code>{OWNER}/{REPO}@{BRANCH}</code>
+            <code>{OWNER}/{repo}@{BRANCH}</code>
           </div>
 
           {loading && (
