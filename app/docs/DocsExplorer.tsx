@@ -50,6 +50,18 @@ const docs: DocDefinition[] = [
     repo: "diceframe-content",
   },
   {
+    id: "readme",
+    zh: "README.md",
+    en: "README_EN.md",
+    title: { zh: "项目总览", en: "Project overview" },
+    description: {
+      zh: "功能概览、快速开始、数据与项目结构",
+      en: "Features, quick start, data, and project structure",
+    },
+    group: "use",
+    repo: "diceframe",
+  },
+  {
     id: "docker",
     zh: "docs/zh/deploy.md",
     en: "docs/en/deploy.md",
@@ -95,6 +107,30 @@ const docs: DocDefinition[] = [
       en: "Registry submissions, review, and security boundaries",
     },
     group: "extend",
+    repo: "diceframe",
+  },
+  {
+    id: "bot-bridge",
+    zh: "docs/zh/bot-bridge-core.md",
+    en: "docs/en/bot-bridge-core.md",
+    title: { zh: "Bot Bridge 核心", en: "Bot Bridge core" },
+    description: {
+      zh: "群聊适配器与 Web 服务之间的接口",
+      en: "The interface between chat adapters and the Web service",
+    },
+    group: "extend",
+    repo: "diceframe",
+  },
+  {
+    id: "release-notes",
+    zh: "RELEASE_NOTES.md",
+    en: "RELEASE_NOTES.md",
+    title: { zh: "发布说明", en: "Release notes" },
+    description: {
+      zh: "当前版本变化与历史发布记录",
+      en: "Current changes and previous release history",
+    },
+    group: "maintain",
     repo: "diceframe",
   },
 ];
@@ -524,7 +560,7 @@ export function DocsExplorer({
     });
   }
 
-  const groups = ["use", "deploy", "extend"] as const;
+  const groups = ["use", "deploy", "extend", "maintain"] as const;
 
   return (
     <section className="docs-workspace">
