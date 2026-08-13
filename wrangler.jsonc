@@ -12,6 +12,10 @@
     {
       "pattern": "diceframe.com",
       "custom_domain": true
+    },
+    {
+      "pattern": "www.diceframe.com/*",
+      "zone_name": "diceframe.com"
     }
   ],
   "observability": {

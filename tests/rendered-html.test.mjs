@@ -138,6 +138,45 @@ test("redirects alternate production hosts to the canonical domain", async () =>
   );
 });
 
+test("serves the Baidu verification file on www without redirecting", async () => {
+  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+  workerUrl.searchParams.set("baidu-verify-test", `${process.pid}-${Date.now()}`);
+  const { default: worker } = await import(workerUrl.href);
+
+  const response = await worker.fetch(
+    new Request("https://www.diceframe.com/baidu_verify_codeva-xQ6459zscX.html"),
+    {},
+    {
+      waitUntil() {},
+      passThroughOnException() {},
+    },
+  );
+
+  assert.equal(response.status, 200);
+  assert.equal(await response.text(), "a002cb47fe23e866b602b1b677c36dd2");
+});
+
+test("redirects other www paths to the canonical apex domain", async () => {
+  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
+  workerUrl.searchParams.set("www-redirect-test", `${process.pid}-${Date.now()}`);
+  const { default: worker } = await import(workerUrl.href);
+
+  const response = await worker.fetch(
+    new Request("https://www.diceframe.com/docs?probe=1"),
+    {},
+    {
+      waitUntil() {},
+      passThroughOnException() {},
+    },
+  );
+
+  assert.equal(response.status, 301);
+  assert.equal(
+    response.headers.get("location"),
+    "https://diceframe.com/docs?probe=1",
+  );
+});
+
 test("publishes crawl directives and canonical sitemap URLs", async () => {
   const robots = await readFile(
     new URL("../public/robots.txt", import.meta.url),

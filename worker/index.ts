@@ -19,6 +19,9 @@ interface ExecutionContext {
   passThroughOnException(): void;
 }
 
+const BAIDU_VERIFY_PATH = "/baidu_verify_codeva-xQ6459zscX.html";
+const BAIDU_VERIFY_CONTENT = "a002cb47fe23e866b602b1b677c36dd2";
+
 // Image security config. SVG sources with .svg extension auto-skip the
 // optimization endpoint on the client side (served directly, no proxy).
 // To route SVGs through the optimizer (with security headers), set
@@ -35,6 +38,18 @@ const worker = {
     ) {
       const canonicalUrl = new URL(`${url.pathname}${url.search}`, "https://diceframe.com");
       return Response.redirect(canonicalUrl, 308);
+    }
+
+    if (url.hostname === "www.diceframe.com") {
+      if (url.pathname === BAIDU_VERIFY_PATH) {
+        return new Response(BAIDU_VERIFY_CONTENT, {
+          headers: { "content-type": "text/html; charset=utf-8" },
+        });
+      }
+      return Response.redirect(
+        new URL(`${url.pathname}${url.search}`, "https://diceframe.com"),
+        301,
+      );
     }
 
     if (url.pathname === "/_vinext/image") {
