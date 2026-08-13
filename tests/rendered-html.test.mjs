@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { normalizeGitHubMarkdown } from "../app/docs/normalizeGitHubMarkdown.js";
+import { createMarkdownModel } from "../app/docs/markdownOutline.js";
 
 async function render(path = "/") {
   const workerUrl = new URL("../dist/server/index.js", import.meta.url);
@@ -78,6 +79,7 @@ test("server-renders the GitHub-sourced documentation shell", async () => {
   assert.match(html, /DiceFrame 使用与部署文档/);
   assert.match(html, /DICEFRAME · TRPG HELP CENTER/);
   assert.match(html, /diceframe\/diceframe-content/);
+  assert.match(html, /发布音色预设/);
   assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/docs"/i);
   assert.match(html, /main/);
 });
@@ -176,4 +178,28 @@ test("normalizes common GitHub README HTML without injecting raw markup", () => 
     /\[!\[GitHub Stars\]\(https:\/\/img\.shields\.io\/github\/stars\/diceframe\/diceframe\)\]\(https:\/\/github\.com\/diceframe\/diceframe\/stargazers\)/,
   );
   assert.doesNotMatch(markdown, /<(?:p|h1|a|img|script)\b/i);
+});
+
+test("builds duplicate-safe page-outline links from rendered headings", () => {
+  const model = createMarkdownModel(`
+# Guide
+## First steps
+### [Local setup](https://example.com)
+## First steps
+\`\`\`md
+## Not a heading
+\`\`\`
+## 语音朗读怎么用（可选）
+`);
+
+  assert.deepEqual(
+    model.headings.map(({ level, title, id }) => ({ level, title, id })),
+    [
+      { level: 1, title: "Guide", id: "guide" },
+      { level: 2, title: "First steps", id: "first-steps" },
+      { level: 3, title: "Local setup", id: "local-setup" },
+      { level: 2, title: "First steps", id: "first-steps-2" },
+      { level: 2, title: "语音朗读怎么用（可选）", id: "语音朗读怎么用可选" },
+    ],
+  );
 });
