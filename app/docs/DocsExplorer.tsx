@@ -4,10 +4,11 @@ import {
   Fragment,
   type ReactNode,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { normalizeGitHubMarkdown } from "./normalizeGitHubMarkdown";
+import { createMarkdownModel } from "./markdownOutline";
 
 const OWNER = "diceframe";
 const BRANCH = "main";
@@ -93,6 +94,18 @@ const docs: DocDefinition[] = [
     description: {
       zh: "插件结构、能力、打包与本地测试",
       en: "Plugin structure, capabilities, packaging, and local testing",
+    },
+    group: "extend",
+    repo: "diceframe",
+  },
+  {
+    id: "voice-pack-publishing",
+    zh: "docs/zh/voice-pack-publishing.md",
+    en: "docs/en/voice-pack-publishing.md",
+    title: { zh: "发布音色预设", en: "Publish voice presets" },
+    description: {
+      zh: "授权、打包、本地测试与商店投稿",
+      en: "Licensing, packaging, local tests, and store submission",
     },
     group: "extend",
     repo: "diceframe",
@@ -266,19 +279,22 @@ function tableCells(line: string) {
     .map((cell) => cell.trim());
 }
 
+type MarkdownModel = ReturnType<typeof createMarkdownModel>;
+
 function MarkdownDocument({
-  markdown,
+  model,
   currentPath,
   repo,
 }: {
-  markdown: string;
+  model: MarkdownModel;
   currentPath: string;
   repo: string;
 }) {
   const nodes: ReactNode[] = [];
-  const lines = normalizeGitHubMarkdown(markdown)
-    .replace(/\r\n/g, "\n")
-    .split("\n");
+  const lines = model.lines;
+  const headingIds = new Map(
+    model.headings.map((heading) => [heading.lineIndex, heading.id]),
+  );
   let index = 0;
 
   while (index < lines.length) {
@@ -313,13 +329,8 @@ function MarkdownDocument({
     if (heading) {
       const level = heading[1].length;
       const Tag = `h${level}` as "h1" | "h2" | "h3" | "h4";
-      const id = heading[2]
-        .replace(/[*`]/g, "")
-        .trim()
-        .toLowerCase()
-        .replace(/\s+/g, "-");
       nodes.push(
-        <Tag id={id} key={`heading-${index}`}>
+        <Tag id={headingIds.get(index)} key={`heading-${index}`}>
           <InlineMarkdown text={heading[2]} currentPath={currentPath} repo={repo} />
         </Tag>,
       );
@@ -446,6 +457,52 @@ function MarkdownDocument({
   return <article className="markdown-body">{nodes}</article>;
 }
 
+function DocumentOutline({
+  headings,
+  language,
+  mobile = false,
+}: {
+  headings: MarkdownModel["headings"];
+  language: Language;
+  mobile?: boolean;
+}) {
+  const items = headings.filter((heading) => heading.level === 2 || heading.level === 3);
+  if (!items.length) return null;
+  const label = language === "zh" ? "本页目录" : "On this page";
+  const links = (
+    <nav>
+      {items.map((heading) => (
+        <a
+          className={`outline-level-${heading.level}`}
+          href={`#${heading.id}`}
+          key={`${heading.lineIndex}-${heading.id}`}
+        >
+          {heading.title}
+        </a>
+      ))}
+    </nav>
+  );
+
+  if (mobile) {
+    return (
+      <details className="docs-outline-mobile">
+        <summary>
+          <span>{label}</span>
+          <small>{items.length}</small>
+        </summary>
+        {links}
+      </details>
+    );
+  }
+
+  return (
+    <aside className="docs-outline" aria-label={label}>
+      <span>{label}</span>
+      {links}
+    </aside>
+  );
+}
+
 const interfaceCopy = {
   zh: {
     languageLabel: "文档语言",
@@ -512,6 +569,7 @@ export function DocsExplorer({
   const loading = documentState.path !== currentPath;
   const markdown = loading ? "" : documentState.markdown;
   const error = loading ? "" : documentState.error;
+  const markdownModel = useMemo(() => createMarkdownModel(markdown), [markdown]);
 
   useEffect(() => {
     let active = true;
@@ -641,10 +699,15 @@ export function DocsExplorer({
           )}
 
           {!loading && !error && (
-            <MarkdownDocument
-              markdown={markdown}
-              currentPath={currentPath}
-            />
+            <div className="docs-reading-grid">
+              <DocumentOutline headings={markdownModel.headings} language={language} mobile />
+              <MarkdownDocument
+                model={markdownModel}
+                currentPath={currentPath}
+                repo={repo}
+              />
+              <DocumentOutline headings={markdownModel.headings} language={language} />
+            </div>
           )}
         </div>
       </div>

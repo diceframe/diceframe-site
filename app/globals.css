@@ -1439,8 +1439,8 @@ summary {
 
 .docs-layout {
   display: grid;
-  grid-template-columns: 290px minmax(0, 1fr);
-  gap: 64px;
+  grid-template-columns: 250px minmax(0, 1fr);
+  gap: 36px;
   align-items: start;
 }
 
@@ -1647,9 +1647,139 @@ summary {
 }
 
 .markdown-body {
+  min-width: 0;
   color: #31261c;
   font-size: 15px;
   line-height: 1.88;
+}
+
+.docs-reading-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 176px;
+  gap: 38px;
+  align-items: start;
+}
+
+.docs-outline {
+  position: sticky;
+  top: 102px;
+  max-height: calc(100vh - 130px);
+  overflow-y: auto;
+  padding-left: 16px;
+  border-left: 1px solid rgba(39, 109, 118, 0.2);
+}
+
+.docs-outline > span,
+.docs-outline-mobile summary {
+  color: var(--cyan-dark);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.docs-outline nav,
+.docs-outline-mobile nav {
+  display: grid;
+  gap: 2px;
+  margin-top: 12px;
+}
+
+.docs-outline a,
+.docs-outline-mobile a {
+  display: block;
+  padding: 5px 7px;
+  border-radius: 4px;
+  color: #60777b;
+  font-size: 11px;
+  line-height: 1.45;
+  transition: color 150ms ease, background 150ms ease;
+}
+
+.docs-outline a:hover,
+.docs-outline a:focus-visible,
+.docs-outline-mobile a:hover,
+.docs-outline-mobile a:focus-visible {
+  background: rgba(85, 185, 189, 0.1);
+  color: #155d66;
+  outline: none;
+}
+
+.docs-outline .outline-level-3,
+.docs-outline-mobile .outline-level-3 {
+  padding-left: 18px;
+  color: #789095;
+  font-size: 10px;
+}
+
+.docs-outline-mobile {
+  display: none;
+}
+
+@media (max-width: 1100px) {
+  .docs-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 30px;
+  }
+
+  .docs-sidebar {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .docs-language {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+
+  .docs-reading-grid {
+    display: block;
+  }
+
+  .docs-outline {
+    display: none;
+  }
+
+  .docs-outline-mobile {
+    display: block;
+    margin: 0 0 30px;
+    border: 1px solid rgba(39, 109, 118, 0.2);
+    background: rgba(85, 185, 189, 0.06);
+  }
+
+  .docs-outline-mobile summary {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 14px;
+    list-style: none;
+  }
+
+  .docs-outline-mobile summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .docs-outline-mobile summary small {
+    display: inline-grid;
+    min-width: 22px;
+    height: 22px;
+    place-items: center;
+    border-radius: 50%;
+    background: rgba(39, 109, 118, 0.12);
+    color: var(--cyan-dark);
+    font-size: 9px;
+  }
+
+  .docs-outline-mobile nav {
+    max-height: 50vh;
+    overflow-y: auto;
+    margin: 0;
+    padding: 0 8px 12px;
+    border-top: 1px solid rgba(39, 109, 118, 0.16);
+  }
 }
 
 .markdown-body h1,
