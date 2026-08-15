@@ -96,7 +96,7 @@ const docs: DocDefinition[] = [
       en: "Plugin structure, capabilities, packaging, and local testing",
     },
     group: "extend",
-    repo: "diceframe",
+    repo: "diceframe-content",
   },
   {
     id: "voice-pack-publishing",
@@ -108,7 +108,7 @@ const docs: DocDefinition[] = [
       en: "Licensing, packaging, local tests, and store submission",
     },
     group: "extend",
-    repo: "diceframe",
+    repo: "diceframe-content",
   },
   {
     id: "plugin-registry",
@@ -120,7 +120,7 @@ const docs: DocDefinition[] = [
       en: "Registry submissions, review, and security boundaries",
     },
     group: "extend",
-    repo: "diceframe",
+    repo: "diceframe-content",
   },
   {
     id: "bot-bridge",
@@ -132,7 +132,7 @@ const docs: DocDefinition[] = [
       en: "The interface between chat adapters and the Web service",
     },
     group: "extend",
-    repo: "diceframe",
+    repo: "diceframe-content",
   },
   {
     id: "release-notes",
