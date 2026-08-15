@@ -359,7 +359,7 @@ export default function EnglishHome() {
                 <li><i /> docs / en/guide.md</li>
                 <li><i /> docs / en/deploy.md</li>
                 <li><i /> docs / en/plugin-development.md</li>
-                <li><i /> docs / en/updates.md</li>
+                <li><i /> docs / en/bot-bridge-core.md</li>
               </ul>
             </div>
             <div className="repo-sync">

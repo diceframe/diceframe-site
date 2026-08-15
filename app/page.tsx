@@ -356,7 +356,7 @@ export default function Home() {
                 <li><i /> docs / zh/guide.md</li>
                 <li><i /> docs / zh/deploy.md</li>
                 <li><i /> docs / zh/plugin-development.md</li>
-                <li><i /> docs / zh/updates.md</li>
+                <li><i /> docs / zh/bot-bridge-core.md</li>
               </ul>
             </div>
             <div className="repo-sync">
