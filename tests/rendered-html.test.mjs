@@ -51,6 +51,8 @@ test("server-renders the DiceFrame homepage", async () => {
     /<meta name="msvalidate\.01" content="D836E0E0DD0B81055E1D84C58E0C9A93"\/?>/i,
   );
   assert.match(html, /diceframe-app\.jpg/);
+  assert.match(html, /href="\/docs\?doc=standalone"/i);
+  assert.match(html, /docs \/ zh\/standalone-webui\.md/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
 
@@ -67,6 +69,8 @@ test("server-renders the English homepage with language alternates", async () =>
   assert.match(html, /Let the story/);
   assert.match(html, /unfold/);
   assert.match(html, /href="\/en\/demo"/i);
+  assert.match(html, /href="\/en\/docs\?doc=standalone"/i);
+  assert.match(html, /docs \/ en\/standalone-webui\.md/);
   assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/en"/i);
   assert.match(html, /hrefLang="zh-CN" href="https:\/\/diceframe\.com\/"/i);
 });
@@ -79,6 +83,7 @@ test("server-renders the GitHub-sourced documentation shell", async () => {
   assert.match(html, /DiceFrame 使用与部署文档/);
   assert.match(html, /DICEFRAME · TRPG HELP CENTER/);
   assert.match(html, /diceframe\/diceframe-content/);
+  assert.match(html, /独立部署 WebUI/);
   assert.match(html, /发布音色预设/);
   assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/docs"/i);
   assert.match(html, /main/);
@@ -91,6 +96,7 @@ test("server-renders the English documentation shell", async () => {
 
   assert.match(html, /DiceFrame setup and user documentation/);
   assert.match(html, /User guide/);
+  assert.match(html, /Standalone WebUI/);
   assert.match(
     html,
     /rel="canonical" href="https:\/\/diceframe\.com\/en\/docs"/i,
