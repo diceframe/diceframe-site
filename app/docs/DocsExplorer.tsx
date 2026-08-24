@@ -75,6 +75,18 @@ const docs: DocDefinition[] = [
     repo: "diceframe-content",
   },
   {
+    id: "standalone",
+    zh: "docs/zh/standalone-webui.md",
+    en: "docs/en/standalone-webui.md",
+    title: { zh: "独立部署 WebUI", en: "Standalone WebUI" },
+    description: {
+      zh: "静态托管、后端 HTTPS 与跨域配置",
+      en: "Static hosting, backend HTTPS, and CORS setup",
+    },
+    group: "deploy",
+    repo: "diceframe-content",
+  },
+  {
     id: "updater",
     zh: "docs/zh/updates.md",
     en: "docs/en/updates.md",

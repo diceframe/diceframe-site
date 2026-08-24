@@ -358,6 +358,7 @@ export default function EnglishHome() {
               <ul>
                 <li><i /> docs / en/guide.md</li>
                 <li><i /> docs / en/deploy.md</li>
+                <li><i /> docs / en/standalone-webui.md</li>
                 <li><i /> docs / en/plugin-development.md</li>
                 <li><i /> docs / en/bot-bridge-core.md</li>
               </ul>
@@ -397,6 +398,10 @@ export default function EnglishHome() {
             </a>
             <Link className="button button-quiet" href="/en/docs?doc=docker">
               Docker deployment
+              <span aria-hidden="true">→</span>
+            </Link>
+            <Link className="button button-quiet" href="/en/docs?doc=standalone">
+              Standalone WebUI
               <span aria-hidden="true">→</span>
             </Link>
           </div>

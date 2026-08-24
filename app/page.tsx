@@ -355,6 +355,7 @@ export default function Home() {
               <ul>
                 <li><i /> docs / zh/guide.md</li>
                 <li><i /> docs / zh/deploy.md</li>
+                <li><i /> docs / zh/standalone-webui.md</li>
                 <li><i /> docs / zh/plugin-development.md</li>
                 <li><i /> docs / zh/bot-bridge-core.md</li>
               </ul>
@@ -391,6 +392,10 @@ export default function Home() {
             </a>
             <Link className="button button-quiet" href="/docs?doc=docker">
               查看 Docker 部署
+              <span aria-hidden="true">→</span>
+            </Link>
+            <Link className="button button-quiet" href="/docs?doc=standalone">
+              独立部署 WebUI
               <span aria-hidden="true">→</span>
             </Link>
           </div>
