@@ -9,7 +9,6 @@ const chromeCopy = {
     homeLabel: "DiceFrame 首页",
     navLabel: "主导航",
     features: "能力",
-    demo: "演示",
     start: "快速开始",
     docs: "技术帮助",
     download: "获取 DiceFrame",
@@ -25,7 +24,6 @@ const chromeCopy = {
     homeLabel: "DiceFrame home",
     navLabel: "Main navigation",
     features: "Features",
-    demo: "Try demo",
     start: "Get started",
     docs: "Documentation",
     download: "Get DiceFrame",
@@ -49,7 +47,6 @@ export function SiteHeader({
   const copy = chromeCopy[language];
   const homeHref = language === "en" ? "/en" : "/";
   const docsHref = language === "en" ? "/en/docs" : "/docs";
-  const demoHref = language === "en" ? "/en/demo" : "/demo";
   const languageHref =
     languageHrefOverride ?? (language === "en" ? "/" : "/en");
   const languageLabel = language === "en" ? "中文" : "EN";
@@ -73,7 +70,6 @@ export function SiteHeader({
 
         <nav className="desktop-nav" aria-label={copy.navLabel}>
           <Link href={`${homeHref}#features`}>{copy.features}</Link>
-          <Link href={demoHref}>{copy.demo}</Link>
           <Link href={`${homeHref}#start`}>{copy.start}</Link>
           <Link href={docsHref}>{copy.docs}</Link>
           <a
@@ -111,7 +107,6 @@ export function SiteHeader({
           </summary>
           <nav aria-label={copy.navLabel}>
             <Link href={`${homeHref}#features`}>{copy.features}</Link>
-            <Link href={demoHref}>{copy.demo}</Link>
             <Link href={`${homeHref}#start`}>{copy.start}</Link>
             <Link href={docsHref}>{copy.docs}</Link>
             <LanguageSwitch
@@ -138,7 +133,6 @@ export function SiteFooter({ language = "zh" }: { language?: SiteLanguage }) {
   const copy = chromeCopy[language];
   const homeHref = language === "en" ? "/en" : "/";
   const docsHref = language === "en" ? "/en/docs" : "/docs";
-  const demoHref = language === "en" ? "/en/demo" : "/demo";
 
   return (
     <footer className="site-footer">
@@ -162,7 +156,6 @@ export function SiteFooter({ language = "zh" }: { language?: SiteLanguage }) {
           <div>
             <strong>{copy.product}</strong>
             <Link href={`${homeHref}#features`}>{copy.core}</Link>
-            <Link href={demoHref}>{copy.demo}</Link>
             <Link href={`${homeHref}#start`}>{copy.start}</Link>
             <Link href={docsHref}>{copy.docs}</Link>
           </div>

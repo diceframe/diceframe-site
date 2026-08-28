@@ -40,7 +40,7 @@ test("server-renders the DiceFrame homepage", async () => {
   assert.match(html, /把故事/);
   assert.match(html, /跑下去/);
   assert.match(html, /<span>BOT<\/span>/i);
-  assert.match(html, /href="\/demo"/i);
+  assert.doesNotMatch(html, /href="\/demo"/i);
   assert.match(html, /一套 AI TRPG 引擎/);
   assert.match(html, /AI 跑团（TRPG）平台/);
   assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/"/i);
@@ -51,7 +51,7 @@ test("server-renders the DiceFrame homepage", async () => {
     /<meta name="msvalidate\.01" content="D836E0E0DD0B81055E1D84C58E0C9A93"\/?>/i,
   );
   assert.match(html, /diceframe-app\.jpg/);
-  assert.match(html, /href="\/docs\?doc=standalone"/i);
+  assert.doesNotMatch(html, /href="\/docs\?doc=standalone"/i);
   assert.match(html, /docs \/ zh\/standalone-webui\.md/);
   assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
 });
@@ -68,8 +68,8 @@ test("server-renders the English homepage with language alternates", async () =>
   assert.match(html, /Gather your party/);
   assert.match(html, /Let the story/);
   assert.match(html, /unfold/);
-  assert.match(html, /href="\/en\/demo"/i);
-  assert.match(html, /href="\/en\/docs\?doc=standalone"/i);
+  assert.doesNotMatch(html, /href="\/en\/demo"/i);
+  assert.doesNotMatch(html, /href="\/en\/docs\?doc=standalone"/i);
   assert.match(html, /docs \/ en\/standalone-webui\.md/);
   assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/en"/i);
   assert.match(html, /hrefLang="zh-CN" href="https:\/\/diceframe\.com\/"/i);
@@ -103,22 +103,13 @@ test("server-renders the English documentation shell", async () => {
   );
 });
 
-test("server-renders the Chinese and English demo shells", async () => {
+test("removed demo routes return not found", async () => {
   const [zhResponse, enResponse] = await Promise.all([
     render("/demo"),
     render("/en/demo"),
   ]);
-  assert.equal(zhResponse.status, 200);
-  assert.equal(enResponse.status, 200);
-
-  const zhHtml = await zhResponse.text();
-  const enHtml = await enResponse.text();
-  assert.match(zhHtml, /沉没回廊/);
-  assert.match(zhHtml, /沉没回廊 · 试玩桌/);
-  assert.match(zhHtml, /GM 控台 · 单人冒险/);
-  assert.match(enHtml, /The Sunken Gallery/);
-  assert.match(enHtml, /Sunken Gallery · Demo Table/);
-  assert.match(enHtml, /GM Console · Solo Adventure/);
+  assert.equal(zhResponse.status, 404);
+  assert.equal(enResponse.status, 404);
 });
 
 test("redirects alternate production hosts to the canonical domain", async () => {
@@ -197,6 +188,7 @@ test("publishes crawl directives and canonical sitemap URLs", async () => {
   assert.match(robots, /Sitemap: https:\/\/diceframe\.com\/sitemap\.xml/);
   assert.match(sitemap, /<loc>https:\/\/diceframe\.com\/<\/loc>/);
   assert.match(sitemap, /<loc>https:\/\/diceframe\.com\/docs<\/loc>/);
+  assert.doesNotMatch(sitemap, /diceframe\.com\/(?:en\/)?demo/);
 });
 
 test("normalizes common GitHub README HTML without injecting raw markup", () => {

@@ -141,10 +141,6 @@ export default function Home() {
                 下载 DiceFrame
                 <span aria-hidden="true">→</span>
               </a>
-              <Link className="button button-quiet" href="/demo">
-                查看演示
-                <span aria-hidden="true">→</span>
-              </Link>
               <Link
                 className="button button-quiet"
                 href="/docs?doc=guide"
@@ -392,10 +388,6 @@ export default function Home() {
             </a>
             <Link className="button button-quiet" href="/docs?doc=docker">
               查看 Docker 部署
-              <span aria-hidden="true">→</span>
-            </Link>
-            <Link className="button button-quiet" href="/docs?doc=standalone">
-              独立部署 WebUI
               <span aria-hidden="true">→</span>
             </Link>
           </div>

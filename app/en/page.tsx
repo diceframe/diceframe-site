@@ -142,10 +142,6 @@ export default function EnglishHome() {
                 Download DiceFrame
                 <span aria-hidden="true">→</span>
               </a>
-              <Link className="button button-quiet" href="/en/demo">
-                View demo
-                <span aria-hidden="true">→</span>
-              </Link>
               <Link
                 className="button button-quiet"
                 href="/en/docs?doc=guide"
@@ -398,10 +394,6 @@ export default function EnglishHome() {
             </a>
             <Link className="button button-quiet" href="/en/docs?doc=docker">
               Docker deployment
-              <span aria-hidden="true">→</span>
-            </Link>
-            <Link className="button button-quiet" href="/en/docs?doc=standalone">
-              Standalone WebUI
               <span aria-hidden="true">→</span>
             </Link>
           </div>
