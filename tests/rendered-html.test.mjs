@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
+import { documents } from "../app/docs/documents.js";
 import { normalizeGitHubMarkdown } from "../app/docs/normalizeGitHubMarkdown.js";
 import { createMarkdownModel } from "../app/docs/markdownOutline.js";
 
@@ -101,6 +102,16 @@ test("server-renders the English documentation shell", async () => {
     html,
     /rel="canonical" href="https:\/\/diceframe\.com\/en\/docs"/i,
   );
+});
+
+test("reads the project overview from each language's own README", () => {
+  const overview = documents.find((document) => document.id === "readme");
+  assert.ok(overview, "the readme document is missing from the catalog");
+  // The main repository publishes README.md in English. The Chinese overview
+  // therefore has to read README_zh-CN.md instead of the English default.
+  assert.equal(overview.repo, "diceframe");
+  assert.equal(overview.zh, "README_zh-CN.md");
+  assert.equal(overview.en, "README.md");
 });
 
 test("removed demo routes return not found", async () => {
