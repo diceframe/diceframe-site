@@ -1,107 +1,356 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { documents } from "../app/docs/documents.js";
-import { normalizeGitHubMarkdown } from "../app/docs/normalizeGitHubMarkdown.js";
-import { createMarkdownModel } from "../app/docs/markdownOutline.js";
+import { documents } from "../src/docs/documents.ts";
 
-async function render(path = "/") {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("test", `${process.pid}-${Date.now()}`);
+const CANNED_GUIDE_ZH = [
+  "# 用户手册",
+  "",
+  "## 开始第一局",
+  "",
+  "下载后启动 DiceFrame，创建角色并邀请朋友。",
+  "",
+  "```bash",
+  "docker run -d -p 9876:9876 ghcr.io/diceframe/diceframe:latest",
+  "```",
+  "",
+  "## 多人与群聊",
+  "",
+  "分享邀请链接，或通过 QQ 群 1060613588 绑定对局。",
+  "",
+].join("\n");
+
+const CANNED_GUIDE_EN = [
+  "# User guide",
+  "",
+  "## Start your first session",
+  "",
+  "Launch DiceFrame, create a character, and invite your friends.",
+  "",
+  "## Multiplayer and chat",
+  "",
+  "Share an invite link, or bind the session to a QQ group chat.",
+  "",
+].join("\n");
+
+/**
+ * Serve canned GitHub Markdown for raw.githubusercontent.com so the docs SSR
+ * tests are deterministic; everything else hits the real network (nothing
+ * should).
+ */
+function installFetchMock() {
+  const realFetch = globalThis.fetch;
+  globalThis.fetch = async (input, _init) => {
+    const url = String(input instanceof Request ? input.url : input);
+    if (url.startsWith("https://raw.githubusercontent.com/")) {
+      const body = url.endsWith("/docs/zh/guide.md")
+        ? CANNED_GUIDE_ZH
+        : url.endsWith("/docs/en/guide.md")
+          ? CANNED_GUIDE_EN
+          : "";
+      return new Response(body, {
+        status: body ? 200 : 404,
+        headers: { "content-type": "text/plain; charset=utf-8" },
+      });
+    }
+    throw new Error(`unexpected external fetch in tests: ${url}`);
+  };
+  return () => {
+    globalThis.fetch = realFetch;
+  };
+}
+
+async function loadWorker() {
+  const workerUrl = new URL(
+    `../dist/server/index.js?test=${process.pid}-${Date.now()}`,
+    import.meta.url,
+  );
   const { default: worker } = await import(workerUrl.href);
+  return worker;
+}
 
+function workerEnv() {
+  return [{}, { waitUntil() {}, passThroughOnException() {} }];
+}
+
+async function render(path) {
+  const worker = await loadWorker();
   return worker.fetch(
-    new Request(`http://localhost${path}`, {
+    new Request(`https://diceframe.com${path}`, {
       headers: { accept: "text/html" },
     }),
-    {
-      ASSETS: {
-        fetch: async () => new Response("Not found", { status: 404 }),
-      },
-    },
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
+    ...workerEnv(),
   );
 }
 
-test("server-renders the DiceFrame homepage", async () => {
-  const response = await render();
-  assert.equal(response.status, 200);
-  assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
+function meta(html, pattern) {
+  const match = html.match(pattern);
+  assert.ok(match, `expected ${pattern} in html`);
+  return match[1];
+}
 
-  const html = await response.text();
+test("prerenders the Chinese homepage as static HTML", async () => {
+  const html = await readFile(
+    new URL("../dist/client/index.html", import.meta.url),
+    "utf8",
+  );
+
   assert.match(
     html,
     /<title>DiceFrame — 开源自托管 AI 跑团（TRPG）平台<\/title>/i,
   );
+  assert.match(html, /<html lang="zh-CN">/);
   assert.match(html, /<span>和朋友一起，<\/span>/);
   assert.match(html, /<span>在 DiceFrame，<\/span>/);
   assert.match(html, /把故事/);
-  assert.match(html, /跑下去/);
-  assert.match(html, /<span>BOT<\/span>/i);
-  assert.doesNotMatch(html, /href="\/demo"/i);
+  assert.match(html, /<em>跑下去<\/em>/);
   assert.match(html, /一套 AI TRPG 引擎/);
-  assert.match(html, /AI 跑团（TRPG）平台/);
-  assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/"/i);
-  assert.match(html, /"@type":"WebSite"/);
-  assert.match(html, /"@type":"SoftwareSourceCode"/);
+  assert.doesNotMatch(html, /href="\/demo"/i);
+  assert.equal(
+    meta(html, /<link rel="canonical" href="([^"]*)"/),
+    "https://diceframe.com/",
+  );
   assert.match(
     html,
-    /<meta name="msvalidate\.01" content="D836E0E0DD0B81055E1D84C58E0C9A93"\/?>/i,
+    /hrefLang="zh-CN" href="https:\/\/diceframe\.com\/"/i,
+  );
+  assert.match(html, /hrefLang="en" href="https:\/\/diceframe\.com\/en"/i);
+  assert.match(
+    html,
+    /<meta name="msvalidate\.01" content="D836E0E0DD0B81055E1D84C58E0C9A93"/i,
   );
   assert.match(html, /diceframe-app\.jpg/);
-  assert.doesNotMatch(html, /href="\/docs\?doc=standalone"/i);
-  assert.match(html, /docs \/ zh\/standalone-webui\.md/);
-  assert.doesNotMatch(html, /codex-preview|react-loading-skeleton/i);
+  // Structured data: WebSite + Organization + SoftwareSourceCode + FAQ (GEO).
+  assert.match(html, /"@type":"WebSite"/);
+  assert.match(html, /"@type":"Organization"/);
+  assert.match(html, /"@type":"SoftwareSourceCode"/);
+  assert.match(html, /"@type":"FAQPage"/);
+  // The FAQ is visible content, not only schema.
+  assert.match(html, /DiceFrame 是什么？/);
+  assert.match(html, /docs \/ zh\/guide\.md/);
+  // Internal links use the new per-document routes.
+  assert.match(html, /href="\/docs\/guide"/);
+  assert.doesNotMatch(html, /\/docs\?doc=/);
 });
 
-test("server-renders the English homepage with language alternates", async () => {
-  const response = await render("/en");
-  assert.equal(response.status, 200);
-  const html = await response.text();
+test("prerenders the English homepage with language alternates", async () => {
+  const html = await readFile(
+    new URL("../dist/client/en/index.html", import.meta.url),
+    "utf8",
+  );
 
   assert.match(
     html,
     /<title>DiceFrame — Open-source, self-hosted AI TRPG platform<\/title>/i,
   );
+  assert.match(html, /<html lang="en">/);
   assert.match(html, /Gather your party/);
-  assert.match(html, /Let the story/);
-  assert.match(html, /unfold/);
-  assert.doesNotMatch(html, /href="\/en\/demo"/i);
-  assert.doesNotMatch(html, /href="\/en\/docs\?doc=standalone"/i);
-  assert.match(html, /docs \/ en\/standalone-webui\.md/);
-  assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/en"/i);
-  assert.match(html, /hrefLang="zh-CN" href="https:\/\/diceframe\.com\/"/i);
-});
-
-test("server-renders the GitHub-sourced documentation shell", async () => {
-  const response = await render("/docs");
-  assert.equal(response.status, 200);
-  const html = await response.text();
-
-  assert.match(html, /DiceFrame 使用与部署文档/);
-  assert.match(html, /DICEFRAME · TRPG HELP CENTER/);
-  assert.match(html, /diceframe\/diceframe-content/);
-  assert.match(html, /独立部署 WebUI/);
-  assert.match(html, /发布音色预设/);
-  assert.match(html, /rel="canonical" href="https:\/\/diceframe\.com\/docs"/i);
-  assert.match(html, /main/);
-});
-
-test("server-renders the English documentation shell", async () => {
-  const response = await render("/en/docs");
-  assert.equal(response.status, 200);
-  const html = await response.text();
-
-  assert.match(html, /DiceFrame setup and user documentation/);
-  assert.match(html, /User guide/);
-  assert.match(html, /Standalone WebUI/);
-  assert.match(
-    html,
-    /rel="canonical" href="https:\/\/diceframe\.com\/en\/docs"/i,
+  assert.match(html, /<em>unfold<\/em>/);
+  assert.equal(
+    meta(html, /<link rel="canonical" href="([^"]*)"/),
+    "https://diceframe.com/en",
   );
+  assert.match(html, /hrefLang="zh-CN" href="https:\/\/diceframe\.com\/"/i);
+  assert.match(html, /"@type":"FAQPage"/);
+  assert.match(html, /What is DiceFrame?/);
+  assert.doesNotMatch(html, /\/en\/demo/i);
+});
+
+test("permanently redirects legacy /docs?doc= URLs to real routes", async () => {
+  const cases = [
+    ["/docs", "/docs/guide"],
+    ["/docs?doc=guide", "/docs/guide"],
+    ["/docs?doc=docker", "/docs/docker"],
+    ["/docs?doc=standalone&lang=en", "/en/docs/standalone"],
+    ["/en/docs", "/en/docs/guide"],
+    ["/en/docs?doc=readme", "/en/docs/readme"],
+  ];
+
+  for (const [from, to] of cases) {
+    const response = await render(from);
+    assert.equal(response.status, 301, `expected 301 for ${from}`);
+    assert.equal(
+      response.headers.get("location"),
+      `https://diceframe.com${to}`,
+      `redirect target for ${from}`,
+    );
+  }
+});
+
+test("server-renders the Chinese documentation page with GitHub content", async () => {
+  const restore = installFetchMock();
+  try {
+    const response = await render("/docs/guide");
+    assert.equal(response.status, 200);
+    const html = await response.text();
+
+    assert.match(html, /<title>DiceFrame 文档 — 用户手册与开团指南<\/title>/);
+    assert.equal(
+      meta(html, /<link rel="canonical" href="([^"]*)"/),
+      "https://diceframe.com/docs/guide",
+    );
+    assert.match(html, /<html lang="zh-CN">/);
+    assert.match(html, /hrefLang="en" href="https:\/\/diceframe\.com\/en\/docs\/guide"/i);
+    assert.match(html, /"@type":"BreadcrumbList"/);
+    assert.match(html, /"@type":"WebPage"/);
+    // The Markdown itself is in the server-rendered HTML — this is the core
+    // SEO/GEO improvement over the client-fetched version.
+    assert.match(html, /开始第一局/);
+    assert.match(html, /<h2 id="[^"]*">/);
+    assert.match(html, /md-code/);
+    assert.match(html, /href="\/docs\/docker"/);
+    assert.match(
+      html,
+      /https:\/\/github\.com\/diceframe\/diceframe-content\/blob\/main\/docs\/zh\/guide\.md/,
+    );
+    assert.doesNotMatch(html, /docs-error/);
+  } finally {
+    restore();
+  }
+});
+
+test("server-renders the English documentation page", async () => {
+  const restore = installFetchMock();
+  try {
+    const response = await render("/en/docs/guide");
+    assert.equal(response.status, 200);
+    const html = await response.text();
+
+    assert.match(
+      html,
+      /<title>DiceFrame Documentation — User guide<\/title>/,
+    );
+    assert.equal(
+      meta(html, /<link rel="canonical" href="([^"]*)"/),
+      "https://diceframe.com/en/docs/guide",
+    );
+    assert.match(html, /<html lang="en">/);
+    assert.match(html, /Start your first session/);
+  } finally {
+    restore();
+  }
+});
+
+test("renders the GitHub fallback when the document is unavailable", async () => {
+  const restore = installFetchMock();
+  try {
+    const response = await render("/docs/plugin-dev");
+    assert.equal(response.status, 200);
+    const html = await response.text();
+    assert.match(html, /docs-error/);
+    assert.match(
+      html,
+      /https:\/\/github\.com\/diceframe\/diceframe-content\/blob\/main\/docs\/zh\/plugin-development\.md/,
+    );
+  } finally {
+    restore();
+  }
+});
+
+test("unknown document ids return not found", async () => {
+  const restore = installFetchMock();
+  try {
+    for (const path of ["/docs/nope", "/en/docs/nope", "/demo", "/en/demo"]) {
+      const response = await render(path);
+      assert.equal(response.status, 404, `expected 404 for ${path}`);
+    }
+  } finally {
+    restore();
+  }
+});
+
+test("redirects alternate production hosts to the canonical domain", async () => {
+  const worker = await loadWorker();
+  const [env, ctx] = workerEnv();
+
+  const workersDev = await worker.fetch(
+    new Request("https://diceframe-official.yurloe0.workers.dev/docs?doc=guide"),
+    env,
+    ctx,
+  );
+  assert.equal(workersDev.status, 308);
+  assert.equal(
+    workersDev.headers.get("location"),
+    "https://diceframe.com/docs?doc=guide",
+  );
+
+  const www = await worker.fetch(
+    new Request("https://www.diceframe.com/docs?probe=1"),
+    env,
+    ctx,
+  );
+  assert.equal(www.status, 301);
+  assert.equal(
+    www.headers.get("location"),
+    "https://diceframe.com/docs?probe=1",
+  );
+});
+
+test("serves the Baidu verification file on www without redirecting", async () => {
+  const worker = await loadWorker();
+  const response = await worker.fetch(
+    new Request("https://www.diceframe.com/baidu_verify_codeva-xQ6459zscX.html"),
+    ...workerEnv(),
+  );
+  assert.equal(response.status, 200);
+  assert.equal(await response.text(), "a002cb47fe23e866b602b1b677c36dd2");
+});
+
+test("publishes crawl directives, AI-crawler policy, and canonical sitemap URLs", async () => {
+  const robots = await readFile(
+    new URL("../public/robots.txt", import.meta.url),
+    "utf8",
+  );
+  const sitemap = await readFile(
+    new URL("../public/sitemap.xml", import.meta.url),
+    "utf8",
+  );
+  const llms = await readFile(
+    new URL("../public/llms.txt", import.meta.url),
+    "utf8",
+  );
+
+  assert.match(robots, /User-agent: \*/);
+  assert.match(robots, /Sitemap: https:\/\/diceframe\.com\/sitemap\.xml/);
+  // GEO: AI crawlers are explicitly welcomed.
+  for (const bot of [
+    "GPTBot",
+    "OAI-SearchBot",
+    "ClaudeBot",
+    "PerplexityBot",
+    "Google-Extended",
+    "CCBot",
+  ]) {
+    assert.match(robots, new RegExp(`User-agent: ${bot}`));
+  }
+
+  // Sitemap: one URL pair per document plus both homepages, with hreflang.
+  assert.match(sitemap, /<loc>https:\/\/diceframe\.com\/<\/loc>/);
+  assert.match(sitemap, /<loc>https:\/\/diceframe\.com\/docs\/guide<\/loc>/);
+  assert.match(
+    sitemap,
+    /<loc>https:\/\/diceframe\.com\/en\/docs\/docker<\/loc>/,
+  );
+  assert.match(
+    sitemap,
+    /<xhtml:link rel="alternate" hreflang="en" href="https:\/\/diceframe\.com\/en\/docs\/guide" \/>/,
+  );
+  for (const doc of documents) {
+    assert.ok(
+      sitemap.includes(`<loc>https://diceframe.com/docs/${doc.id}</loc>`),
+      `sitemap is missing zh /docs/${doc.id}`,
+    );
+    assert.ok(
+      sitemap.includes(`<loc>https://diceframe.com/en/docs/${doc.id}</loc>`),
+      `sitemap is missing en /en/docs/${doc.id}`,
+    );
+  }
+
+  // llms.txt gives AI systems a machine-readable product summary.
+  assert.match(llms, /^# DiceFrame/);
+  assert.match(llms, /AGPL-3\.0/);
+  assert.match(llms, /https:\/\/diceframe\.com\/docs\/guide/);
+  assert.match(llms, /https:\/\/diceframe\.com\/en\/docs\/guide/);
 });
 
 test("reads the project overview from each language's own README", () => {
@@ -112,142 +361,4 @@ test("reads the project overview from each language's own README", () => {
   assert.equal(overview.repo, "diceframe");
   assert.equal(overview.zh, "README_zh-CN.md");
   assert.equal(overview.en, "README.md");
-});
-
-test("removed demo routes return not found", async () => {
-  const [zhResponse, enResponse] = await Promise.all([
-    render("/demo"),
-    render("/en/demo"),
-  ]);
-  assert.equal(zhResponse.status, 404);
-  assert.equal(enResponse.status, 404);
-});
-
-test("redirects alternate production hosts to the canonical domain", async () => {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("redirect-test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  const response = await worker.fetch(
-    new Request(
-      "https://diceframe-official.yurloe0.workers.dev/docs?doc=guide",
-    ),
-    {},
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
-
-  assert.equal(response.status, 308);
-  assert.equal(
-    response.headers.get("location"),
-    "https://diceframe.com/docs?doc=guide",
-  );
-});
-
-test("serves the Baidu verification file on www without redirecting", async () => {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("baidu-verify-test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  const response = await worker.fetch(
-    new Request("https://www.diceframe.com/baidu_verify_codeva-xQ6459zscX.html"),
-    {},
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
-
-  assert.equal(response.status, 200);
-  assert.equal(await response.text(), "a002cb47fe23e866b602b1b677c36dd2");
-});
-
-test("redirects other www paths to the canonical apex domain", async () => {
-  const workerUrl = new URL("../dist/server/index.js", import.meta.url);
-  workerUrl.searchParams.set("www-redirect-test", `${process.pid}-${Date.now()}`);
-  const { default: worker } = await import(workerUrl.href);
-
-  const response = await worker.fetch(
-    new Request("https://www.diceframe.com/docs?probe=1"),
-    {},
-    {
-      waitUntil() {},
-      passThroughOnException() {},
-    },
-  );
-
-  assert.equal(response.status, 301);
-  assert.equal(
-    response.headers.get("location"),
-    "https://diceframe.com/docs?probe=1",
-  );
-});
-
-test("publishes crawl directives and canonical sitemap URLs", async () => {
-  const robots = await readFile(
-    new URL("../public/robots.txt", import.meta.url),
-    "utf8",
-  );
-  const sitemap = await readFile(
-    new URL("../public/sitemap.xml", import.meta.url),
-    "utf8",
-  );
-
-  assert.match(robots, /User-agent: \*/);
-  assert.match(robots, /Sitemap: https:\/\/diceframe\.com\/sitemap\.xml/);
-  assert.match(sitemap, /<loc>https:\/\/diceframe\.com\/<\/loc>/);
-  assert.match(sitemap, /<loc>https:\/\/diceframe\.com\/docs<\/loc>/);
-  assert.doesNotMatch(sitemap, /diceframe\.com\/(?:en\/)?demo/);
-});
-
-test("normalizes common GitHub README HTML without injecting raw markup", () => {
-  const markdown = normalizeGitHubMarkdown(`
-<p align="center">
-  <img src="docs/assets/diceframe-logo.svg" width="144" height="144" alt="DiceFrame Logo">
-</p>
-<h1 align="center">DiceFrame</h1>
-<p align="center"><a href="README_EN.md">English</a> | 中文</p>
-<p align="center">
-  <a href="https://github.com/diceframe/diceframe/stargazers"><img src="https://img.shields.io/github/stars/diceframe/diceframe" alt="GitHub Stars"></a>
-  <script>alert("unsafe")</script>
-</p>
-`);
-
-  assert.match(
-    markdown,
-    /!\[DiceFrame Logo\]\(docs\/assets\/diceframe-logo\.svg\)/,
-  );
-  assert.match(markdown, /# DiceFrame/);
-  assert.match(markdown, /\[English\]\(README_EN\.md\) \| 中文/);
-  assert.match(
-    markdown,
-    /\[!\[GitHub Stars\]\(https:\/\/img\.shields\.io\/github\/stars\/diceframe\/diceframe\)\]\(https:\/\/github\.com\/diceframe\/diceframe\/stargazers\)/,
-  );
-  assert.doesNotMatch(markdown, /<(?:p|h1|a|img|script)\b/i);
-});
-
-test("builds duplicate-safe page-outline links from rendered headings", () => {
-  const model = createMarkdownModel(`
-# Guide
-## First steps
-### [Local setup](https://example.com)
-## First steps
-\`\`\`md
-## Not a heading
-\`\`\`
-## 语音朗读怎么用（可选）
-`);
-
-  assert.deepEqual(
-    model.headings.map(({ level, title, id }) => ({ level, title, id })),
-    [
-      { level: 1, title: "Guide", id: "guide" },
-      { level: 2, title: "First steps", id: "first-steps" },
-      { level: 3, title: "Local setup", id: "local-setup" },
-      { level: 2, title: "First steps", id: "first-steps-2" },
-      { level: 2, title: "语音朗读怎么用（可选）", id: "语音朗读怎么用可选" },
-    ],
-  );
 });

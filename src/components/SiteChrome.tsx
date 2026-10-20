@@ -1,5 +1,4 @@
-import Image from "next/image";
-import Link from "next/link";
+import { GITHUB_REPO_URL, GITHUB_RELEASES_URL } from "~/config/site";
 import { LanguageSwitch } from "./LanguageSuggestion";
 
 type SiteLanguage = "zh" | "en";
@@ -46,7 +45,7 @@ export function SiteHeader({
 }) {
   const copy = chromeCopy[language];
   const homeHref = language === "en" ? "/en" : "/";
-  const docsHref = language === "en" ? "/en/docs" : "/docs";
+  const docsHref = language === "en" ? "/en/docs/guide" : "/docs/guide";
   const languageHref =
     languageHrefOverride ?? (language === "en" ? "/" : "/en");
   const languageLabel = language === "en" ? "中文" : "EN";
@@ -54,29 +53,25 @@ export function SiteHeader({
   return (
     <header className="site-header">
       <div className="page-shell header-inner">
-        <Link className="brand" href={homeHref} aria-label={copy.homeLabel}>
-          <Image
+        <a className="brand" href={homeHref} aria-label={copy.homeLabel}>
+          <img
             src="/diceframe-logo.svg"
             alt=""
             width={42}
             height={42}
-            priority
+            decoding="async"
           />
           <span>
             <strong>DiceFrame</strong>
             <small>OPEN-SOURCE AI TRPG</small>
           </span>
-        </Link>
+        </a>
 
         <nav className="desktop-nav" aria-label={copy.navLabel}>
-          <Link href={`${homeHref}#features`}>{copy.features}</Link>
-          <Link href={`${homeHref}#start`}>{copy.start}</Link>
-          <Link href={docsHref}>{copy.docs}</Link>
-          <a
-            href="https://github.com/diceframe/diceframe"
-            target="_blank"
-            rel="noreferrer"
-          >
+          <a href={`${homeHref}#features`}>{copy.features}</a>
+          <a href={`${homeHref}#start`}>{copy.start}</a>
+          <a href={docsHref}>{copy.docs}</a>
+          <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer">
             GitHub
           </a>
         </nav>
@@ -91,7 +86,7 @@ export function SiteHeader({
           />
           <a
             className="header-download"
-            href="https://github.com/diceframe/diceframe/releases/latest"
+            href={GITHUB_RELEASES_URL}
             target="_blank"
             rel="noreferrer"
           >
@@ -106,20 +101,16 @@ export function SiteHeader({
             <i />
           </summary>
           <nav aria-label={copy.navLabel}>
-            <Link href={`${homeHref}#features`}>{copy.features}</Link>
-            <Link href={`${homeHref}#start`}>{copy.start}</Link>
-            <Link href={docsHref}>{copy.docs}</Link>
+            <a href={`${homeHref}#features`}>{copy.features}</a>
+            <a href={`${homeHref}#start`}>{copy.start}</a>
+            <a href={docsHref}>{copy.docs}</a>
             <LanguageSwitch
               href={languageHref}
               hrefLang={language === "en" ? "zh-CN" : "en"}
               ariaLabel={language === "en" ? "切换到中文" : "Switch to English"}
               label={language === "en" ? "中文" : "English"}
             />
-            <a
-              href="https://github.com/diceframe/diceframe"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer">
               GitHub ↗
             </a>
           </nav>
@@ -132,44 +123,41 @@ export function SiteHeader({
 export function SiteFooter({ language = "zh" }: { language?: SiteLanguage }) {
   const copy = chromeCopy[language];
   const homeHref = language === "en" ? "/en" : "/";
-  const docsHref = language === "en" ? "/en/docs" : "/docs";
+  const docsHref = language === "en" ? "/en/docs/guide" : "/docs/guide";
 
   return (
     <footer className="site-footer">
       <div className="page-shell footer-grid">
         <div className="footer-brand">
-          <Link className="brand" href={homeHref}>
-            <Image
+          <a className="brand" href={homeHref}>
+            <img
               src="/diceframe-logo.svg"
               alt=""
               width={38}
               height={38}
+              decoding="async"
             />
             <span>
               <strong>DiceFrame</strong>
               <small>OPEN-SOURCE AI TRPG</small>
             </span>
-          </Link>
+          </a>
           <p>{copy.footer}</p>
         </div>
         <div className="footer-links">
           <div>
             <strong>{copy.product}</strong>
-            <Link href={`${homeHref}#features`}>{copy.core}</Link>
-            <Link href={`${homeHref}#start`}>{copy.start}</Link>
-            <Link href={docsHref}>{copy.docs}</Link>
+            <a href={`${homeHref}#features`}>{copy.core}</a>
+            <a href={`${homeHref}#start`}>{copy.start}</a>
+            <a href={docsHref}>{copy.docs}</a>
           </div>
           <div>
             <strong>{copy.community}</strong>
-            <a
-              href="https://github.com/diceframe/diceframe"
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer">
               GitHub
             </a>
             <a
-              href="https://github.com/diceframe/diceframe/issues"
+              href={`${GITHUB_REPO_URL}/issues`}
               target="_blank"
               rel="noreferrer"
             >

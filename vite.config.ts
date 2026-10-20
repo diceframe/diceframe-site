@@ -1,58 +1,40 @@
-import vinext from "vinext";
+import { cloudflare } from "@cloudflare/vite-plugin";
+import { tanstackStart } from "@tanstack/react-start/plugin/vite";
 import { defineConfig } from "vite";
-import hostingConfig from "./.openai/hosting.json";
-import { sites } from "./build/sites-vite-plugin";
+import viteReact from "@vitejs/plugin-react";
 
-const SITE_CREATOR_PLACEHOLDER_DATABASE_ID =
-  "00000000-0000-4000-8000-000000000000";
+// Keep Wrangler and Miniflare state project-local.
+process.env.WRANGLER_WRITE_LOGS ??= "false";
+process.env.WRANGLER_LOG_PATH ??= ".wrangler/logs";
+process.env.MINIFLARE_REGISTRY_PATH ??= ".wrangler/registry";
 
-const { d1, r2 } = hostingConfig;
-
-// macOS Seatbelt blocks FSEvents, so Codex previews need polling for HMR.
-const isCodexSeatbeltSandbox = process.env.CODEX_SANDBOX === "seatbelt";
-
-const bindingOverrides = {
-  d1_databases: d1
-    ? [
-        {
-          binding: d1,
-          database_name: "site-creator-d1",
-          database_id: SITE_CREATOR_PLACEHOLDER_DATABASE_ID,
-        },
-      ]
-    : [],
-  r2_buckets: r2
-    ? [
-        {
-          binding: r2,
-          bucket_name: "site-creator-r2",
-        },
-      ]
-    : [],
-};
-
-export default defineConfig(async () => {
-  // Keep Wrangler and Miniflare state project-local. These are non-secret tool
-  // settings; application environment belongs in ignored `.env*` files.
-  process.env.WRANGLER_WRITE_LOGS ??= "false";
-  process.env.WRANGLER_LOG_PATH ??= ".wrangler/logs";
-  process.env.MINIFLARE_REGISTRY_PATH ??= ".wrangler/registry";
-
-  // Wrangler snapshots its log path while the Cloudflare plugin is imported.
-  const { cloudflare } = await import("@cloudflare/vite-plugin");
-
-  return {
-    server: isCodexSeatbeltSandbox
-      ? { watch: { useFsEvents: false, usePolling: true } }
-      : undefined,
-    plugins: [
-      vinext(),
-      sites(),
-      cloudflare({
-        configPath: "./wrangler.jsonc",
-        viteEnvironment: { name: "rsc", childEnvironments: ["ssr"] },
-        config: bindingOverrides,
-      }),
-    ],
-  };
+export default defineConfig({
+  server: {
+    port: 3000,
+  },
+  resolve: {
+    // Native Vite 8 support for the `~/*` paths in tsconfig.json — required
+    // by the dev-server module runner (the production build resolves them
+    // regardless).
+    tsconfigPaths: true,
+  },
+  plugins: [
+    cloudflare({ viteEnvironment: { name: "ssr" } }),
+    tanstackStart({
+      server: {
+        // Custom fetch wrapper: canonical-host redirects, the Baidu
+        // verification file, and permanent redirects from the legacy
+        // `/docs?doc={id}` URLs.
+        entry: "./server.ts",
+      },
+      prerender: {
+        enabled: true,
+        // The homepages are pure marketing content and are frozen into static
+        // HTML at build time. Docs pages (parameterized routes) stay on
+        // runtime SSR so they always read the latest Markdown from GitHub.
+        filter: ({ path }) => path === "/" || path === "/en",
+      },
+    }),
+    viteReact(),
+  ],
 });

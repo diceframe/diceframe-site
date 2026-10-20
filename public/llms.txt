@@ -1,0 +1,45 @@
+# DiceFrame
+
+> DiceFrame is an open-source (AGPL-3.0), self-hosted AI tabletop role-playing (TRPG) platform. It connects an AI Game Master, a multiplayer WebUI, character sheets, lorebooks (world books), dice, state tracking, and QQ group-chat bots into one persistent online campaign. DiceFrame（骰框）是一个开源自托管的 AI 跑团（TRPG）平台：AI GM、多人 WebUI、角色卡、世界书、骰子与状态追踪共享同一场线上跑团。
+
+## Core facts
+
+- Product: DiceFrame — AI TRPG / tabletop RPG campaign platform (AI GM + engine)
+- License: AGPL-3.0, fully open source
+- Hosting model: self-hosted. Users deploy on their own Windows PC, Docker, Linux, or NAS; saves, config, and API keys stay local. It is not a hosted SaaS.
+- Supported rulesets: DND 5e, Call of Cthulhu (COC), and freeform custom rules with editable rules, character templates, and world settings
+- Key capabilities: AI GM narration separated from a validated game-state engine; real-time multiplayer WebUI (SSE); lorebook keyword injection, long-campaign history compression, and semantic recall via embeddings; QQ / NapCat group-chat bridge; plugin system
+- Model access: bring your own LLM API keys
+- Languages: Simplified Chinese and English interface and documentation
+- Source code: https://github.com/diceframe/diceframe
+- Documentation sources: https://github.com/diceframe/diceframe-content (docs live in the repositories; the website renders them live)
+- Community: QQ group 1060613588
+- Website: https://diceframe.com (Chinese) · https://diceframe.com/en (English)
+- Windows download: https://github.com/diceframe/diceframe/releases/latest
+- Quick start (Docker): `docker run -d -p 9876:9876 -v ./data:/app/data ghcr.io/diceframe/diceframe:latest` then open http://localhost:9876
+
+## Documentation (中文)
+
+- [用户手册](https://diceframe.com/docs/guide)：开第一局、多人玩法、掷骰、状态与群聊 Bot
+- [项目总览](https://diceframe.com/docs/readme)：功能概览、快速开始、数据与项目结构
+- [Docker 部署](https://diceframe.com/docs/docker)：Docker、Linux 与本地启动方式
+- [独立部署 WebUI](https://diceframe.com/docs/standalone)：静态托管、后端 HTTPS 与跨域配置
+- [应用更新](https://diceframe.com/docs/updater)：主程序与插件的更新流程
+- [插件开发](https://diceframe.com/docs/plugin-dev)：插件结构、能力、打包与本地测试
+- [发布音色预设](https://diceframe.com/docs/voice-pack-publishing)：授权、打包、本地测试与商店投稿
+- [插件索引与审核](https://diceframe.com/docs/plugin-registry)：插件中心投稿、审核与安全边界
+- [Bot Bridge 核心](https://diceframe.com/docs/bot-bridge)：群聊适配器与 Web 服务之间的接口
+- [发布说明](https://diceframe.com/docs/release-notes)：当前版本变化与历史发布记录
+
+## Documentation (English)
+
+- [User guide](https://diceframe.com/en/docs/guide): first session, multiplayer, dice, state, and chat bots
+- [Project overview](https://diceframe.com/en/docs/readme): features, quick start, plugins, and data privacy
+- [Docker deployment](https://diceframe.com/en/docs/docker): Docker, Linux, and local launch options
+- [Standalone WebUI](https://diceframe.com/en/docs/standalone): static hosting, backend HTTPS, and CORS setup
+- [Application updates](https://diceframe.com/en/docs/updater): updating DiceFrame and its plugins
+- [Plugin development](https://diceframe.com/en/docs/plugin-dev): plugin structure, capabilities, packaging, and local testing
+- [Publish voice presets](https://diceframe.com/en/docs/voice-pack-publishing): licensing, packaging, local tests, and store submission
+- [Plugin registry and review](https://diceframe.com/en/docs/plugin-registry): registry submissions, review, and security boundaries
+- [Bot Bridge core](https://diceframe.com/en/docs/bot-bridge): the interface between chat adapters and the Web service
+- [Release notes](https://diceframe.com/en/docs/release-notes): current changes and previous release history

@@ -6,20 +6,39 @@
  * file that actually exists on `main`: a language must never read the other
  * language's file.
  *
- * @typedef {"use" | "deploy" | "extend" | "maintain"} DocGroup
- *
- * @typedef {object} DocDefinition
- * @property {string} id Stable query-string id, used by `/docs?doc=...`.
- * @property {string} zh Repository path of the Simplified Chinese source.
- * @property {string} en Repository path of the English source.
- * @property {{ zh: string, en: string }} title Navigation label.
- * @property {{ zh: string, en: string }} description Navigation subtitle.
- * @property {DocGroup} group Sidebar section.
- * @property {string} repo Source repository under the `diceframe` owner.
+ * The catalog doubles as the routing table (`/docs/{id}`, `/en/docs/{id}`),
+ * the sitemap generator input, and the legacy `?doc=` redirect map.
  */
 
-/** @type {DocDefinition[]} */
-export const documents = [
+export type DocGroup = "use" | "deploy" | "extend" | "maintain";
+
+export interface DocDefinition {
+  /** Stable URL segment used by `/docs/{id}` and legacy `?doc={id}` links. */
+  id: string;
+  /** Repository path of the Simplified Chinese source. */
+  zh: string;
+  /** Repository path of the English source. */
+  en: string;
+  /** Navigation label per language. */
+  title: { zh: string; en: string };
+  /** Navigation subtitle and meta description per language. */
+  description: { zh: string; en: string };
+  /** Sidebar section. */
+  group: DocGroup;
+  /** Source repository under the `diceframe` owner. */
+  repo: string;
+}
+
+export const DOC_GROUPS: readonly DocGroup[] = [
+  "use",
+  "deploy",
+  "extend",
+  "maintain",
+];
+
+export const DEFAULT_DOC_ID = "guide";
+
+export const documents: readonly DocDefinition[] = [
   {
     id: "guide",
     zh: "docs/zh/guide.md",
@@ -143,3 +162,20 @@ export const documents = [
     repo: "diceframe",
   },
 ];
+
+export function findDoc(id: string | undefined | null): DocDefinition | undefined {
+  if (!id) return undefined;
+  return documents.find((doc) => doc.id === id);
+}
+
+/** Resolve a legacy `?doc=` value (id or repo path fragment) to a catalog entry. */
+export function findDocByLegacyValue(
+  value: string | undefined | null,
+): DocDefinition | undefined {
+  if (!value) return undefined;
+  const direct = findDoc(value);
+  if (direct) return direct;
+  return documents.find(
+    (doc) => doc.zh.endsWith(value) || doc.en.endsWith(value),
+  );
+}

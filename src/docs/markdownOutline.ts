@@ -1,6 +1,6 @@
-import { normalizeGitHubMarkdown } from "./normalizeGitHubMarkdown.js";
+import { normalizeGitHubMarkdown } from "./normalizeGitHubMarkdown";
 
-function plainHeadingText(value) {
+function plainHeadingText(value: string): string {
   return value
     .replace(/!\[([^\]]*)\]\([^)]+\)/g, "$1")
     .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
@@ -10,7 +10,7 @@ function plainHeadingText(value) {
     .trim();
 }
 
-function headingSlug(value) {
+function headingSlug(value: string): string {
   const slug = plainHeadingText(value)
     .normalize("NFKC")
     .toLocaleLowerCase()
@@ -21,18 +21,28 @@ function headingSlug(value) {
   return slug || "section";
 }
 
+export interface HeadingEntry {
+  lineIndex: number;
+  level: number;
+  title: string;
+  id: string;
+}
+
+export interface MarkdownModel {
+  lines: string[];
+  headings: HeadingEntry[];
+}
+
 /**
  * Normalize one document once, then give the renderer and page outline the
  * same stable, duplicate-safe heading IDs.
- *
- * @param {string} markdown
  */
-export function createMarkdownModel(markdown) {
+export function createMarkdownModel(markdown: string): MarkdownModel {
   const lines = normalizeGitHubMarkdown(markdown)
     .replace(/\r\n/g, "\n")
     .split("\n");
-  const counts = new Map();
-  const headings = [];
+  const counts = new Map<string, number>();
+  const headings: HeadingEntry[] = [];
   let inFence = false;
 
   lines.forEach((line, lineIndex) => {
