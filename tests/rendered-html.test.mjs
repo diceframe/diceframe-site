@@ -225,6 +225,10 @@ test("server-renders the English documentation page", async () => {
       "https://diceframe.com/en/docs/guide",
     );
     assert.match(html, /<html lang="en">/);
+    assert.match(
+      html,
+      /"isPartOf":\{"@id":"https:\/\/diceframe\.com\/en#website"\}/,
+    );
     assert.match(html, /Start your first session/);
   } finally {
     restore();
@@ -274,6 +278,19 @@ test("redirects alternate production hosts to the canonical domain", async () =>
     "https://diceframe.com/docs?doc=guide",
   );
 
+  const workersDevPath = await worker.fetch(
+    new Request(
+      "https://diceframe-official.yurloe0.workers.dev//evil.example/path?x=1",
+    ),
+    env,
+    ctx,
+  );
+  assert.equal(workersDevPath.status, 308);
+  assert.equal(
+    workersDevPath.headers.get("location"),
+    "https://diceframe.com/evil.example/path?x=1",
+  );
+
   const www = await worker.fetch(
     new Request("https://www.diceframe.com/docs?probe=1"),
     env,
@@ -283,6 +300,17 @@ test("redirects alternate production hosts to the canonical domain", async () =>
   assert.equal(
     www.headers.get("location"),
     "https://diceframe.com/docs?probe=1",
+  );
+
+  const wwwPath = await worker.fetch(
+    new Request("https://www.diceframe.com//evil.example/path?x=1"),
+    env,
+    ctx,
+  );
+  assert.equal(wwwPath.status, 301);
+  assert.equal(
+    wwwPath.headers.get("location"),
+    "https://diceframe.com/evil.example/path?x=1",
   );
 });
 

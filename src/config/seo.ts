@@ -3,6 +3,7 @@ import {
   SITE_URL,
   absoluteUrl,
   docsPath,
+  homePath,
   languageToLocale,
   type SiteLanguage,
 } from "./site";
@@ -209,7 +210,7 @@ export function docsWebPageJsonLd(options: {
     name: options.name,
     description: options.description,
     inLanguage: languageToLocale(options.language),
-    isPartOf: { "@id": `${SITE_URL}/#website` },
+    isPartOf: { "@id": `${SITE_URL}${homePath(options.language)}#website` },
     publisher: { "@id": `${SITE_URL}/#organization` },
   };
 }

@@ -26,7 +26,12 @@ function redirect(url: URL, status: number): Response {
 }
 
 function toCanonical(pathWithSearch: string, status: number): Response {
-  return redirect(new URL(pathWithSearch, `https://${CANONICAL_HOST}`), status);
+  // A URL beginning with `//` is scheme-relative. If it is passed directly
+  // to the URL constructor, it replaces the canonical host and turns this
+  // redirect into an open redirect. The request pathname is always rooted,
+  // so collapse any extra leading slashes before resolving it.
+  const safePath = pathWithSearch.replace(/^\/+/, "/");
+  return redirect(new URL(safePath, `https://${CANONICAL_HOST}`), status);
 }
 
 /**
