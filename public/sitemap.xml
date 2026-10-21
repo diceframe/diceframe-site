@@ -10,21 +10,129 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/" />
   </url>
   <url>
-    <loc>https://diceframe.com/docs</loc>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs" />
-  </url>
-  <url>
     <loc>https://diceframe.com/en</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/" />
   </url>
   <url>
-    <loc>https://diceframe.com/en/docs</loc>
-    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs" />
+    <loc>https://diceframe.com/docs/guide</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/guide" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/guide" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/guide" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/docs/guide</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/guide" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/guide" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/guide" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/docs/readme</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/readme" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/readme" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/readme" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/docs/readme</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/readme" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/readme" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/readme" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/docs/docker</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/docker" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/docker" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/docker" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/docs/docker</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/docker" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/docker" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/docker" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/docs/standalone</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/standalone" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/standalone" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/standalone" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/docs/standalone</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/standalone" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/standalone" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/standalone" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/docs/updater</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/updater" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/updater" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/updater" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/docs/updater</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/updater" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/updater" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/updater" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/docs/plugin-dev</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/plugin-dev" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/plugin-dev" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/plugin-dev" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/docs/plugin-dev</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/plugin-dev" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/plugin-dev" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/plugin-dev" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/docs/voice-pack-publishing</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/voice-pack-publishing" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/voice-pack-publishing" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/voice-pack-publishing" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/docs/voice-pack-publishing</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/voice-pack-publishing" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/voice-pack-publishing" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/voice-pack-publishing" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/docs/plugin-registry</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/plugin-registry" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/plugin-registry" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/plugin-registry" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/docs/plugin-registry</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/plugin-registry" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/plugin-registry" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/plugin-registry" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/docs/bot-bridge</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/bot-bridge" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/bot-bridge" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/bot-bridge" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/docs/bot-bridge</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/bot-bridge" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/bot-bridge" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/bot-bridge" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/docs/release-notes</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/release-notes" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/release-notes" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/release-notes" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/docs/release-notes</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/release-notes" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/release-notes" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/docs/release-notes" />
   </url>
 </urlset>

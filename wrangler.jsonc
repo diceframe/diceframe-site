@@ -1,12 +1,9 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "diceframe-official",
-  "main": "./worker/index.ts",
+  "main": "src/server.ts",
   "compatibility_date": "2026-07-28",
   "compatibility_flags": ["nodejs_compat"],
-  "assets": {
-    "html_handling": "none"
-  },
   "workers_dev": true,
   "routes": [
     {

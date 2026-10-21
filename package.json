@@ -1,40 +1,42 @@
 {
   "name": "diceframe-site",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
+  "type": "module",
   "engines": {
     "node": ">=22.13.0"
   },
   "scripts": {
-    "dev": "vinext dev",
-    "build": "vinext build",
-    "start": "vinext start",
+    "dev": "vite dev",
+    "prebuild": "node --experimental-strip-types build/generate-sitemap.ts",
+    "build": "vite build && tsc --noEmit",
+    "preview": "vite preview",
     "deploy:cloudflare": "npm run verify && wrangler deploy",
-    "test": "npm run build && node --test tests/rendered-html.test.mjs",
-    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next --ignore-pattern .vinext --ignore-pattern .wrangler",
+    "test": "npm run build && node --experimental-strip-types --test tests/rendered-html.test.mjs",
+    "lint": "eslint .",
     "verify": "npm run lint && npm run test"
   },
   "dependencies": {
-    "next": "16.2.6",
+    "@tanstack/react-router": "^1.170.45",
+    "@tanstack/react-start": "^1.169.3",
     "react": "19.2.6",
     "react-dom": "19.2.6"
   },
   "devDependencies": {
-    "@cloudflare/vite-plugin": "1.37.1",
+    "@cloudflare/vite-plugin": "^1.64.0",
+    "@eslint/js": "9.39.4",
     "@tailwindcss/postcss": "4.2.1",
     "@types/node": "22.19.19",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
-    "@vitejs/plugin-rsc": "0.5.26",
     "eslint": "9.39.4",
-    "eslint-config-next": "16.2.6",
-    "react-server-dom-webpack": "19.2.6",
+    "eslint-plugin-react-hooks": "7.0.1",
+    "globals": "16.5.0",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3",
-    "vinext": "0.0.50",
+    "typescript-eslint": "8.46.4",
     "vite": "8.0.13",
-    "wrangler": "4.92.0"
-  },
-  "type": "module"
+    "wrangler": "^4.151.2"
+  }
 }

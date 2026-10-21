@@ -1,21 +1,6 @@
-"use client";
-
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 type SuggestedLanguage = "zh" | "en";
-
-export function DocumentLanguage({
-  language,
-}: {
-  language: SuggestedLanguage;
-}) {
-  useEffect(() => {
-    document.documentElement.lang = language === "en" ? "en" : "zh-CN";
-  }, [language]);
-
-  return null;
-}
 
 export function LanguageSwitch({
   href,
@@ -31,7 +16,7 @@ export function LanguageSwitch({
   className?: string;
 }) {
   return (
-    <Link
+    <a
       className={className}
       href={href}
       hrefLang={hrefLang}
@@ -41,7 +26,7 @@ export function LanguageSwitch({
       }
     >
       {label}
-    </Link>
+    </a>
   );
 }
 
@@ -82,13 +67,13 @@ export function LanguageSuggestion({
           ? "English version available."
           : "检测到中文浏览器，可切换到中文版。"}
       </span>
-      <Link
+      <a
         href={isEnglishSuggestion ? "/en" : "/"}
         hrefLang={isEnglishSuggestion ? "en" : "zh-CN"}
         onClick={rememberChoice}
       >
         {isEnglishSuggestion ? "View in English" : "查看中文版"}
-      </Link>
+      </a>
       <button
         type="button"
         onClick={() => {

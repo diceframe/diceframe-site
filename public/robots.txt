@@ -1,4 +1,53 @@
+# diceframe.com — crawl policy
+# Search engines and AI assistants are welcome everywhere on this site.
+
 User-agent: *
+Allow: /
+
+# Explicitly welcomed AI / LLM crawlers (Generative Engine Optimization).
+# Each group below resolves to the same policy as User-agent: * — they are
+# listed so the policy stays explicit if defaults ever change.
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Bytespider
 Allow: /
 
 Sitemap: https://diceframe.com/sitemap.xml
