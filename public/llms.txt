@@ -17,6 +17,7 @@
 - Website: https://diceframe.com (Chinese) · https://diceframe.com/en (English)
 - Windows download: https://github.com/diceframe/diceframe/releases/latest
 - Quick start (Docker): `docker run -d -p 9876:9876 -v ./data:/app/data ghcr.io/diceframe/diceframe:latest` then open http://localhost:9876
+- Full Context: https://diceframe.com/llms-full.txt
 
 ## Documentation (中文)
 

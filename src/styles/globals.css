@@ -4125,6 +4125,23 @@ summary {
   max-width: none;
 }
 
+.faq-points {
+  margin: 0;
+  padding: 0 24px 22px 44px;
+  color: var(--text);
+  font-size: 0.92rem;
+  line-height: 1.75;
+  list-style-type: disc;
+}
+
+.faq-points li {
+  margin-bottom: 6px;
+}
+
+.faq-points li:last-child {
+  margin-bottom: 0;
+}
+
 @media (max-width: 720px) {
   .faq-item summary {
     padding: 16px 18px;
@@ -4132,5 +4149,9 @@ summary {
 
   .faq-item > p {
     padding: 14px 18px 18px;
+  }
+
+  .faq-points {
+    padding: 0 18px 18px 34px;
   }
 }

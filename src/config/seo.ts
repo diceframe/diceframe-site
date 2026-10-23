@@ -185,6 +185,8 @@ export function softwareJsonLd(language: SiteLanguage) {
 export interface FaqEntry {
   question: string;
   answer: string;
+  /** Optional bullet points rendered below the answer paragraph for structured quoting. */
+  answerPoints?: string[];
 }
 
 /**
@@ -200,7 +202,9 @@ export function faqJsonLd(faqs: readonly FaqEntry[]) {
       name: faq.question,
       acceptedAnswer: {
         "@type": "Answer",
-        text: faq.answer,
+        text: faq.answerPoints
+          ? `${faq.answer} ${faq.answerPoints.join(". ")}.`
+          : faq.answer,
       },
     })),
   };
