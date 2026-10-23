@@ -33,3 +33,9 @@ export const GITHUB_ORG = "https://github.com/diceframe";
 export const GITHUB_REPO_URL = `${GITHUB_ORG}/diceframe`;
 export const GITHUB_RELEASES_URL = `${GITHUB_REPO_URL}/releases/latest`;
 export const GITHUB_CONTENT_REPO_URL = `${GITHUB_ORG}/diceframe-content`;
+
+/** E-E-A-T trust links — pointed at GitHub so no extra pages are needed. */
+export const ABOUT_URL = `${GITHUB_REPO_URL}#readme`;
+export const CONTACT_URL = `${GITHUB_REPO_URL}/issues`;
+export const PRIVACY_URL = `${GITHUB_ORG}/diceframe-site/blob/main/PRIVACY.md`;
+export const TERMS_URL = `${GITHUB_REPO_URL}/blob/main/LICENSE`;

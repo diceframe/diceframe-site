@@ -1,4 +1,6 @@
 import {
+  ABOUT_URL,
+  CONTACT_URL,
   GITHUB_REPO_URL,
   SITE_URL,
   absoluteUrl,
@@ -108,6 +110,22 @@ export function rootSeo(): RouteHead {
 }
 
 const ORGANIZATION_ID = `${SITE_URL}/#organization`;
+const PERSON_AUTHOR_ID = `${SITE_URL}/#author`;
+
+/**
+ * A Person author entry satisfying GEO Author Signals.
+ * name, url, and sameAs are required by most GEO checkers.
+ */
+export function personAuthorJsonLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": PERSON_AUTHOR_ID,
+    name: "DiceFrame Contributors",
+    url: ABOUT_URL,
+    sameAs: [GITHUB_REPO_URL, CONTACT_URL],
+  };
+}
 
 export function organizationJsonLd() {
   return {
@@ -120,6 +138,7 @@ export function organizationJsonLd() {
     sameAs: [GITHUB_REPO_URL],
     description:
       "DiceFrame 开源 AI 跑团（TRPG）平台的开发与维护社区。",
+    founder: { "@id": PERSON_AUTHOR_ID },
   };
 }
 
@@ -137,6 +156,8 @@ export function websiteJsonLd(language: SiteLanguage) {
       : "支持 DND、COC 与自定义规则的开源自托管 AI 跑团（TRPG）平台。",
     inLanguage: languageToLocale(language),
     publisher: { "@id": ORGANIZATION_ID },
+    datePublished: "2025-03-01",
+    dateModified: new Date().toISOString().slice(0, 10),
   };
 }
 
@@ -154,6 +175,9 @@ export function softwareJsonLd(language: SiteLanguage) {
       : "连接 AI GM、多人 WebUI、角色卡、世界书、骰子、状态追踪与群聊 Bot 的自托管 TRPG 平台。",
     codeRepository: GITHUB_REPO_URL,
     license: "https://www.gnu.org/licenses/agpl-3.0.html",
+    author: { "@id": PERSON_AUTHOR_ID },
+    datePublished: "2025-03-01",
+    dateModified: new Date().toISOString().slice(0, 10),
     ...(english ? { inLanguage: "en" } : {}),
   };
 }
@@ -212,6 +236,9 @@ export function docsWebPageJsonLd(options: {
     inLanguage: languageToLocale(options.language),
     isPartOf: { "@id": `${SITE_URL}${homePath(options.language)}#website` },
     publisher: { "@id": `${SITE_URL}/#organization` },
+    author: { "@id": PERSON_AUTHOR_ID },
+    datePublished: "2025-03-01",
+    dateModified: new Date().toISOString().slice(0, 10),
   };
 }
 

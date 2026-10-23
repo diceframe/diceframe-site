@@ -1,6 +1,7 @@
 import {
   faqJsonLd,
   organizationJsonLd,
+  personAuthorJsonLd,
   softwareJsonLd,
   websiteJsonLd,
 } from "~/config/seo";
@@ -328,6 +329,7 @@ export function homeJsonLd(content: HomeContent): object[] {
   return [
     websiteJsonLd(content.language),
     organizationJsonLd(),
+    personAuthorJsonLd(),
     softwareJsonLd(content.language),
     faqJsonLd(content.faq.items),
   ];
