@@ -1456,7 +1456,10 @@ summary {
   border: 1px solid rgba(82, 53, 25, 0.2);
 }
 
-.docs-language button {
+.docs-language a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 39px;
   cursor: pointer;
   border: 0;
@@ -1465,11 +1468,11 @@ summary {
   font-size: 11px;
 }
 
-.docs-language button + button {
+.docs-language a + a {
   border-left: 1px solid rgba(82, 53, 25, 0.2);
 }
 
-.docs-language button.active {
+.docs-language a.active {
   background: var(--ink);
   color: var(--gold-bright);
 }
@@ -1488,7 +1491,7 @@ summary {
   letter-spacing: 0.15em;
 }
 
-.docs-group button {
+.docs-group a {
   display: flex;
   cursor: pointer;
   flex-direction: column;
@@ -1500,12 +1503,12 @@ summary {
   transition: border-color 150ms ease, background 150ms ease;
 }
 
-.docs-group button:hover {
+.docs-group a:hover {
   border-color: rgba(82, 53, 25, 0.14);
   background: rgba(255, 255, 255, 0.28);
 }
 
-.docs-group button.active {
+.docs-group a.active {
   border-color: rgba(143, 102, 40, 0.3);
   background: rgba(223, 199, 153, 0.26);
 }
@@ -3900,21 +3903,21 @@ summary {
 }
 
 .docs-language,
-.docs-language button + button,
+.docs-language a + a,
 .docs-content,
 .docs-content-head,
 .docs-content-head > a {
   border-color: rgba(39, 109, 118, 0.2);
 }
 
-.docs-language button,
+.docs-language a,
 .docs-group small,
 .docs-content-head p {
   color: #60777b;
 }
 
-.docs-group button:hover,
-.docs-group button.active {
+.docs-group a:hover,
+.docs-group a.active {
   border-color: rgba(39, 109, 118, 0.26);
   background: rgba(85, 185, 189, 0.1);
 }
