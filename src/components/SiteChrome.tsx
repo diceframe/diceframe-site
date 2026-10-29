@@ -1,10 +1,9 @@
 import {
-  ABOUT_URL,
-  CONTACT_URL,
+  AUTHOR_NAME,
   GITHUB_REPO_URL,
   GITHUB_RELEASES_URL,
-  PRIVACY_URL,
-  TERMS_URL,
+  SITE_UPDATED,
+  infoPath,
 } from "~/config/site";
 import { LanguageSwitch } from "./LanguageSuggestion";
 
@@ -27,6 +26,7 @@ const chromeCopy = {
     contact: "联系我们",
     privacy: "隐私政策",
     terms: "服务条款",
+    updated: "最后更新",
     footer:
       "开源自托管的 AI 跑团（TRPG）平台，让规则、角色与想象持续生长。",
     group: "群聊 · 1060613588",
@@ -47,6 +47,7 @@ const chromeCopy = {
     contact: "Contact",
     privacy: "Privacy Policy",
     terms: "Terms",
+    updated: "Last updated",
     footer:
       "An open-source, self-hosted AI TRPG platform where rules, characters, and imagination keep growing.",
     group: "Community chat · 1060613588",
@@ -170,34 +171,29 @@ export function SiteFooter({ language = "zh" }: { language?: SiteLanguage }) {
           </div>
           <div>
             <strong>{copy.community}</strong>
-            <a href={ABOUT_URL} target="_blank" rel="noreferrer">
-              {copy.about}
-            </a>
+            <a href={infoPath(language, "about")}>{copy.about}</a>
             <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer">
               GitHub
             </a>
-            <a
-              href={CONTACT_URL}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {copy.contact}
-            </a>
+            <a href={infoPath(language, "contact")}>{copy.contact}</a>
             <span>{copy.group}</span>
           </div>
           <div>
             <strong>{copy.legal}</strong>
-            <a href={PRIVACY_URL} target="_blank" rel="noreferrer">
-              {copy.privacy}
-            </a>
-            <a href={TERMS_URL} target="_blank" rel="noreferrer">
-              {copy.terms}
-            </a>
+            <a href={infoPath(language, "privacy")}>{copy.privacy}</a>
+            <a href={infoPath(language, "terms")}>{copy.terms}</a>
           </div>
         </div>
       </div>
       <div className="page-shell footer-bottom">
-        <span>© {new Date().getFullYear()} DiceFrame Contributors</span>
+        <span>
+          © {new Date().getFullYear()}{" "}
+          <a rel="author" href={infoPath(language, "about")}>
+            {AUTHOR_NAME}
+          </a>
+          {" · "}
+          {copy.updated} <time dateTime={SITE_UPDATED}>{SITE_UPDATED}</time>
+        </span>
         <span>AGPL-3.0 · Open source, self-hosted, community driven.</span>
       </div>
     </footer>

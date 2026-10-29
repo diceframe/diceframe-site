@@ -1,14 +1,20 @@
 import {
   ABOUT_URL,
+  AUTHOR_NAME,
   CONTACT_URL,
   GITHUB_REPO_URL,
+  SITE_PUBLISHED,
+  SITE_UPDATED,
   SITE_URL,
   absoluteUrl,
   docsPath,
   homePath,
+  infoPath,
   languageToLocale,
+  type InfoPageId,
   type SiteLanguage,
 } from "./site";
+import { infoContent } from "~/content/info";
 import type { DocDefinition } from "~/docs/documents";
 
 export interface HreflangAlternates {
@@ -57,7 +63,7 @@ export function pageSeo(input: PageSeoInput): RouteHead {
   const meta: RouteHead["meta"] = [
     { title: input.title },
     { name: "description", content: input.description },
-    { name: "author", content: "DiceFrame Contributors" },
+    { name: "author", content: AUTHOR_NAME },
     { property: "og:type", content: "website" },
     { property: "og:site_name", content: "DiceFrame" },
     { property: "og:title", content: input.title },
@@ -67,6 +73,10 @@ export function pageSeo(input: PageSeoInput): RouteHead {
     { property: "og:locale:alternate", content: alternateLocale },
     { property: "og:image", content: image },
     { property: "og:image:alt", content: imageAlt },
+    { property: "article:published_time", content: SITE_PUBLISHED },
+    { property: "article:modified_time", content: SITE_UPDATED },
+    { property: "og:updated_time", content: SITE_UPDATED },
+    { property: "article:author", content: ABOUT_URL },
     { name: "twitter:card", content: "summary_large_image" },
     { name: "twitter:title", content: input.title },
     { name: "twitter:description", content: input.description },
@@ -81,6 +91,7 @@ export function pageSeo(input: PageSeoInput): RouteHead {
     meta,
     links: [
       { rel: "canonical", href: canonical },
+      { rel: "author", href: ABOUT_URL },
       { rel: "alternate", hrefLang: "zh-CN", href: absoluteUrl(input.alternates.zh) },
       { rel: "alternate", hrefLang: "en", href: absoluteUrl(input.alternates.en) },
       { rel: "alternate", hrefLang: "x-default", href: absoluteUrl(input.alternates.zh) },
@@ -121,9 +132,10 @@ export function personAuthorJsonLd() {
     "@context": "https://schema.org",
     "@type": "Person",
     "@id": PERSON_AUTHOR_ID,
-    name: "DiceFrame Contributors",
+    name: AUTHOR_NAME,
     url: ABOUT_URL,
-    sameAs: [GITHUB_REPO_URL, CONTACT_URL],
+    sameAs: [GITHUB_REPO_URL, `${GITHUB_REPO_URL}/issues`],
+    contactPoint: { "@type": "ContactPoint", contactType: "community support", url: CONTACT_URL },
   };
 }
 
@@ -132,7 +144,7 @@ export function organizationJsonLd() {
     "@context": "https://schema.org",
     "@type": "Organization",
     "@id": ORGANIZATION_ID,
-    name: "DiceFrame Contributors",
+    name: AUTHOR_NAME,
     url: absoluteUrl("/"),
     logo: absoluteUrl("/diceframe-logo.svg"),
     sameAs: [GITHUB_REPO_URL],
@@ -156,8 +168,8 @@ export function websiteJsonLd(language: SiteLanguage) {
       : "支持 DND、COC 与自定义规则的开源自托管 AI 跑团（TRPG）平台。",
     inLanguage: languageToLocale(language),
     publisher: { "@id": ORGANIZATION_ID },
-    datePublished: "2025-03-01",
-    dateModified: new Date().toISOString().slice(0, 10),
+    datePublished: SITE_PUBLISHED,
+    dateModified: SITE_UPDATED,
   };
 }
 
@@ -176,8 +188,8 @@ export function softwareJsonLd(language: SiteLanguage) {
     codeRepository: GITHUB_REPO_URL,
     license: "https://www.gnu.org/licenses/agpl-3.0.html",
     author: { "@id": PERSON_AUTHOR_ID },
-    datePublished: "2025-03-01",
-    dateModified: new Date().toISOString().slice(0, 10),
+    datePublished: SITE_PUBLISHED,
+    dateModified: SITE_UPDATED,
     ...(english ? { inLanguage: "en" } : {}),
   };
 }
@@ -241,8 +253,8 @@ export function docsWebPageJsonLd(options: {
     isPartOf: { "@id": `${SITE_URL}${homePath(options.language)}#website` },
     publisher: { "@id": `${SITE_URL}/#organization` },
     author: { "@id": PERSON_AUTHOR_ID },
-    datePublished: "2025-03-01",
-    dateModified: new Date().toISOString().slice(0, 10),
+    datePublished: SITE_PUBLISHED,
+    dateModified: SITE_UPDATED,
   };
 }
 
@@ -291,3 +303,43 @@ export function docsPageSeo(
     ],
   });
 }
+
+/**
+ * SEO for the on-site trust pages (/about, /contact, /privacy, /terms and
+ * their /en counterparts). Each is a plain WebPage (AboutPage / ContactPage
+ * where schema.org has a dedicated type) authored by the Person entry.
+ */
+export function infoPageSeo(id: InfoPageId, language: SiteLanguage): RouteHead {
+  const page = infoContent[language][id];
+  const path = infoPath(language, id);
+  const type = id === "about" ? "AboutPage" : id === "contact" ? "ContactPage" : "WebPage";
+
+  return pageSeo({
+    title: page.title,
+    description: page.description,
+    path,
+    language,
+    alternates: { zh: infoPath("zh", id), en: infoPath("en", id) },
+    jsonLd: [
+      breadcrumbJsonLd([
+        { name: "DiceFrame", path: homePath(language) },
+        { name: page.heading, path },
+      ]),
+      {
+        "@context": "https://schema.org",
+        "@type": type,
+        url: absoluteUrl(path),
+        name: page.title,
+        description: page.description,
+        inLanguage: languageToLocale(language),
+        isPartOf: { "@id": `${SITE_URL}${homePath(language)}#website` },
+        publisher: { "@id": ORGANIZATION_ID },
+        author: { "@id": PERSON_AUTHOR_ID },
+        datePublished: SITE_PUBLISHED,
+        dateModified: SITE_UPDATED,
+      },
+      ...(id === "about" ? [personAuthorJsonLd(), organizationJsonLd()] : []),
+    ],
+  });
+}
+

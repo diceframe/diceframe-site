@@ -4155,3 +4155,61 @@ summary {
     padding: 0 18px 18px 34px;
   }
 }
+
+.info-lead {
+  max-width: 720px;
+  margin: 24px 0 0;
+  color: #aa9b82;
+}
+
+.info-byline {
+  margin: 18px 0 0;
+  font-size: 0.9rem;
+  color: #aa9b82;
+}
+
+.info-body {
+  max-width: 820px;
+  padding: 56px 0 80px;
+  color: var(--ink);
+  line-height: 1.8;
+}
+
+.info-body h2 {
+  margin: 40px 0 12px;
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.info-body h2:first-child {
+  margin-top: 0;
+}
+
+.info-body p {
+  margin: 0 0 12px;
+}
+
+.info-body ul {
+  margin: 0 0 12px;
+  padding-left: 1.4em;
+  list-style: disc;
+}
+
+.info-body a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.info-related {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  margin-top: 48px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.info-body a {
+  color: var(--cyan-dark);
+}

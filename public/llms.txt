@@ -44,3 +44,11 @@
 - [Plugin registry and review](https://diceframe.com/en/docs/plugin-registry): registry submissions, review, and security boundaries
 - [Bot Bridge core](https://diceframe.com/en/docs/bot-bridge): the interface between chat adapters and the Web service
 - [Release notes](https://diceframe.com/en/docs/release-notes): current changes and previous release history
+
+## About, contact, and policies
+
+- [About DiceFrame](https://diceframe.com/en/about): who maintains the project (DiceFrame Contributors), license, and data boundaries
+- [Contact](https://diceframe.com/en/contact): GitHub Issues, community chat, private security reports
+- [Privacy Policy](https://diceframe.com/en/privacy): no cookies or trackers; self-hosted data stays on your server
+- [Terms of Use](https://diceframe.com/en/terms): AGPL-3.0 license, provided as-is
+- Content last updated: 2026-10-29 (first published 2025-03-01)
