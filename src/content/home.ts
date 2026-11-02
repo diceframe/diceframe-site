@@ -105,32 +105,32 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
       {
         index: "01",
         title: "AI GM，不抢走规则",
-        copy: "自然语言叙事与结构化状态分开处理。模型负责讲故事，引擎负责让 HP、物品、金币与检定真正落地。",
+        copy: "DiceFrame 将自然语言叙事与结构化状态分开处理。模型负责讲故事，引擎负责让 HP、物品、金币与检定真正落地。",
       },
       {
         index: "02",
         title: "一张实时多人桌",
-        copy: "邀请链接、角色认领、行动等待、暂离与 GM 推进都在同一套 WebUI 里，通过 SSE 实时同步。",
+        copy: "DiceFrame 提供实时同步跑团桌：邀请链接、角色认领、行动等待、暂离与 GM 推进都在同一套 WebUI 里，通过 SSE 实时同步。",
       },
       {
         index: "03",
         title: "世界会记得",
-        copy: "世界书按关键词注入上下文，长团自动压缩历史，还可以接入 embedding 做语义召回。",
+        copy: "DiceFrame 内置世界书与记忆机制：按关键词注入上下文，长团自动压缩历史，还可以接入 embedding 做语义召回。",
       },
       {
         index: "04",
         title: "规则不被写死",
-        copy: "内置 DND 5e、COC 与自由规则模板。你也可以编辑规则、角色模板与世界设定，搭自己的桌。",
+        copy: "DiceFrame 内置 DND 5e、COC 与自由规则模板。你也可以编辑规则、角色模板与世界设定，搭自己的桌。",
       },
       {
         index: "05",
         title: "从网页走进群聊",
-        copy: "通过 QQ / NapCat 将网页对局绑定到群聊，玩家可以提交行动、看状态、查前情与掷骰。",
+        copy: "DiceFrame 通过 QQ / NapCat 将网页对局绑定到群聊，玩家可以直接在群里提交行动、看状态、查前情与掷骰。",
       },
       {
         index: "06",
         title: "部署在你手里",
-        copy: "Windows 便携版、Docker、NAS 与源码运行均有入口。存档、配置与密钥都留在你的环境。",
+        copy: "DiceFrame 支持 Windows 便携版、Docker、NAS 与源码运行。存档、配置与密钥完全保留在你的本地环境。",
       },
     ],
     narrative: {
@@ -195,7 +195,12 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
         {
           question: "DiceFrame 支持哪些跑团规则？",
           answer:
-            "内置 DND 5e 与 COC（克苏鲁的呼唤）模板，也提供自由规则模式：你可以编辑规则、角色模板与世界设定，搭建完全属于自己的跑团桌。",
+            "DiceFrame 拥有内置官方模板与完全开放的规则引擎，开箱支持多种主流及自制 TRPG 规则：",
+          answerPoints: [
+            "DND 5e（龙与地下城第五版规则体系）",
+            "COC（克苏鲁的呼唤经典跑团规则）",
+            "自由规则模式（自由编辑属性、技能判定、角色卡模板与世界观）",
+          ],
         },
         {
           question: "使用 DiceFrame 需要付费或注册云端服务吗？",
@@ -260,32 +265,32 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
       {
         index: "01",
         title: "An AI GM that respects the rules",
-        copy: "Narration and structured state are handled separately. The model tells the story; the engine makes HP, items, currency, and checks count.",
+        copy: "DiceFrame separates narration from structured game state. The LLM tells the story while the engine validates HP, items, currency, and skill checks.",
       },
       {
         index: "02",
         title: "One live multiplayer table",
-        copy: "Invites, character claims, action queues, pauses, and GM turns all live in one WebUI and stay synchronized in real time.",
+        copy: "DiceFrame keeps the party synchronized in real time: invites, character claims, action queues, pauses, and GM turns all live in one SSE-powered WebUI.",
       },
       {
         index: "03",
         title: "A world that remembers",
-        copy: "Lorebooks inject relevant context, long campaigns condense their history, and embeddings can bring back semantically related memories.",
+        copy: "DiceFrame provides persistent memory: lorebooks inject relevant context by keywords, long campaigns condense history, and embeddings enable semantic recall.",
       },
       {
         index: "04",
         title: "Rules that are not hard-coded",
-        copy: "Start with DND 5e, COC, or freeform templates, then edit the rules, character templates, and world setting to build your own table.",
+        copy: "DiceFrame ships with DND 5e, COC, and freeform templates. You can also customize rule parameters, character sheets, and world settings.",
       },
       {
         index: "05",
         title: "From the web into group chat",
-        copy: "Connect a web session to group chat through QQ and NapCat so players can act, check status, review the story, and roll dice.",
+        copy: "DiceFrame connects active web sessions to group chat through QQ and NapCat so players can act, check status, review the story, and roll dice.",
       },
       {
         index: "06",
         title: "Deployment stays in your hands",
-        copy: "Run the Windows portable build, Docker, NAS, or source version. Saves, settings, and API keys remain in your environment.",
+        copy: "DiceFrame runs as a Windows portable build, Docker container, NAS app, or from source. Saves, settings, and API keys remain strictly in your environment.",
       },
     ],
     narrative: {
@@ -362,7 +367,12 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
         {
           question: "Which TRPG systems does DiceFrame support?",
           answer:
-            "It ships with DND 5e and Call of Cthulhu (COC) templates plus a freeform mode: you can edit the rules, character templates, and world setting to build a table of your own.",
+            "DiceFrame provides both ready-to-play built-in presets and a fully extensible rule engine:",
+          answerPoints: [
+            "DND 5e (Dungeons & Dragons 5th Edition rules and sheets)",
+            "Call of Cthulhu / COC (Classic investigative horror rules)",
+            "Freeform rule system (Full customizability for stats, rolls, sheets, and lore)",
+          ],
         },
         {
           question: "Does DiceFrame cost anything or require a cloud account?",

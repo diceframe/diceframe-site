@@ -34,8 +34,27 @@ export const GITHUB_REPO_URL = `${GITHUB_ORG}/diceframe`;
 export const GITHUB_RELEASES_URL = `${GITHUB_REPO_URL}/releases/latest`;
 export const GITHUB_CONTENT_REPO_URL = `${GITHUB_ORG}/diceframe-content`;
 
-/** E-E-A-T trust links — pointed at GitHub so no extra pages are needed. */
-export const ABOUT_URL = `${GITHUB_REPO_URL}#readme`;
-export const CONTACT_URL = `${GITHUB_REPO_URL}/issues`;
-export const PRIVACY_URL = `${GITHUB_ORG}/diceframe-site/blob/main/PRIVACY.md`;
-export const TERMS_URL = `${GITHUB_REPO_URL}/blob/main/LICENSE`;
+/** First publication and last substantive content update (ISO 8601 dates). */
+export const SITE_PUBLISHED = "2025-03-01";
+export const SITE_UPDATED = "2026-10-29";
+
+export const AUTHOR_NAME = "DiceFrame Contributors";
+
+/** E-E-A-T trust pages — real on-site pages, one per language. */
+export type InfoPageId = "about" | "contact" | "privacy" | "terms";
+
+export const INFO_PAGE_IDS: readonly InfoPageId[] = [
+  "about",
+  "contact",
+  "privacy",
+  "terms",
+];
+
+export function infoPath(language: SiteLanguage, id: InfoPageId): string {
+  return language === "en" ? `/en/${id}` : `/${id}`;
+}
+
+export const ABOUT_URL = absoluteUrl("/about");
+export const CONTACT_URL = absoluteUrl("/contact");
+export const GITHUB_ISSUES_URL = `${GITHUB_REPO_URL}/issues`;
+export const LICENSE_URL = `${GITHUB_REPO_URL}/blob/main/LICENSE`;

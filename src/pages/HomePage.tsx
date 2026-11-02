@@ -279,6 +279,13 @@ export function HomePage({ content }: { content: HomeContent }) {
                   </span>
                 </summary>
                 <p>{item.answer}</p>
+                {item.answerPoints && item.answerPoints.length > 0 && (
+                  <ul className="faq-points">
+                    {item.answerPoints.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
+                )}
               </details>
             ))}
           </div>

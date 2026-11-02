@@ -51,3 +51,4 @@ User-agent: Bytespider
 Allow: /
 
 Sitemap: https://diceframe.com/sitemap.xml
+LLMsTxt: https://diceframe.com/llms.txt

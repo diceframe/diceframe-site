@@ -79,6 +79,34 @@ export default {
       return toCanonical(legacyDocsUrl, 301);
     }
 
-    return startFetch(request, env, ctx);
+    const response = await startFetch(request, env, ctx);
+
+    // Apply Cloudflare edge caching for crawler & discovery metadata files
+    const pathname = url.pathname;
+    const isCrawlerDiscoveryFile =
+      pathname === "/llms.txt" ||
+      pathname === "/llms-full.txt" ||
+      pathname === "/robots.txt" ||
+      pathname === "/sitemap.xml";
+
+    const headers = new Headers(response.headers);
+
+    // Baseline security and trust headers
+    headers.set("X-Content-Type-Options", "nosniff");
+    headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+
+    if (isCrawlerDiscoveryFile && response.ok) {
+      headers.set(
+        "Cache-Control",
+        "public, max-age=3600, s-maxage=86400, stale-while-revalidate=86400",
+      );
+      headers.set("CDN-Cache-Control", "max-age=86400");
+    }
+
+    return new Response(response.body, {
+      status: response.status,
+      statusText: response.statusText,
+      headers,
+    });
   },
 };

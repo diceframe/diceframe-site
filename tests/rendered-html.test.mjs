@@ -390,3 +390,44 @@ test("reads the project overview from each language's own README", () => {
   assert.equal(overview.zh, "README_zh-CN.md");
   assert.equal(overview.en, "README.md");
 });
+
+test("serves on-site trust pages with author and freshness signals", async () => {
+  const cases = [
+    ["/about", "zh-CN", /"@type":"AboutPage"/, /关于 DiceFrame/],
+    ["/contact", "zh-CN", /"@type":"ContactPage"/, /联系我们/],
+    ["/privacy", "zh-CN", /"@type":"WebPage"/, /隐私政策/],
+    ["/terms", "zh-CN", /"@type":"WebPage"/, /AGPL-3\.0/],
+    ["/en/about", "en", /"@type":"AboutPage"/, /About DiceFrame/],
+    ["/en/privacy", "en", /"@type":"WebPage"/, /Privacy Policy/],
+  ];
+
+  for (const [path, lang, schema, body] of cases) {
+    const response = await render(path);
+    assert.equal(response.status, 200, `expected 200 for ${path}`);
+    const html = await response.text();
+    assert.match(html, new RegExp(`<html lang="${lang}">`), path);
+    assert.match(html, schema, path);
+    assert.match(html, body, path);
+    assert.equal(
+      meta(html, /<link rel="canonical" href="([^"]*)"/),
+      `https://diceframe.com${path}`,
+    );
+    // Machine-readable freshness + author signals.
+    assert.match(html, /<time dateTime="\d{4}-\d{2}-\d{2}">/, path);
+    assert.match(html, /property="article:modified_time"/, path);
+    assert.match(html, /"@id":"https:\/\/diceframe\.com\/#author"/, path);
+    assert.match(html, /<a rel="author" href="\/(en\/)?about">/, path);
+  }
+});
+
+test("homepage footer links to on-site about, contact, privacy and terms pages", async () => {
+  const html = await readFile(
+    new URL("../dist/client/index.html", import.meta.url),
+    "utf8",
+  );
+  for (const id of ["about", "contact", "privacy", "terms"]) {
+    assert.match(html, new RegExp(`href="/${id}"`), id);
+  }
+  assert.match(html, /<time dateTime="\d{4}-\d{2}-\d{2}">/);
+  assert.match(html, /property="article:published_time"/);
+});

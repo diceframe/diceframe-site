@@ -8,6 +8,7 @@ const FETCH_TIMEOUT_MS = 8000;
 
 /** Edge-cache window for raw.githubusercontent.com responses (Workers only). */
 const CACHE_TTL_SECONDS = 300;
+const STALE_WHILE_REVALIDATE_SECONDS = 86400;
 
 function rawRoot(repo: string): string {
   return `https://raw.githubusercontent.com/${OWNER}/${repo}/${BRANCH}`;
@@ -71,7 +72,7 @@ async function fetchMarkdown(repo: string, path: string): Promise<string> {
         new Response(body, {
           headers: {
             "content-type": "text/plain; charset=utf-8",
-            "cache-control": `public, max-age=${CACHE_TTL_SECONDS}`,
+            "cache-control": `public, max-age=${CACHE_TTL_SECONDS}, stale-while-revalidate=${STALE_WHILE_REVALIDATE_SECONDS}`,
           },
         }),
       );

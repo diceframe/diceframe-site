@@ -16,6 +16,54 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/" />
   </url>
   <url>
+    <loc>https://diceframe.com/about</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/about" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/about</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/about" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/about" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/contact</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/contact" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/contact</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/contact" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/contact" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/contact" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/privacy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/privacy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/privacy" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/privacy</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/privacy" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/privacy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/privacy" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/terms</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/terms" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/terms" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/terms" />
+  </url>
+  <url>
+    <loc>https://diceframe.com/en/terms</loc>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/terms" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/terms" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://diceframe.com/terms" />
+  </url>
+  <url>
     <loc>https://diceframe.com/docs/guide</loc>
     <xhtml:link rel="alternate" hreflang="zh-CN" href="https://diceframe.com/docs/guide" />
     <xhtml:link rel="alternate" hreflang="en" href="https://diceframe.com/en/docs/guide" />
