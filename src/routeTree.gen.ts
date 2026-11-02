@@ -10,13 +10,41 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as DocsDocIdRouteImport } from './routes/docs.$docId'
 import { Route as EnIndexRouteImport } from './routes/en.index'
+import { Route as EnAboutRouteImport } from './routes/en.about'
+import { Route as EnContactRouteImport } from './routes/en.contact'
+import { Route as EnPrivacyRouteImport } from './routes/en.privacy'
+import { Route as EnTermsRouteImport } from './routes/en.terms'
 import { Route as EnDocsDocIdRouteImport } from './routes/en.docs.$docId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DocsDocIdRoute = DocsDocIdRouteImport.update({
@@ -29,6 +57,26 @@ const EnIndexRoute = EnIndexRouteImport.update({
   path: '/en/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EnAboutRoute = EnAboutRouteImport.update({
+  id: '/en/about',
+  path: '/en/about',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnContactRoute = EnContactRouteImport.update({
+  id: '/en/contact',
+  path: '/en/contact',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnPrivacyRoute = EnPrivacyRouteImport.update({
+  id: '/en/privacy',
+  path: '/en/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EnTermsRoute = EnTermsRouteImport.update({
+  id: '/en/terms',
+  path: '/en/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EnDocsDocIdRoute = EnDocsDocIdRouteImport.update({
   id: '/en/docs/$docId',
   path: '/en/docs/$docId',
@@ -37,34 +85,103 @@ const EnDocsDocIdRoute = EnDocsDocIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/docs/$docId': typeof DocsDocIdRoute
+  '/en/about': typeof EnAboutRoute
+  '/en/contact': typeof EnContactRoute
+  '/en/privacy': typeof EnPrivacyRoute
+  '/en/terms': typeof EnTermsRoute
   '/en/': typeof EnIndexRoute
   '/en/docs/$docId': typeof EnDocsDocIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/docs/$docId': typeof DocsDocIdRoute
+  '/en/about': typeof EnAboutRoute
+  '/en/contact': typeof EnContactRoute
+  '/en/privacy': typeof EnPrivacyRoute
+  '/en/terms': typeof EnTermsRoute
   '/en': typeof EnIndexRoute
   '/en/docs/$docId': typeof EnDocsDocIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
+  '/contact': typeof ContactRoute
+  '/privacy': typeof PrivacyRoute
+  '/terms': typeof TermsRoute
   '/docs/$docId': typeof DocsDocIdRoute
+  '/en/about': typeof EnAboutRoute
+  '/en/contact': typeof EnContactRoute
+  '/en/privacy': typeof EnPrivacyRoute
+  '/en/terms': typeof EnTermsRoute
   '/en/': typeof EnIndexRoute
   '/en/docs/$docId': typeof EnDocsDocIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/docs/$docId' | '/en/' | '/en/docs/$docId'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/privacy'
+    | '/terms'
+    | '/docs/$docId'
+    | '/en/about'
+    | '/en/contact'
+    | '/en/privacy'
+    | '/en/terms'
+    | '/en/'
+    | '/en/docs/$docId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/docs/$docId' | '/en' | '/en/docs/$docId'
-  id: '__root__' | '/' | '/docs/$docId' | '/en/' | '/en/docs/$docId'
+  to:
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/privacy'
+    | '/terms'
+    | '/docs/$docId'
+    | '/en/about'
+    | '/en/contact'
+    | '/en/privacy'
+    | '/en/terms'
+    | '/en'
+    | '/en/docs/$docId'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/contact'
+    | '/privacy'
+    | '/terms'
+    | '/docs/$docId'
+    | '/en/about'
+    | '/en/contact'
+    | '/en/privacy'
+    | '/en/terms'
+    | '/en/'
+    | '/en/docs/$docId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AboutRoute: typeof AboutRoute
+  ContactRoute: typeof ContactRoute
+  PrivacyRoute: typeof PrivacyRoute
+  TermsRoute: typeof TermsRoute
   DocsDocIdRoute: typeof DocsDocIdRoute
+  EnAboutRoute: typeof EnAboutRoute
+  EnContactRoute: typeof EnContactRoute
+  EnPrivacyRoute: typeof EnPrivacyRoute
+  EnTermsRoute: typeof EnTermsRoute
   EnIndexRoute: typeof EnIndexRoute
   EnDocsDocIdRoute: typeof EnDocsDocIdRoute
 }
@@ -76,6 +193,34 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/docs/$docId': {
@@ -92,6 +237,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EnIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/en/about': {
+      id: '/en/about'
+      path: '/en/about'
+      fullPath: '/en/about'
+      preLoaderRoute: typeof EnAboutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/en/contact': {
+      id: '/en/contact'
+      path: '/en/contact'
+      fullPath: '/en/contact'
+      preLoaderRoute: typeof EnContactRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/en/privacy': {
+      id: '/en/privacy'
+      path: '/en/privacy'
+      fullPath: '/en/privacy'
+      preLoaderRoute: typeof EnPrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/en/terms': {
+      id: '/en/terms'
+      path: '/en/terms'
+      fullPath: '/en/terms'
+      preLoaderRoute: typeof EnTermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/en/docs/$docId': {
       id: '/en/docs/$docId'
       path: '/en/docs/$docId'
@@ -104,7 +277,15 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AboutRoute: AboutRoute,
+  ContactRoute: ContactRoute,
+  PrivacyRoute: PrivacyRoute,
+  TermsRoute: TermsRoute,
   DocsDocIdRoute: DocsDocIdRoute,
+  EnAboutRoute: EnAboutRoute,
+  EnContactRoute: EnContactRoute,
+  EnPrivacyRoute: EnPrivacyRoute,
+  EnTermsRoute: EnTermsRoute,
   EnIndexRoute: EnIndexRoute,
   EnDocsDocIdRoute: EnDocsDocIdRoute,
 }

@@ -8,6 +8,7 @@
 import { writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { documents } from "../src/docs/documents.ts";
+import { INFO_PAGE_IDS } from "../src/config/site.ts";
 
 const HOST = "https://diceframe.com";
 
@@ -18,6 +19,7 @@ interface PageAlternates {
 
 const pages: PageAlternates[] = [
   { zh: "/", en: "/en" },
+  ...INFO_PAGE_IDS.map((id) => ({ zh: `/${id}`, en: `/en/${id}` })),
   ...documents.map((doc) => ({
     zh: `/docs/${doc.id}`,
     en: `/en/docs/${doc.id}`,
@@ -54,5 +56,5 @@ ${pages.map((page) => `${urlEntry(page.zh, page)}\n${urlEntry(page.en, page)}`).
 const target = fileURLToPath(new URL("../public/sitemap.xml", import.meta.url));
 writeFileSync(target, xml, "utf8");
 console.log(
-  `sitemap: wrote ${pages.length * 2} URLs (${documents.length} docs x 2 locales + 2 homepages)`,
+  `sitemap: wrote ${pages.length * 2} URLs (${pages.length} pages x 2 locales)`,
 );

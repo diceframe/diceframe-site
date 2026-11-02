@@ -1,6 +1,7 @@
 import {
   faqJsonLd,
   organizationJsonLd,
+  personAuthorJsonLd,
   softwareJsonLd,
   websiteJsonLd,
 } from "~/config/seo";
@@ -278,6 +279,13 @@ export function HomePage({ content }: { content: HomeContent }) {
                   </span>
                 </summary>
                 <p>{item.answer}</p>
+                {item.answerPoints && item.answerPoints.length > 0 && (
+                  <ul className="faq-points">
+                    {item.answerPoints.map((point) => (
+                      <li key={point}>{point}</li>
+                    ))}
+                  </ul>
+                )}
               </details>
             ))}
           </div>
@@ -328,6 +336,7 @@ export function homeJsonLd(content: HomeContent): object[] {
   return [
     websiteJsonLd(content.language),
     organizationJsonLd(),
+    personAuthorJsonLd(),
     softwareJsonLd(content.language),
     faqJsonLd(content.faq.items),
   ];
