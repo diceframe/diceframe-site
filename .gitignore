@@ -24,3 +24,10 @@
 
 # typescript
 *.tsbuildinfo
+
+# local generated workspace
+/.vinext/
+/work/
+
+# local Cloudflare variables
+.dev.vars*
