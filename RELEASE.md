@@ -1,6 +1,6 @@
 # DiceFrame 官网轻量发布规范
 
-官网采用 GitHub 私有仓库与 Cloudflare Workers Builds。日常发布不维护版本号，
+官网采用 GitHub 公开仓库与 Cloudflare Workers Builds。日常发布不维护版本号，
 也不创建安装包；`main` 分支合并成功后，Cloudflare 会自动发布到
 `https://diceframe.com`。
 

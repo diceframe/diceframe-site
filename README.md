@@ -4,6 +4,10 @@ DiceFrame 的独立官网项目。它与主程序仓库分离，面向产品介�
 基于 [TanStack Start](https://tanstack.com/start)（Vite + React 19）构建，
 部署在 Cloudflare Workers 上。
 
+## 许可证
+
+本项目与 DiceFrame 主项目一样，采用 [GNU Affero General Public License v3.0](LICENSE)（AGPL-3.0）授权。
+
 ## 内容来源
 
 - 产品能力与视觉资产来自 [diceframe/diceframe](https://github.com/diceframe/diceframe)。
@@ -58,7 +62,7 @@ npm run preview    # 本地以 workerd 运行构建产物
 ## 自动部署
 
 本仓库使用 Cloudflare Workers Builds 自动部署。Cloudflare 连接
-`diceframe/diceframe-site` 私有仓库后，每次推送 `main` 分支都会自动构建
+`diceframe/diceframe-site` 公开仓库后，每次推送 `main` 分支都会自动构建
 （`npm run build`）并发布（`npx wrangler deploy`）。
 
 完整说明见 [DEPLOYMENT.md](DEPLOYMENT.md)。日常修改和上线规则见

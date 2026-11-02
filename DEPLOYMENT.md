@@ -1,8 +1,8 @@
 # DiceFrame 官网部署
 
-## 当前方案：GitHub 私有仓库 + Cloudflare Workers Builds
+## 当前方案：GitHub 公开仓库 + Cloudflare Workers Builds
 
-官网源码位于私有仓库 `diceframe/diceframe-site`，使用 TanStack Start
+官网源码位于公开仓库 `diceframe/diceframe-site`，使用 TanStack Start
 （Vite）+ `@cloudflare/vite-plugin` 构建，部署为 Cloudflare Worker。
 Cloudflare Workers Builds 连接该仓库后，会监听 `main` 分支；每次提交都会
 自动构建并发布。
@@ -11,7 +11,7 @@ Cloudflare Workers Builds 连接该仓库后，会监听 `main` 分支；每次�
 
 1. 在 Cloudflare Dashboard 打开 **Workers & Pages**。
 2. 选择 **Create application** → **Import a repository**。
-3. 授权 Cloudflare 读取私有仓库 `diceframe/diceframe-site`。
+3. 授权 Cloudflare 读取公开仓库 `diceframe/diceframe-site`。
 4. 生产分支选择 `main`。
 5. 构建命令填写 `npm run build`。
 6. 部署命令填写 `npx wrangler deploy`。
