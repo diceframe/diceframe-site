@@ -127,6 +127,20 @@ test("prerenders the Chinese homepage as static HTML", async () => {
   assert.match(html, /"@type":"FAQPage"/);
   // The FAQ is visible content, not only schema.
   assert.match(html, /DiceFrame 是什么？/);
+  // Answer-first: every FAQ question heading is directly followed by its
+  // visible answer paragraph, not hidden inside a collapsed <details>.
+  assert.match(html, /<h3>DiceFrame 是什么？<\/h3><p>DiceFrame 是一个开源/);
+  assert.doesNotMatch(html, /<details class="faq-item"/);
+  // Citations: named sources carry outbound links, and the AGPL preamble is
+  // quoted with attribution.
+  assert.match(html, /class="cite-link" href="https:\/\/www\.dndbeyond\.com\/srd"/);
+  assert.match(
+    html,
+    /<blockquote cite="https:\/\/www\.gnu\.org\/licenses\/agpl-3\.0\.html" lang="en">/,
+  );
+  assert.match(html, /<cite><a href="https:\/\/www\.gnu\.org\/licenses\/agpl-3\.0\.html"/);
+  // JSON-LD answers stay plain text — no inline link markup leaks into schema.
+  assert.doesNotMatch(html, /"text":"[^"]*\]\(https?:/);
   assert.match(html, /docs \/ zh\/guide\.md/);
   // Internal links use the new per-document routes.
   assert.match(html, /href="\/docs\/guide"/);
@@ -153,6 +167,9 @@ test("prerenders the English homepage with language alternates", async () => {
   assert.match(html, /hrefLang="zh-CN" href="https:\/\/diceframe\.com\/"/i);
   assert.match(html, /"@type":"FAQPage"/);
   assert.match(html, /What is DiceFrame?/);
+  assert.match(html, /<h3>What is DiceFrame\?<\/h3><p>DiceFrame is an open-source/);
+  assert.match(html, /<blockquote cite="https:\/\/www\.gnu\.org\/licenses\/agpl-3\.0\.html"/);
+  assert.doesNotMatch(html, /\[NapCat\]\(/);
   assert.doesNotMatch(html, /\/en\/demo/i);
 });
 

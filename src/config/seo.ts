@@ -15,6 +15,7 @@ import {
   type SiteLanguage,
 } from "./site";
 import { infoContent } from "~/content/info";
+import { stripInlineLinks } from "~/content/inlineLinks";
 import type { DocDefinition } from "~/docs/documents";
 
 export interface HreflangAlternates {
@@ -194,6 +195,7 @@ export function softwareJsonLd(language: SiteLanguage) {
   };
 }
 
+/** `answer` and `answerPoints` may contain `[label](https://…)` citation links. */
 export interface FaqEntry {
   question: string;
   answer: string;
@@ -214,9 +216,11 @@ export function faqJsonLd(faqs: readonly FaqEntry[]) {
       name: faq.question,
       acceptedAnswer: {
         "@type": "Answer",
-        text: faq.answerPoints
-          ? `${faq.answer} ${faq.answerPoints.join(". ")}.`
-          : faq.answer,
+        text: stripInlineLinks(
+          faq.answerPoints
+            ? `${faq.answer} ${faq.answerPoints.join(". ")}.`
+            : faq.answer,
+        ),
       },
     })),
   };

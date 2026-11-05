@@ -51,4 +51,4 @@
 - [Contact](https://diceframe.com/en/contact): GitHub Issues, community chat, private security reports
 - [Privacy Policy](https://diceframe.com/en/privacy): no cookies or trackers; self-hosted data stays on your server
 - [Terms of Use](https://diceframe.com/en/terms): AGPL-3.0 license, provided as-is
-- Content last updated: 2026-10-29 (first published 2025-03-01)
+- Content last updated: 2026-11-05 (first published 2025-03-01)
