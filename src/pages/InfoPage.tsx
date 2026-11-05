@@ -43,64 +43,66 @@ export function InfoPage({
   const otherLanguage: SiteLanguage = language === "en" ? "zh" : "en";
 
   return (
-    <main className="docs-page">
+    <div className="docs-page">
       <SiteHeader language={language} languageHref={infoPath(otherLanguage, id)} />
-      <section className="docs-hero">
-        <div className="page-shell">
-          <p className="eyebrow">
-            <span />
-            {t.eyebrow}
-          </p>
-          <h1>{page.heading}</h1>
-          <p className="info-lead">{page.lead}</p>
-          <p className="info-byline">
-            {t.by}{" "}
-            <a rel="author" href={infoPath(language, "about")}>
-              {AUTHOR_NAME}
-            </a>
-            {" · "}
-            {t.updated} <time dateTime={SITE_UPDATED}>{SITE_UPDATED}</time>
-          </p>
-        </div>
-      </section>
+      <main>
+        <section className="docs-hero">
+          <div className="page-shell">
+            <div className="eyebrow">
+              <span />
+              {t.eyebrow}
+            </div>
+            <h1>{page.heading}</h1>
+            <p className="info-lead">{page.lead}</p>
+            <p className="info-byline">
+              {t.by}{" "}
+              <a rel="author" href={infoPath(language, "about")}>
+                {AUTHOR_NAME}
+              </a>
+              {" · "}
+              {t.updated} <time dateTime={SITE_UPDATED}>{SITE_UPDATED}</time>
+            </p>
+          </div>
+        </section>
 
-      <article className="page-shell info-body">
-        {page.sections.map((section) => (
-          <section key={section.heading}>
-            <h2>{section.heading}</h2>
-            {section.paragraphs?.map((text) => <p key={text}>{text}</p>)}
-            {section.points && (
-              <ul>
-                {section.points.map((text) => (
-                  <li key={text}>{text}</li>
-                ))}
-              </ul>
-            )}
-            {section.links && (
-              <ul className="info-links">
-                {section.links.map((link) => (
-                  <li key={link.href}>
-                    <a href={link.href} target="_blank" rel="noreferrer">
-                      {link.label} ↗
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </section>
-        ))}
-
-        <nav className="info-related" aria-label={t.navLabel}>
-          <strong>{t.related}</strong>
-          {INFO_PAGE_IDS.filter((other) => other !== id).map((other) => (
-            <a key={other} href={infoPath(language, other)}>
-              {navLabels[language][other]}
-            </a>
+        <article className="page-shell info-body">
+          {page.sections.map((section) => (
+            <section key={section.heading}>
+              <h2>{section.heading}</h2>
+              {section.paragraphs?.map((text) => <p key={text}>{text}</p>)}
+              {section.points && (
+                <ul>
+                  {section.points.map((text) => (
+                    <li key={text}>{text}</li>
+                  ))}
+                </ul>
+              )}
+              {section.links && (
+                <ul className="info-links">
+                  {section.links.map((link) => (
+                    <li key={link.href}>
+                      <a href={link.href} target="_blank" rel="noopener noreferrer">
+                        {link.label} ↗
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </section>
           ))}
-        </nav>
-      </article>
 
+          <nav className="info-related" aria-label={t.navLabel}>
+            <strong>{t.related}</strong>
+            {INFO_PAGE_IDS.filter((other) => other !== id).map((other) => (
+              <a key={other} href={infoPath(language, other)}>
+                {navLabels[language][other]}
+              </a>
+            ))}
+          </nav>
+        </article>
+
+      </main>
       <SiteFooter language={language} />
-    </main>
+    </div>
   );
 }

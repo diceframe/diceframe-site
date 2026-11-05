@@ -54,10 +54,10 @@ function RootError({ error }: { error: unknown }) {
     <main className="docs-page">
       <section className="docs-hero">
         <div className="page-shell">
-          <p className="eyebrow">
+          <div className="eyebrow">
             <span />
             DICEFRAME
-          </p>
+          </div>
           <h1>Something went wrong</h1>
           <p>{message}</p>
           <p>
@@ -74,10 +74,10 @@ function RootNotFound() {
     <main className="docs-page">
       <section className="docs-hero">
         <div className="page-shell">
-          <p className="eyebrow">
+          <div className="eyebrow">
             <span />
             404
-          </p>
+          </div>
           <h1>页面不存在 / Page not found</h1>
           <p>
             这里没有你要找的内容。你可以回到首页，或继续阅读使用文档。

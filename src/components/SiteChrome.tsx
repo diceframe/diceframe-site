@@ -72,9 +72,12 @@ export function SiteHeader({
     <header className="site-header">
       <div className="page-shell header-inner">
         <a className="brand" href={homeHref} aria-label={copy.homeLabel}>
+          {/* Decorative next to the visible "DiceFrame" name: hidden from
+              assistive tech, but still carries alt text for crawlers. */}
           <img
             src="/diceframe-logo.svg"
-            alt=""
+            alt="DiceFrame"
+            aria-hidden="true"
             width={42}
             height={42}
             decoding="async"
@@ -89,7 +92,8 @@ export function SiteHeader({
           <a href={`${homeHref}#features`}>{copy.features}</a>
           <a href={`${homeHref}#start`}>{copy.start}</a>
           <a href={docsHref}>{copy.docs}</a>
-          <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer">
+          <a href={infoPath(language, "about")}>{copy.about}</a>
+          <a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">
             GitHub
           </a>
         </nav>
@@ -106,7 +110,7 @@ export function SiteHeader({
             className="header-download"
             href={GITHUB_RELEASES_URL}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             {copy.download}
             <span aria-hidden="true">↗</span>
@@ -122,13 +126,14 @@ export function SiteHeader({
             <a href={`${homeHref}#features`}>{copy.features}</a>
             <a href={`${homeHref}#start`}>{copy.start}</a>
             <a href={docsHref}>{copy.docs}</a>
+            <a href={infoPath(language, "about")}>{copy.about}</a>
             <LanguageSwitch
               href={languageHref}
               hrefLang={language === "en" ? "zh-CN" : "en"}
               ariaLabel={language === "en" ? "切换到中文" : "Switch to English"}
               label={language === "en" ? "中文" : "English"}
             />
-            <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer">
+            <a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">
               GitHub ↗
             </a>
           </nav>
@@ -150,9 +155,11 @@ export function SiteFooter({ language = "zh" }: { language?: SiteLanguage }) {
           <a className="brand" href={homeHref}>
             <img
               src="/diceframe-logo.svg"
-              alt=""
+              alt="DiceFrame"
+              aria-hidden="true"
               width={38}
               height={38}
+              loading="lazy"
               decoding="async"
             />
             <span>
@@ -172,7 +179,7 @@ export function SiteFooter({ language = "zh" }: { language?: SiteLanguage }) {
           <div>
             <strong>{copy.community}</strong>
             <a href={infoPath(language, "about")}>{copy.about}</a>
-            <a href={GITHUB_REPO_URL} target="_blank" rel="noreferrer">
+            <a href={GITHUB_REPO_URL} target="_blank" rel="noopener noreferrer">
               GitHub
             </a>
             <a href={infoPath(language, "contact")}>{copy.contact}</a>

@@ -115,124 +115,126 @@ export function DocsPage({
   const markdownModel = createMarkdownModel(result.markdown);
 
   return (
-    <main className="docs-page">
+    <div className="docs-page">
       <SiteHeader language={language} languageHref={docsPath(otherLanguage, doc.id)} />
-      <section className="docs-hero">
-        <div className="page-shell">
-          <p className="eyebrow">
-            <span />
-            DICEFRAME · TRPG HELP CENTER
-          </p>
-          <div className="docs-hero-row">
-            <div>
-              <h1>{copy.heroTitle}</h1>
-              <p>{copy.heroLead}</p>
+      <main>
+        <section className="docs-hero">
+          <div className="page-shell">
+            <div className="eyebrow">
+              <span />
+              DICEFRAME · TRPG HELP CENTER
             </div>
-            <div className="live-source">
-              <span>
-                <i /> SOURCE ONLINE
-              </span>
-              <strong>GitHub / main</strong>
+            <div className="docs-hero-row">
+              <div>
+                <h1>{copy.heroTitle}</h1>
+                <p>{copy.heroLead}</p>
+              </div>
+              <div className="live-source">
+                <span>
+                  <i /> SOURCE ONLINE
+                </span>
+                <strong>GitHub / main</strong>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="docs-workspace">
-        <div className="page-shell docs-layout">
-          <aside className="docs-sidebar">
-            <div className="docs-language" aria-label={copy.languageLabel}>
-              <a
-                href={docsPath("zh", doc.id)}
-                hrefLang="zh-CN"
-                className={language === "zh" ? "active" : ""}
-                aria-current={language === "zh" ? "true" : undefined}
-              >
-                中文
-              </a>
-              <a
-                href={docsPath("en", doc.id)}
-                hrefLang="en"
-                className={language === "en" ? "active" : ""}
-                aria-current={language === "en" ? "true" : undefined}
-              >
-                English
-              </a>
-            </div>
-            {DOC_GROUPS.map((group) => (
-              <div className="docs-group" key={group}>
-                <span>{copy.groups[group]}</span>
-                {documents
-                  .filter((entry) => entry.group === group)
-                  .map((entry) => (
-                    <Link
-                      key={entry.id}
-                      to={language === "en" ? "/en/docs/$docId" : "/docs/$docId"}
-                      params={{ docId: entry.id }}
-                      className={entry.id === doc.id ? "active" : ""}
-                    >
-                      <strong>{entry.title[language]}</strong>
-                      <small>{entry.description[language]}</small>
-                    </Link>
-                  ))}
-              </div>
-            ))}
-          </aside>
-
-          <div className="docs-content">
-            <header className="docs-content-head">
-              <div>
-                <span className="docs-breadcrumb">
-                  docs / {currentPath.split("/").at(-1)}
-                </span>
-                <h2>{doc.title[language]}</h2>
-                <p>{doc.description[language]}</p>
-              </div>
-              <a href={sourceUrl} target="_blank" rel="noreferrer">
-                {copy.original}
-              </a>
-            </header>
-
-            <div className="source-notice">
-              <span>
-                <i /> {copy.sourceStatus}
-              </span>
-              <code>diceframe/{doc.repo}@main</code>
-            </div>
-
-            {result.status === "error" && (
-              <div className="docs-error" role="alert">
-                <strong>{copy.errorTitle}</strong>
-                <p>{copy.error}</p>
-                <a href={sourceUrl} target="_blank" rel="noreferrer">
-                  {copy.openOriginal}
+        <section className="docs-workspace">
+          <div className="page-shell docs-layout">
+            <aside className="docs-sidebar">
+              <div className="docs-language" aria-label={copy.languageLabel}>
+                <a
+                  href={docsPath("zh", doc.id)}
+                  hrefLang="zh-CN"
+                  className={language === "zh" ? "active" : ""}
+                  aria-current={language === "zh" ? "true" : undefined}
+                >
+                  中文
+                </a>
+                <a
+                  href={docsPath("en", doc.id)}
+                  hrefLang="en"
+                  className={language === "en" ? "active" : ""}
+                  aria-current={language === "en" ? "true" : undefined}
+                >
+                  English
                 </a>
               </div>
-            )}
+              {DOC_GROUPS.map((group) => (
+                <div className="docs-group" key={group}>
+                  <span>{copy.groups[group]}</span>
+                  {documents
+                    .filter((entry) => entry.group === group)
+                    .map((entry) => (
+                      <Link
+                        key={entry.id}
+                        to={language === "en" ? "/en/docs/$docId" : "/docs/$docId"}
+                        params={{ docId: entry.id }}
+                        className={entry.id === doc.id ? "active" : ""}
+                      >
+                        <strong>{entry.title[language]}</strong>
+                        <small>{entry.description[language]}</small>
+                      </Link>
+                    ))}
+                </div>
+              ))}
+            </aside>
 
-            {result.status === "ok" && (
-              <div className="docs-reading-grid">
-                <DocumentOutline
-                  headings={markdownModel.headings}
-                  label={copy.outline}
-                  mobile
-                />
-                <MarkdownDocument
-                  model={markdownModel}
-                  currentPath={currentPath}
-                  repo={doc.repo}
-                />
-                <DocumentOutline
-                  headings={markdownModel.headings}
-                  label={copy.outline}
-                />
+            <div className="docs-content">
+              <header className="docs-content-head">
+                <div>
+                  <span className="docs-breadcrumb">
+                    docs / {currentPath.split("/").at(-1)}
+                  </span>
+                  <h2>{doc.title[language]}</h2>
+                  <p>{doc.description[language]}</p>
+                </div>
+                <a href={sourceUrl} target="_blank" rel="noopener noreferrer">
+                  {copy.original}
+                </a>
+              </header>
+
+              <div className="source-notice">
+                <span>
+                  <i /> {copy.sourceStatus}
+                </span>
+                <code>diceframe/{doc.repo}@main</code>
               </div>
-            )}
-          </div>
-        </div>
-      </section>
 
+              {result.status === "error" && (
+                <div className="docs-error" role="alert">
+                  <strong>{copy.errorTitle}</strong>
+                  <p>{copy.error}</p>
+                  <a href={sourceUrl} target="_blank" rel="noopener noreferrer">
+                    {copy.openOriginal}
+                  </a>
+                </div>
+              )}
+
+              {result.status === "ok" && (
+                <div className="docs-reading-grid">
+                  <DocumentOutline
+                    headings={markdownModel.headings}
+                    label={copy.outline}
+                    mobile
+                  />
+                  <MarkdownDocument
+                    model={markdownModel}
+                    currentPath={currentPath}
+                    repo={doc.repo}
+                  />
+                  <DocumentOutline
+                    headings={markdownModel.headings}
+                    label={copy.outline}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+
+      </main>
       <SiteFooter language={language} />
-    </main>
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 import handler from "@tanstack/react-start/server-entry";
 import { DEFAULT_DOC_ID, findDocByLegacyValue } from "./docs/documents";
+import { SECURITY_HEADERS } from "./securityHeaders";
 
 const CANONICAL_HOST = "diceframe.com";
 const BAIDU_VERIFY_PATH = "/baidu_verify_codeva-xQ6459zscX.html";
@@ -17,6 +18,42 @@ type StartFetch = (
 ) => Response | Promise<Response>;
 
 const startFetch = handler.fetch as StartFetch;
+
+/** Workers static-assets binding (`assets.binding` in wrangler.jsonc). */
+interface WorkerEnv {
+  ASSETS?: { fetch(request: Request): Promise<Response> };
+}
+
+/**
+ * Prerendered homepages: request path → path of the static HTML in the asset
+ * directory. wrangler.jsonc routes these paths through the Worker first (so
+ * redirects and security headers apply), and the Worker then serves the
+ * prerendered file instead of rendering the page again.
+ */
+const PRERENDERED_PAGES: Readonly<Record<string, string>> = {
+  "/": "/",
+  "/en": "/en/",
+};
+
+async function serve(
+  request: Request,
+  url: URL,
+  env: unknown,
+  ctx: unknown,
+): Promise<Response> {
+  const assetPath = PRERENDERED_PAGES[url.pathname];
+  const assets = (env as WorkerEnv | undefined)?.ASSETS;
+  if (
+    assetPath &&
+    assets &&
+    (request.method === "GET" || request.method === "HEAD")
+  ) {
+    const assetUrl = new URL(`${assetPath}${url.search}`, url);
+    const asset = await assets.fetch(new Request(assetUrl, request));
+    if (asset.ok || asset.status === 304) return asset;
+  }
+  return startFetch(request, env, ctx);
+}
 
 function redirect(url: URL, status: number): Response {
   return new Response(null, {
@@ -79,7 +116,17 @@ export default {
       return toCanonical(legacyDocsUrl, 301);
     }
 
-    const response = await startFetch(request, env, ctx);
+    // The English homepage's canonical URL is `/en` (no trailing slash).
+    // Relative Location keeps the build-time prerenderer (served from a
+    // localhost preview) able to follow it.
+    if (url.pathname === "/en/") {
+      return new Response(null, {
+        status: 308,
+        headers: { location: `/en${url.search}` },
+      });
+    }
+
+    const response = await serve(request, url, env, ctx);
 
     // Apply Cloudflare edge caching for crawler & discovery metadata files
     const pathname = url.pathname;
@@ -91,9 +138,9 @@ export default {
 
     const headers = new Headers(response.headers);
 
-    // Baseline security and trust headers
-    headers.set("X-Content-Type-Options", "nosniff");
-    headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
+    for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+      headers.set(name, value);
+    }
 
     if (isCrawlerDiscoveryFile && response.ok) {
       headers.set(

@@ -12,7 +12,7 @@ export function InlineText({ text }: { text: string }) {
             href={segment.href}
             key={index}
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
           >
             {segment.text}
           </a>

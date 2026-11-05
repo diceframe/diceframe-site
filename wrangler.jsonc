@@ -5,6 +5,15 @@
   "compatibility_date": "2026-07-28",
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
+  // The homepages are prerendered into static HTML. Without this, Cloudflare
+  // serves them straight from the asset layer and src/server.ts never runs —
+  // no security headers, no www → apex redirect, and `/en` 307s to `/en/`.
+  // Routing these paths through the Worker first fixes all three; the Worker
+  // still serves the prerendered HTML through the ASSETS binding.
+  "assets": {
+    "binding": "ASSETS",
+    "run_worker_first": ["/", "/en", "/en/"]
+  },
   "routes": [
     {
       "pattern": "diceframe.com",

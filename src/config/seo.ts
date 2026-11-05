@@ -108,6 +108,7 @@ export function rootSeo(): RouteHead {
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { name: "robots", content: "index, follow" },
+      { name: "theme-color", content: "#07111d" },
       {
         name: "msvalidate.01",
         content: "D836E0E0DD0B81055E1D84C58E0C9A93",
@@ -116,6 +117,7 @@ export function rootSeo(): RouteHead {
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
       { rel: "shortcut icon", href: "/favicon.svg" },
+      { rel: "apple-touch-icon", sizes: "180x180", href: "/apple-touch-icon.png" },
     ],
     scripts: [],
   };
