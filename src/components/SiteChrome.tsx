@@ -29,7 +29,6 @@ const chromeCopy = {
     updated: "最后更新",
     footer:
       "开源自托管的 AI 跑团（TRPG）平台，让规则、角色与想象持续生长。",
-    group: "群聊 · 1060613588",
   },
   en: {
     homeLabel: "DiceFrame home",
@@ -50,7 +49,6 @@ const chromeCopy = {
     updated: "Last updated",
     footer:
       "An open-source, self-hosted AI TRPG platform where rules, characters, and imagination keep growing.",
-    group: "Community chat · 1060613588",
   },
 } as const;
 
@@ -183,7 +181,6 @@ export function SiteFooter({ language = "zh" }: { language?: SiteLanguage }) {
               GitHub
             </a>
             <a href={infoPath(language, "contact")}>{copy.contact}</a>
-            <span>{copy.group}</span>
           </div>
           <div>
             <strong>{copy.legal}</strong>

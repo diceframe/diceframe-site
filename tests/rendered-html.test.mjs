@@ -448,6 +448,8 @@ test("homepage footer links to on-site about, contact, privacy and terms pages",
   }
   assert.match(html, /<time dateTime="\d{4}-\d{2}-\d{2}">/);
   assert.match(html, /property="article:published_time"/);
+  // The QQ group lives on the contact page; the footer no longer repeats it.
+  assert.doesNotMatch(html, /<span>群聊 · 1060613588<\/span>/);
 });
 
 test("routes prerendered homepages through the Worker with security headers", async () => {
