@@ -4059,29 +4059,19 @@ summary {
   gap: 14px;
 }
 
+/* Answer-first: the question heading and its answer are always visible. */
 .faq-item {
+  padding: 22px 26px 24px;
   border: 1px solid var(--line);
   background: rgba(16, 35, 49, 0.55);
   box-shadow: 0 14px 40px rgba(2, 10, 18, 0.25);
   border-radius: 4px;
 }
 
-.faq-item summary {
-  list-style: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 20px;
-  padding: 20px 24px;
-}
-
-.faq-item summary::-webkit-details-marker {
-  display: none;
-}
-
-.faq-item summary h3 {
-  margin: 0;
+.faq-item h3 {
+  position: relative;
+  margin: 0 0 10px;
+  padding-left: 22px;
   font-family: var(--font-body);
   font-size: 1.02rem;
   font-weight: 600;
@@ -4089,39 +4079,20 @@ summary {
   color: var(--text);
 }
 
-.faq-mark {
-  position: relative;
-  flex: 0 0 auto;
-  width: 22px;
-  height: 22px;
-}
-
-.faq-mark i {
+.faq-item h3::before {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 14px;
-  height: 2px;
-  background: var(--gold);
-  transform: translate(-50%, -50%);
-  transition: transform 0.25s ease;
-}
-
-.faq-mark i:last-child {
-  transform: translate(-50%, -50%) rotate(90deg);
-}
-
-.faq-item[open] .faq-mark i:last-child {
-  transform: translate(-50%, -50%) rotate(0deg);
-}
-
-.faq-item[open] summary {
-  border-bottom: 1px solid var(--line);
+  top: 0.62em;
+  left: 2px;
+  width: 7px;
+  height: 7px;
+  border: 1px solid var(--gold);
+  content: "";
+  transform: rotate(45deg);
 }
 
 .faq-item > p {
   margin: 0;
-  padding: 18px 24px 22px;
+  padding-left: 22px;
   color: var(--muted);
   font-size: 0.95rem;
   line-height: 1.85;
@@ -4129,8 +4100,8 @@ summary {
 }
 
 .faq-points {
-  margin: 0;
-  padding: 0 24px 22px 44px;
+  margin: 12px 0 0;
+  padding: 0 0 0 42px;
   color: var(--text);
   font-size: 0.92rem;
   line-height: 1.75;
@@ -4145,17 +4116,102 @@ summary {
   margin-bottom: 0;
 }
 
+/* Outbound citation links to named sources inside homepage copy. */
+.cite-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color 150ms ease;
+}
+
+.feature-card .cite-link {
+  color: var(--cyan-dark);
+  text-decoration-color: rgba(39, 109, 118, 0.45);
+}
+
+.faq-item .cite-link {
+  color: var(--cyan-bright);
+  text-decoration-color: rgba(141, 224, 223, 0.45);
+}
+
+.cite-link:hover {
+  text-decoration-color: currentColor;
+}
+
+/* Attributed quotation from a primary source (AGPL preamble). */
+.license-quote {
+  max-width: 980px;
+  margin: 56px 0 0;
+  padding: 34px 40px;
+  border-left: 3px solid var(--cyan-dark);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.license-quote blockquote {
+  margin: 0;
+}
+
+.license-quote blockquote p {
+  margin: 0;
+  color: #0a1b28;
+  font-family: var(--font-title);
+  font-size: clamp(19px, 2vw, 24px);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+}
+
+.license-quote-translation {
+  margin: 14px 0 0;
+  color: #506a70;
+  font-size: 14px;
+  line-height: 1.85;
+}
+
+.license-quote figcaption {
+  margin-top: 16px;
+  color: #506a70;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+}
+
+.license-quote cite {
+  font-style: normal;
+}
+
+.license-quote cite a {
+  color: var(--cyan-dark);
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(39, 109, 118, 0.45);
+  text-underline-offset: 3px;
+}
+
+.license-quote-context {
+  margin: 18px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid rgba(39, 109, 118, 0.2);
+  color: #24414a;
+  font-size: 14px;
+  line-height: 1.9;
+}
+
 @media (max-width: 720px) {
-  .faq-item summary {
-    padding: 16px 18px;
+  .faq-item {
+    padding: 18px 18px 20px;
   }
 
   .faq-item > p {
-    padding: 14px 18px 18px;
+    padding-left: 0;
   }
 
   .faq-points {
-    padding: 0 18px 18px 34px;
+    padding-left: 20px;
+  }
+
+  .license-quote {
+    margin-top: 40px;
+    padding: 24px 22px;
   }
 }
 

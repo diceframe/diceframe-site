@@ -11,6 +11,7 @@ import {
   docsPath,
 } from "~/config/site";
 import type { HomeContent } from "~/content/home";
+import { InlineText } from "~/components/InlineText";
 import { LanguageSuggestion } from "~/components/LanguageSuggestion";
 import { SiteFooter, SiteHeader } from "~/components/SiteChrome";
 
@@ -132,10 +133,32 @@ export function HomePage({ content }: { content: HomeContent }) {
                   <i />
                 </div>
                 <h3>{feature.title}</h3>
-                <p>{feature.copy}</p>
+                <p>
+                  <InlineText text={feature.copy} />
+                </p>
               </article>
             ))}
           </div>
+          <figure className="license-quote">
+            <blockquote cite={content.licenseQuote.href} lang="en">
+              <p>“{content.licenseQuote.quote}”</p>
+            </blockquote>
+            {content.licenseQuote.translation && (
+              <p className="license-quote-translation">
+                {en ? "Translation: " : "译文："}
+                {content.licenseQuote.translation}
+              </p>
+            )}
+            <figcaption>
+              —{" "}
+              <cite>
+                <a href={content.licenseQuote.href} target="_blank" rel="noreferrer">
+                  {content.licenseQuote.author}, {content.licenseQuote.work}
+                </a>
+              </cite>
+            </figcaption>
+            <p className="license-quote-context">{content.licenseQuote.context}</p>
+          </figure>
         </div>
       </section>
 
@@ -270,23 +293,24 @@ export function HomePage({ content }: { content: HomeContent }) {
           </div>
           <div className="faq-list">
             {content.faq.items.map((item) => (
-              <details className="faq-item" key={item.question}>
-                <summary>
-                  <h3>{item.question}</h3>
-                  <span className="faq-mark" aria-hidden="true">
-                    <i />
-                    <i />
-                  </span>
-                </summary>
-                <p>{item.answer}</p>
+              // Answer-first: each question heading is immediately followed by
+              // its visible answer (no collapsed <details>), so readers and
+              // AI extractors get the direct answer right under the question.
+              <article className="faq-item" key={item.question}>
+                <h3>{item.question}</h3>
+                <p>
+                  <InlineText text={item.answer} />
+                </p>
                 {item.answerPoints && item.answerPoints.length > 0 && (
                   <ul className="faq-points">
                     {item.answerPoints.map((point) => (
-                      <li key={point}>{point}</li>
+                      <li key={point}>
+                        <InlineText text={point} />
+                      </li>
                     ))}
                   </ul>
                 )}
-              </details>
+              </article>
             ))}
           </div>
         </div>
