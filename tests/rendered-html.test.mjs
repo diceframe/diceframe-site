@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
 import { documents } from "../src/docs/documents.ts";
+import { SECURITY_HEADERS } from "../src/securityHeaders.ts";
 
 const CANNED_GUIDE_ZH = [
   "# 用户手册",
@@ -447,4 +448,111 @@ test("homepage footer links to on-site about, contact, privacy and terms pages",
   }
   assert.match(html, /<time dateTime="\d{4}-\d{2}-\d{2}">/);
   assert.match(html, /property="article:published_time"/);
+});
+
+test("routes prerendered homepages through the Worker with security headers", async () => {
+  const worker = await loadWorker();
+  const [, ctx] = workerEnv();
+  const requested = [];
+  const env = {
+    ASSETS: {
+      async fetch(request) {
+        requested.push(new URL(request.url).pathname);
+        return new Response("<!doctype html><title>prerendered</title>", {
+          headers: { "content-type": "text/html; charset=utf-8" },
+        });
+      },
+    },
+  };
+
+  for (const [path, assetPath] of [
+    ["/", "/"],
+    ["/en", "/en/"],
+  ]) {
+    const response = await worker.fetch(
+      new Request(`https://diceframe.com${path}`),
+      env,
+      ctx,
+    );
+    assert.equal(response.status, 200, path);
+    assert.match(await response.text(), /prerendered/, path);
+    assert.equal(requested.at(-1), assetPath, path);
+    for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+      assert.equal(response.headers.get(name), value, `${path} ${name}`);
+    }
+  }
+
+  // Canonical English homepage has no trailing slash.
+  const enSlash = await worker.fetch(
+    new Request("https://diceframe.com/en/?ref=1"),
+    env,
+    ctx,
+  );
+  assert.equal(enSlash.status, 308);
+  assert.equal(enSlash.headers.get("location"), "/en?ref=1");
+
+  // www homepage now reaches the Worker and redirects to the apex.
+  const wwwHome = await worker.fetch(
+    new Request("https://www.diceframe.com/"),
+    env,
+    ctx,
+  );
+  assert.equal(wwwHome.status, 301);
+  assert.equal(wwwHome.headers.get("location"), "https://diceframe.com/");
+});
+
+test("wrangler routes the homepages through the Worker first", async () => {
+  const config = JSON.parse(
+    await readFile(new URL("../dist/server/wrangler.json", import.meta.url), "utf8"),
+  );
+  assert.equal(config.assets.binding, "ASSETS");
+  for (const path of ["/", "/en", "/en/"]) {
+    assert.ok(config.assets.run_worker_first.includes(path), path);
+  }
+});
+
+test("static files get the same security headers as Worker responses", async () => {
+  const headersFile = await readFile(
+    new URL("../public/_headers", import.meta.url),
+    "utf8",
+  );
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+    assert.ok(
+      headersFile.includes(`  ${name}: ${value}\n`),
+      `public/_headers is missing or out of sync for ${name}`,
+    );
+  }
+
+  const response = await render("/about");
+  for (const [name, value] of Object.entries(SECURITY_HEADERS)) {
+    assert.equal(response.headers.get(name), value, name);
+  }
+});
+
+test("homepage technical SEO attributes", async () => {
+  const html = await readFile(
+    new URL("../dist/client/index.html", import.meta.url),
+    "utf8",
+  );
+  // First paragraph is the definition, not the eyebrow label.
+  assert.doesNotMatch(html, /<p class="eyebrow">/);
+  assert.match(html, /<p class="hero-lead">DiceFrame 是一套开源/);
+  // Every image carries alt text; decorative ones are aria-hidden.
+  assert.doesNotMatch(html, /<img[^>]*alt=""/);
+  assert.equal((html.match(/<img[^>]*aria-hidden="true"/g) ?? []).length, 4);
+  assert.equal((html.match(/<img[^>]*loading="lazy"/g) ?? []).length, 3);
+  assert.match(html, /src="\/diceframe-app\.webp\?v=3"/);
+  // External links opened in a new tab declare noopener explicitly.
+  assert.doesNotMatch(html, /rel="noreferrer"/);
+  assert.match(html, /<section class="hero" id="overview">/);
+  assert.match(html, /id="gameplay"/);
+  assert.match(html, /<meta name="theme-color" content="#07111d"/);
+  assert.match(html, /rel="apple-touch-icon" sizes="180x180" href="\/apple-touch-icon\.png"/);
+  assert.match(html, /"@type":"BreadcrumbList"/);
+  assert.match(html, /<dl aria-label="DiceFrame 数据一览">/);
+  // Header and footer live outside <main>, so main content starts at the hero.
+  assert.match(html, /<\/header><main><section class="hero"/);
+  assert.match(html, /<\/main><footer class="site-footer">/);
+  assert.match(html, /<nav class="desktop-nav"[^>]*>(?:(?!<\/nav>).)*href="\/about"/s);
+  assert.match(html, /根据 DiceFrame 官方 GitHub 仓库统计/);
 });

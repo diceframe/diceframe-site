@@ -87,7 +87,7 @@ function InlineMarkdown({
               href={href}
               key={index}
               target={external ? "_blank" : undefined}
-              rel={external ? "noreferrer" : undefined}
+              rel={external ? "noopener noreferrer" : undefined}
             >
               <img
                 src={resolveAsset(linkedImage[2], currentPath, repo)}
@@ -118,7 +118,7 @@ function InlineMarkdown({
               key={index}
               href={href}
               target={external ? "_blank" : undefined}
-              rel={external ? "noreferrer" : undefined}
+              rel={external ? "noopener noreferrer" : undefined}
             >
               {link[1]}
             </a>

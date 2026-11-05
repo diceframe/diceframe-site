@@ -25,7 +25,17 @@ export interface HomeContent {
   features: { kicker: string; heading: string; lead: string };
   /** Copy may contain `[label](https://…)` citation links (see inlineLinks.ts). */
   featureCards: Array<{ index: string; title: string; copy: string }>;
-  /** An attributed quotation from a primary source, shown after the feature grid. */
+  /**
+   * Verifiable project facts shown after the feature grid. Counts are a
+   * snapshot from GitHub — update them together with `source`'s date.
+   */
+  facts: {
+    label: string;
+    items: Array<{ value: string; label: string; detail: string }>;
+    /** May contain `[label](https://…)` citation links. */
+    source: string;
+  };
+  /** An attributed quotation from a primary source, shown after the facts. */
   licenseQuote: {
     /** Verbatim text in the source's original language (English). */
     quote: string;
@@ -111,7 +121,7 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
     features: {
       kicker: "BUILT FOR THE WHOLE TABLE",
       heading: "一套 AI TRPG 引擎，撑起整张跑团桌。",
-      lead: "DiceFrame 是一套面向整张跑团桌的 AI TRPG 引擎：AI GM、每位玩家、每张角色卡和每次状态变化，都进入同一个可追踪的世界，而不只是一个续写剧情的聊天框。",
+      lead: "DiceFrame 是一套面向整张跑团桌的 AI TRPG 引擎。AI GM、每位玩家、每张角色卡和每次状态变化，都进入同一个可追踪的世界。它不只是一个续写剧情的聊天框。",
     },
     featureCards: [
       {
@@ -145,6 +155,17 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
         copy: "DiceFrame 支持 Windows 便携版、[Docker](https://docs.docker.com/get-started/)、NAS 与源码运行。存档、配置与密钥完全保留在你的本地环境。",
       },
     ],
+    facts: {
+      label: "DiceFrame 数据一览",
+      items: [
+        { value: "3 套", label: "内置规则模板", detail: "DND 5e · COC · 自由规则" },
+        { value: "4 种", label: "部署方式", detail: "Windows · Docker · NAS · 源码" },
+        { value: "44 个", label: "正式发布版本", detail: "最新 v3.0.5（2026-11-04）" },
+        { value: "13 位", label: "开源贡献者", detail: "AGPL-3.0 · GitHub 协作开发" },
+      ],
+      source:
+        "以上版本与贡献者数据根据 DiceFrame 官方 GitHub 仓库统计，截至 2026-11-05。来源：[github.com/diceframe/diceframe](https://github.com/diceframe/diceframe)。",
+    },
     licenseQuote: {
       quote:
         "The GNU Affero General Public License is a free, copyleft license for software and other kinds of works, specifically designed to ensure cooperation with the community in the case of network server software.",
@@ -154,7 +175,7 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
       work: "GNU AGPL v3 序言",
       href: "https://www.gnu.org/licenses/agpl-3.0.html",
       context:
-        "DiceFrame 以 AGPL-3.0 发布：你可以免费部署、修改和自托管；如果把修改后的版本作为网络服务提供给他人，也需要向这些用户公开对应源码。",
+        "DiceFrame 以 AGPL-3.0 发布，你可以免费部署、修改和自托管。如果把修改后的版本作为网络服务提供给他人，也需要向这些用户公开对应源码。",
     },
     narrative: {
       kicker: "STORY, WITH CONSEQUENCES",
@@ -228,17 +249,17 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
         {
           question: "使用 DiceFrame 需要付费或注册云端服务吗？",
           answer:
-            "不需要。DiceFrame 开源免费，部署在你自己的 Windows、Docker 或 NAS 环境中；模型接口使用你自己的 API Key，存档、配置与密钥都保存在你的设备上。",
+            "不需要。DiceFrame 开源免费，部署在你自己的 Windows、Docker 或 NAS 环境中。模型接口使用你自己的 API Key，存档、配置与密钥都保存在你的设备上。",
         },
         {
           question: "可以和朋友一起在线跑团吗？",
           answer:
-            "可以。创建角色后分享邀请链接，朋友在浏览器中入席同一场对局；也可以通过 QQ / [NapCat](https://github.com/NapNeko/NapCatQQ) 把对局绑定到群聊，让玩家在群里掷骰、查看状态并提交行动。",
+            "可以。创建角色后分享邀请链接，朋友在浏览器中就能入席同一场对局。你也可以通过 QQ / [NapCat](https://github.com/NapNeko/NapCatQQ) 把对局绑定到群聊，让玩家在群里掷骰、查看状态并提交行动。",
         },
         {
           question: "如何开始第一局 AI 跑团？",
           answer:
-            "下载 Windows 便携版，或用 Docker 一条命令启动；选择规则与世界模板，配置模型接口，然后按照「5 分钟开始第一局」指南邀请朋友入席开团。",
+            "先下载 Windows 便携版，或用 Docker 一条命令启动。然后选择规则与世界模板，配置模型接口。最后按照「5 分钟开始第一局」指南邀请朋友入席开团。",
         },
       ],
     },
@@ -282,7 +303,7 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
     features: {
       kicker: "BUILT FOR THE WHOLE TABLE",
       heading: "One AI TRPG engine for the entire table.",
-      lead: "DiceFrame is an AI TRPG engine built for the whole table: the AI GM, every player, every character sheet, and every state change live in one trackable world—not a chat box that merely continues a story.",
+      lead: "DiceFrame is an AI TRPG engine built for the whole table. The AI GM, every player, every character sheet, and every state change live in one trackable world. It is not a chat box that merely continues a story.",
     },
     featureCards: [
       {
@@ -316,6 +337,17 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
         copy: "DiceFrame runs as a Windows portable build, [Docker](https://docs.docker.com/get-started/) container, NAS app, or from source. Saves, settings, and API keys remain strictly in your environment.",
       },
     ],
+    facts: {
+      label: "DiceFrame at a glance",
+      items: [
+        { value: "3", label: "built-in rule templates", detail: "DND 5e · COC · Freeform" },
+        { value: "4", label: "ways to deploy", detail: "Windows · Docker · NAS · Source" },
+        { value: "44", label: "stable releases", detail: "Latest v3.0.5 (2026-11-04)" },
+        { value: "13", label: "open-source contributors", detail: "AGPL-3.0 · built on GitHub" },
+      ],
+      source:
+        "Release and contributor counts are based on DiceFrame's official GitHub repository statistics as of 2026-11-05. Source: [github.com/diceframe/diceframe](https://github.com/diceframe/diceframe).",
+    },
     licenseQuote: {
       quote:
         "The GNU Affero General Public License is a free, copyleft license for software and other kinds of works, specifically designed to ensure cooperation with the community in the case of network server software.",
@@ -323,7 +355,7 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
       work: "GNU AGPL v3, Preamble",
       href: "https://www.gnu.org/licenses/agpl-3.0.html",
       context:
-        "DiceFrame is released under AGPL-3.0: you can deploy, modify, and self-host it for free, and if you offer a modified version to others as a network service, you share the corresponding source with those users.",
+        "DiceFrame is released under AGPL-3.0, so you can deploy, modify, and self-host it for free. If you offer a modified version to others as a network service, you share the corresponding source with those users.",
     },
     narrative: {
       kicker: "STORY, WITH CONSEQUENCES",
@@ -373,7 +405,7 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
     docs: {
       kicker: "GUIDES & DOCUMENTATION",
       heading: "Need help? Start here.",
-      body: "The DiceFrame documentation covers deployment, updates, the standalone WebUI, the bot bridge, and plugin development, and it is updated with every release. Start here for your first deployment or your first plugin.",
+      body: "The DiceFrame documentation covers deployment, updates, the standalone WebUI, the bot bridge, and plugin development. It is updated with every release. Start here for your first deployment or your first plugin.",
       primaryLabel: "Browse documentation",
       githubLabel: "View docs on GitHub",
       repoFiles: [
@@ -394,7 +426,7 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
         {
           question: "What is DiceFrame?",
           answer:
-            "DiceFrame is an open-source ([AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)), self-hosted AI TRPG platform. It connects an AI GM, a multiplayer WebUI, character sheets, lorebooks, dice, and state tracking into one persistent online campaign, and extends into QQ group chat through bots.",
+            "DiceFrame is an open-source ([AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)), self-hosted AI TRPG platform. It connects an AI GM, a multiplayer WebUI, character sheets, lorebooks, dice, and state tracking into one persistent online campaign. Bots extend the same campaign into QQ group chat.",
         },
         {
           question: "Which TRPG systems does DiceFrame support?",
@@ -419,7 +451,7 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
         {
           question: "How do I start my first AI-powered session?",
           answer:
-            "Download the Windows portable build or start the Docker image, choose a ruleset and world template, connect a model API, and follow the five-minute setup guide to bring your friends to the table.",
+            "Download the Windows portable build or start the Docker image. Choose a ruleset and world template, then connect a model API. Finally, follow the five-minute setup guide to bring your friends to the table.",
         },
       ],
     },
