@@ -165,7 +165,9 @@ export function websiteJsonLd(language: SiteLanguage) {
     "@id": `${SITE_URL}${english ? "/en#website" : "/#website"}`,
     url: absoluteUrl(english ? "/en" : "/"),
     name: "DiceFrame",
-    alternateName: english ? "DiceFrame AI TRPG Platform" : "DiceFrame AI 跑团平台",
+    alternateName: english
+      ? ["DiceFrame AI TRPG Platform", "骰框"]
+      : ["DiceFrame AI 跑团平台", "骰框"],
     description: english
       ? "An open-source, self-hosted AI TRPG platform for DND, COC, and custom rules."
       : "支持 DND、COC 与自定义规则的开源自托管 AI 跑团（TRPG）平台。",

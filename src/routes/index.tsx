@@ -10,12 +10,14 @@ export const Route = createFileRoute("/")({
     pageSeo({
       title: "DiceFrame — 开源自托管 AI 跑团（TRPG）平台",
       description:
-        "DiceFrame 是支持 DND、COC 与自定义规则的开源自托管 AI 跑团（TRPG）平台，提供 AI GM、多人 WebUI、角色卡、世界书、骰子和 QQ Bot。",
+        "DiceFrame（骰框）是支持 DND、COC 与自定义规则的开源自托管 AI 跑团（TRPG）平台，可接入 DeepSeek 等大模型，提供 AI GM、多人 WebUI、角色卡、世界书、骰子和 QQ Bot。",
       path: "/",
       language: content.language,
       alternates: { zh: "/", en: "/en" },
       keywords: [
         "DiceFrame",
+        "骰框",
+        "DeepSeek 跑团",
         "AI 跑团",
         "AI TRPG",
         "TRPG",

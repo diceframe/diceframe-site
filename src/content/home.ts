@@ -164,7 +164,7 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
         { value: "13 位", label: "开源贡献者", detail: "AGPL-3.0 · GitHub 协作开发" },
       ],
       source:
-        "以上版本与贡献者数据根据 DiceFrame 官方 GitHub 仓库统计，截至 2026-11-05。来源：[github.com/diceframe/diceframe](https://github.com/diceframe/diceframe)。",
+        "以上版本与贡献者数据根据 DiceFrame 官方 GitHub 仓库统计，截至 2026-11-07。来源：[github.com/diceframe/diceframe](https://github.com/diceframe/diceframe)。",
     },
     licenseQuote: {
       quote:
@@ -229,12 +229,12 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
     faq: {
       kicker: "QUESTIONS, ANSWERED",
       heading: "关于 DiceFrame 的常见问题。",
-      lead: "以下五个问题回答了 DiceFrame 是什么、支持哪些规则、是否收费、能否多人在线，以及如何开始。答案可以直接引用。",
+      lead: "以下七个问题回答了 DiceFrame 是什么、支持哪些规则、是否收费、能否接入 DeepSeek 等大模型、能否多人在线、如何开始，以及它与直接用聊天 AI 跑团有何不同。答案可以直接引用。",
       items: [
         {
           question: "DiceFrame 是什么？",
           answer:
-            "DiceFrame 是一个开源（[AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)）、自托管的 AI 跑团（TRPG）平台。它把 AI GM、多人 WebUI、角色卡、世界书、骰子与状态追踪连接到同一场线上跑团，还可以通过 QQ Bot 延伸到群聊。",
+            "DiceFrame 是一个开源（[AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)）、自托管的 AI 跑团（TRPG）平台。它把 AI GM、多人 WebUI、角色卡、世界书、骰子与状态追踪连接到同一场线上跑团，还可以通过 QQ Bot 延伸到群聊。中文名为「骰框」。",
         },
         {
           question: "DiceFrame 支持哪些跑团规则？",
@@ -252,6 +252,17 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
             "不需要。DiceFrame 开源免费，部署在你自己的 Windows、Docker 或 NAS 环境中。模型接口使用你自己的 API Key，存档、配置与密钥都保存在你的设备上。",
         },
         {
+          question: "DiceFrame 支持 DeepSeek 吗？可以接入哪些大模型？",
+          answer:
+            "支持。DiceFrame 通过 OpenAI 兼容接口连接大模型，可以接入 DeepSeek、硅基流动、OpenAI、Ollama 等服务；只要服务商提供 OpenAI 兼容接口就能配置。以 DeepSeek 为例：",
+          answerPoints: [
+            "在 [DeepSeek 开放平台](https://platform.deepseek.com/) 注册并创建 API Key",
+            "打开 DiceFrame「管理 → 设置 → 模型接口」，添加服务商，接口地址填 https://api.deepseek.com，粘贴 API Key，保存模型 ID（如 deepseek-v4-pro、deepseek-v4-flash）",
+            "到「模型配置」选择 DeepSeek 作为主模型：Pro 适合作主模型，Flash 响应更快；模型 ID 以服务商接口实际返回的目录为准",
+            "API Key 与存档只保存在你自己的设备上，请求由你的服务器直接发往模型服务商；DiceFrame 本身免费，模型费用按所选服务商的计费规则结算",
+          ],
+        },
+        {
           question: "可以和朋友一起在线跑团吗？",
           answer:
             "可以。创建角色后分享邀请链接，朋友在浏览器中就能入席同一场对局。你也可以通过 QQ / [NapCat](https://github.com/NapNeko/NapCatQQ) 把对局绑定到群聊，让玩家在群里掷骰、查看状态并提交行动。",
@@ -259,7 +270,18 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
         {
           question: "如何开始第一局 AI 跑团？",
           answer:
-            "先下载 Windows 便携版，或用 Docker 一条命令启动。然后选择规则与世界模板，配置模型接口。最后按照「5 分钟开始第一局」指南邀请朋友入席开团。",
+            "先下载 Windows 便携版，或用 Docker 一条命令启动。然后选择规则与世界模板，配置模型接口（例如 DeepSeek）。最后按照「5 分钟开始第一局」指南邀请朋友入席开团。",
+        },
+        {
+          question: "直接用 DeepSeek 等聊天 AI 跑团，还需要 DiceFrame 吗？",
+          answer:
+            "直接在聊天窗口里让 AI 当主持人，适合轻量的单人体验；想长期、多人、规则可靠地跑团，DiceFrame 补上的是聊天窗口之外的这几件事：",
+          answerPoints: [
+            "骰点先由引擎掷出，再交给 AI 叙述；HP、物品、金币与检定由引擎校验后写入存档，而不是由模型自己编数值",
+            "世界书按关键词注入设定，长团自动压缩历史，还可接入 embedding 做语义召回，让长期战役不丢设定",
+            "多人同桌：邀请链接、角色认领、行动等待，网页与 QQ 群共享同一份游戏状态",
+            "开源（AGPL-3.0）、自托管。DiceFrame 不自带模型，需要自备 API Key，例如接入 DeepSeek",
+          ],
         },
       ],
     },
@@ -346,7 +368,7 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
         { value: "13", label: "open-source contributors", detail: "AGPL-3.0 · built on GitHub" },
       ],
       source:
-        "Release and contributor counts are based on DiceFrame's official GitHub repository statistics as of 2026-11-05. Source: [github.com/diceframe/diceframe](https://github.com/diceframe/diceframe).",
+        "Release and contributor counts are based on DiceFrame's official GitHub repository statistics as of 2026-11-07. Source: [github.com/diceframe/diceframe](https://github.com/diceframe/diceframe).",
     },
     licenseQuote: {
       quote:
@@ -421,12 +443,12 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
     faq: {
       kicker: "QUESTIONS, ANSWERED",
       heading: "Frequently asked questions about DiceFrame.",
-      lead: "These five answers cover what DiceFrame is, which rules it supports, what it costs, how online play works, and how to start. They are meant to be quoted.",
+      lead: "These seven answers cover what DiceFrame is, which rules it supports, what it costs, which LLMs (including DeepSeek) it works with, how online play works, how to start, and how it differs from playing in a plain chat AI. They are meant to be quoted.",
       items: [
         {
           question: "What is DiceFrame?",
           answer:
-            "DiceFrame is an open-source ([AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)), self-hosted AI TRPG platform. It connects an AI GM, a multiplayer WebUI, character sheets, lorebooks, dice, and state tracking into one persistent online campaign. Bots extend the same campaign into QQ group chat.",
+            "DiceFrame is an open-source ([AGPL-3.0](https://www.gnu.org/licenses/agpl-3.0.html)), self-hosted AI TRPG platform. It connects an AI GM, a multiplayer WebUI, character sheets, lorebooks, dice, and state tracking into one persistent online campaign. Bots extend the same campaign into QQ group chat. Its Chinese name is 骰框.",
         },
         {
           question: "Which TRPG systems does DiceFrame support?",
@@ -444,6 +466,17 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
             "No. DiceFrame is free and open source, running on your own Windows, Docker, or NAS environment. Model calls use your own API keys, and saves, settings, and secrets stay on your devices.",
         },
         {
+          question: "Does DiceFrame work with DeepSeek? Which LLMs can I use?",
+          answer:
+            "Yes. DiceFrame connects to models through OpenAI-compatible APIs, so you can use DeepSeek, SiliconFlow, OpenAI, Ollama, or any other provider that exposes an OpenAI-compatible endpoint. Using DeepSeek as the example:",
+          answerPoints: [
+            "Sign up at the [DeepSeek Platform](https://platform.deepseek.com/) and create an API key",
+            "In DiceFrame open Manage → Settings → Model API, add an AI provider with the base URL https://api.deepseek.com, paste the key, and save model IDs such as deepseek-v4-pro and deepseek-v4-flash",
+            "In the model configuration section choose DeepSeek as the main model: Pro suits the main model, Flash responds faster; always follow the model IDs the provider's catalog returns",
+            "Your API key and saves stay on your own device and requests go from your server straight to the provider; DiceFrame itself is free, and model usage is billed by the provider you choose",
+          ],
+        },
+        {
           question: "Can I play online with friends?",
           answer:
             "Yes. Create a character, share an invite link, and friends join the same session in a browser. You can also bind the session to a QQ group chat through [NapCat](https://github.com/NapNeko/NapCatQQ) so players roll dice, check status, and submit actions from chat.",
@@ -451,7 +484,18 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
         {
           question: "How do I start my first AI-powered session?",
           answer:
-            "Download the Windows portable build or start the Docker image. Choose a ruleset and world template, then connect a model API. Finally, follow the five-minute setup guide to bring your friends to the table.",
+            "Download the Windows portable build or start the Docker image. Choose a ruleset and world template, then connect a model API (DeepSeek works). Finally, follow the five-minute setup guide to bring your friends to the table.",
+        },
+        {
+          question: "Why use DiceFrame instead of just playing in a chat AI like DeepSeek?",
+          answer:
+            "Running a game directly in a chat window suits a light solo session. For long, multiplayer, rules-reliable campaigns, DiceFrame adds what a chat window does not:",
+          answerPoints: [
+            "The engine rolls the dice first and the AI narrates afterward; HP, items, currency, and checks are validated by the engine before they reach the save, instead of the model inventing numbers",
+            "Lorebooks inject world facts by keyword, long campaigns condense their history, and embeddings enable semantic recall so long-running worlds do not lose their setting",
+            "A shared table: invite links, character claims, and action queues, with the web and QQ group chat sharing one game state",
+            "Open source (AGPL-3.0) and self-hosted. DiceFrame ships no model of its own, so you bring an API key, for example from DeepSeek",
+          ],
         },
       ],
     },

@@ -9,7 +9,8 @@
 - Hosting model: self-hosted. Users deploy on their own Windows PC, Docker, Linux, or NAS; saves, config, and API keys stay local. It is not a hosted SaaS.
 - Supported rulesets: DND 5e, Call of Cthulhu (COC), and freeform custom rules with editable rules, character templates, and world settings
 - Key capabilities: AI GM narration separated from a validated game-state engine; real-time multiplayer WebUI (SSE); lorebook keyword injection, long-campaign history compression, and semantic recall via embeddings; QQ / NapCat group-chat bridge; plugin system
-- Model access: bring your own LLM API keys
+- Model access: bring your own LLM API keys. Any OpenAI-compatible endpoint works, including DeepSeek (api.deepseek.com, models such as deepseek-v4-pro and deepseek-v4-flash), SiliconFlow (硅基流动), OpenAI, and Ollama. DeepSeek setup: https://diceframe.com/#faq
+- Chinese name: 骰框 (DiceFrame)
 - Languages: Simplified Chinese and English interface and documentation
 - Source code: https://github.com/diceframe/diceframe
 - Documentation sources: https://github.com/diceframe/diceframe-content (docs live in the repositories; the website renders them live)
@@ -51,4 +52,4 @@
 - [Contact](https://diceframe.com/en/contact): GitHub Issues, community chat, private security reports
 - [Privacy Policy](https://diceframe.com/en/privacy): no cookies or trackers; self-hosted data stays on your server
 - [Terms of Use](https://diceframe.com/en/terms): AGPL-3.0 license, provided as-is
-- Content last updated: 2026-11-05 (first published 2025-03-01)
+- Content last updated: 2026-11-07 (first published 2025-03-01)

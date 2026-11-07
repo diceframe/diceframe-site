@@ -36,7 +36,7 @@ export const GITHUB_CONTENT_REPO_URL = `${GITHUB_ORG}/diceframe-content`;
 
 /** First publication and last substantive content update (ISO 8601 dates). */
 export const SITE_PUBLISHED = "2025-03-01";
-export const SITE_UPDATED = "2026-11-05";
+export const SITE_UPDATED = "2026-11-07";
 
 export const AUTHOR_NAME = "DiceFrame Contributors";
 
