@@ -10,7 +10,7 @@ export const Route = createFileRoute("/en/")({
     pageSeo({
       title: "DiceFrame — Open-source, self-hosted AI TRPG platform",
       description:
-        "DiceFrame is an open-source, self-hosted AI TRPG platform for DND, COC, and custom rules that works with DeepSeek and other LLMs, with an AI GM, multiplayer WebUI, character sheets, lorebooks, dice, and chat bots.",
+        "DiceFrame is an open-source, self-hosted AI TRPG platform for DND, COC, and custom rules, with an AI GM, multiplayer WebUI, character sheets, lorebooks, dice, and chat bots.",
       path: "/en",
       language: content.language,
       alternates: { zh: "/", en: "/en" },

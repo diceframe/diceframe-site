@@ -50,12 +50,7 @@ Allow: /
 User-agent: Bytespider
 Allow: /
 
-# China-based AI assistants (DeepSeek, Doubao, Kimi, Qwen, Yuanbao, ...) answer
-# from Chinese search indexes. DeepSeek does not publish a crawler name, so its
-# group is a harmless placeholder; the search crawlers below are what matter.
-User-agent: DeepSeekBot
-Allow: /
-
+# Chinese search engines. Their indexes also feed China-based AI assistants.
 User-agent: Baiduspider
 Allow: /
 

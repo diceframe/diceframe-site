@@ -229,7 +229,7 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
     faq: {
       kicker: "QUESTIONS, ANSWERED",
       heading: "关于 DiceFrame 的常见问题。",
-      lead: "以下七个问题回答了 DiceFrame 是什么、支持哪些规则、是否收费、能否接入 DeepSeek 等大模型、能否多人在线、如何开始，以及它与直接用聊天 AI 跑团有何不同。答案可以直接引用。",
+      lead: "以下七个问题回答了 DiceFrame 是什么、支持哪些规则、是否收费、能接入哪些大模型、能否多人在线、如何开始，以及它与直接用聊天 AI 跑团有何不同。答案可以直接引用。",
       items: [
         {
           question: "DiceFrame 是什么？",
@@ -252,9 +252,9 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
             "不需要。DiceFrame 开源免费，部署在你自己的 Windows、Docker 或 NAS 环境中。模型接口使用你自己的 API Key，存档、配置与密钥都保存在你的设备上。",
         },
         {
-          question: "DiceFrame 支持 DeepSeek 吗？可以接入哪些大模型？",
+          question: "DiceFrame 可以接入哪些大模型？",
           answer:
-            "支持。DiceFrame 通过 OpenAI 兼容接口连接大模型，可以接入 DeepSeek、硅基流动、OpenAI、Ollama 等服务；只要服务商提供 OpenAI 兼容接口就能配置。以 DeepSeek 为例：",
+            "任何提供 OpenAI 兼容接口的模型服务都可以，例如 DeepSeek、硅基流动、OpenAI 和 Ollama。DiceFrame 不自带模型，需要自备 API Key。以 DeepSeek 为例：",
           answerPoints: [
             "在 [DeepSeek 开放平台](https://platform.deepseek.com/) 注册并创建 API Key",
             "打开 DiceFrame「管理 → 设置 → 模型接口」，添加服务商，接口地址填 https://api.deepseek.com，粘贴 API Key，保存模型 ID（如 deepseek-v4-pro、deepseek-v4-flash）",
@@ -270,17 +270,17 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
         {
           question: "如何开始第一局 AI 跑团？",
           answer:
-            "先下载 Windows 便携版，或用 Docker 一条命令启动。然后选择规则与世界模板，配置模型接口（例如 DeepSeek）。最后按照「5 分钟开始第一局」指南邀请朋友入席开团。",
+            "先下载 Windows 便携版，或用 Docker 一条命令启动。然后选择规则与世界模板，配置模型接口。最后按照「5 分钟开始第一局」指南邀请朋友入席开团。",
         },
         {
-          question: "直接用 DeepSeek 等聊天 AI 跑团，还需要 DiceFrame 吗？",
+          question: "直接用聊天 AI 跑团，还需要 DiceFrame 吗？",
           answer:
             "直接在聊天窗口里让 AI 当主持人，适合轻量的单人体验；想长期、多人、规则可靠地跑团，DiceFrame 补上的是聊天窗口之外的这几件事：",
           answerPoints: [
             "骰点先由引擎掷出，再交给 AI 叙述；HP、物品、金币与检定由引擎校验后写入存档，而不是由模型自己编数值",
             "世界书按关键词注入设定，长团自动压缩历史，还可接入 embedding 做语义召回，让长期战役不丢设定",
             "多人同桌：邀请链接、角色认领、行动等待，网页与 QQ 群共享同一份游戏状态",
-            "开源（AGPL-3.0）、自托管。DiceFrame 不自带模型，需要自备 API Key，例如接入 DeepSeek",
+            "开源（AGPL-3.0）、自托管。DiceFrame 不自带模型，需要自备 API Key",
           ],
         },
       ],
@@ -443,7 +443,7 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
     faq: {
       kicker: "QUESTIONS, ANSWERED",
       heading: "Frequently asked questions about DiceFrame.",
-      lead: "These seven answers cover what DiceFrame is, which rules it supports, what it costs, which LLMs (including DeepSeek) it works with, how online play works, how to start, and how it differs from playing in a plain chat AI. They are meant to be quoted.",
+      lead: "These seven answers cover what DiceFrame is, which rules it supports, what it costs, which LLMs it works with, how online play works, how to start, and how it differs from playing in a plain chat AI. They are meant to be quoted.",
       items: [
         {
           question: "What is DiceFrame?",
@@ -466,9 +466,9 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
             "No. DiceFrame is free and open source, running on your own Windows, Docker, or NAS environment. Model calls use your own API keys, and saves, settings, and secrets stay on your devices.",
         },
         {
-          question: "Does DiceFrame work with DeepSeek? Which LLMs can I use?",
+          question: "Which LLMs can I use with DiceFrame?",
           answer:
-            "Yes. DiceFrame connects to models through OpenAI-compatible APIs, so you can use DeepSeek, SiliconFlow, OpenAI, Ollama, or any other provider that exposes an OpenAI-compatible endpoint. Using DeepSeek as the example:",
+            "Any provider with an OpenAI-compatible endpoint, such as DeepSeek, SiliconFlow, OpenAI, or Ollama. DiceFrame ships no model of its own, so you bring an API key. Using DeepSeek as the example:",
           answerPoints: [
             "Sign up at the [DeepSeek Platform](https://platform.deepseek.com/) and create an API key",
             "In DiceFrame open Manage → Settings → Model API, add an AI provider with the base URL https://api.deepseek.com, paste the key, and save model IDs such as deepseek-v4-pro and deepseek-v4-flash",
@@ -484,17 +484,17 @@ export const homeContent: Record<SiteLanguage, HomeContent> = {
         {
           question: "How do I start my first AI-powered session?",
           answer:
-            "Download the Windows portable build or start the Docker image. Choose a ruleset and world template, then connect a model API (DeepSeek works). Finally, follow the five-minute setup guide to bring your friends to the table.",
+            "Download the Windows portable build or start the Docker image. Choose a ruleset and world template, then connect a model API. Finally, follow the five-minute setup guide to bring your friends to the table.",
         },
         {
-          question: "Why use DiceFrame instead of just playing in a chat AI like DeepSeek?",
+          question: "Why use DiceFrame instead of just playing in a chat AI?",
           answer:
             "Running a game directly in a chat window suits a light solo session. For long, multiplayer, rules-reliable campaigns, DiceFrame adds what a chat window does not:",
           answerPoints: [
             "The engine rolls the dice first and the AI narrates afterward; HP, items, currency, and checks are validated by the engine before they reach the save, instead of the model inventing numbers",
             "Lorebooks inject world facts by keyword, long campaigns condense their history, and embeddings enable semantic recall so long-running worlds do not lose their setting",
             "A shared table: invite links, character claims, and action queues, with the web and QQ group chat sharing one game state",
-            "Open source (AGPL-3.0) and self-hosted. DiceFrame ships no model of its own, so you bring an API key, for example from DeepSeek",
+            "Open source (AGPL-3.0) and self-hosted. DiceFrame ships no model of its own, so you bring your own API key",
           ],
         },
       ],

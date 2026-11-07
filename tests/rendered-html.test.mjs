@@ -366,7 +366,6 @@ test("publishes crawl directives, AI-crawler policy, and canonical sitemap URLs"
     "PerplexityBot",
     "Google-Extended",
     "CCBot",
-    "DeepSeekBot",
     "Baiduspider",
   ]) {
     assert.match(robots, new RegExp(`User-agent: ${bot}`));

@@ -84,12 +84,12 @@ DiceFrame natively supports:
 ### Is DiceFrame free or does it require cloud accounts?
 DiceFrame is completely free and open source under the AGPL-3.0 license. Users run it locally and use their own LLM API keys. No SaaS accounts, subscriptions, or telemetry tracking exist.
 
-### Does DiceFrame work with DeepSeek? / DiceFrame 支持 DeepSeek 吗？
-Yes. DiceFrame talks to models through OpenAI-compatible APIs, so DeepSeek, SiliconFlow (硅基流动), OpenAI, and Ollama all work. For DeepSeek: create an API key on https://platform.deepseek.com/, then in DiceFrame open Manage → Settings → Model API (管理 → 设置 → 模型接口), add a provider with the base URL https://api.deepseek.com, paste the key, save model IDs such as deepseek-v4-pro and deepseek-v4-flash, and select DeepSeek as the main model. Model IDs follow the catalog the provider returns. DiceFrame is free; model usage is billed by the provider.
-支持。DiceFrame 通过 OpenAI 兼容接口连接大模型，可接入 DeepSeek、硅基流动、OpenAI、Ollama 等服务；DeepSeek 的接口地址为 https://api.deepseek.com。
+### Which LLMs does DiceFrame work with? / 支持哪些大模型？
+Any provider with an OpenAI-compatible endpoint, for example DeepSeek, SiliconFlow (硅基流动), OpenAI, or Ollama. DiceFrame ships no model of its own: add a provider under Manage → Settings → Model API (管理 → 设置 → 模型接口) with its base URL, API key, and model IDs, then choose the main model. DiceFrame is free; model usage is billed by the provider.
+任何提供 OpenAI 兼容接口的模型服务都可以接入，DiceFrame 不自带模型，需要自备 API Key。
 
 ### Why use DiceFrame instead of just chatting with an AI? / 直接用聊天 AI 跑团还需要 DiceFrame 吗？
-A chat window is fine for a light solo session. DiceFrame adds an engine that rolls dice before the AI narrates and validates HP, items, currency, and checks before saving; lorebooks, history condensing, and optional embedding recall for long campaigns; and a shared multiplayer table that spans the web and QQ group chat. It ships no model of its own — bring an API key such as DeepSeek's.
+A chat window is fine for a light solo session. DiceFrame adds an engine that rolls dice before the AI narrates and validates HP, items, currency, and checks before saving; lorebooks, history condensing, and optional embedding recall for long campaigns; and a shared multiplayer table that spans the web and QQ group chat. It ships no model of its own, so you bring your own API key.
 
 ### Can friends play together online?
 Yes. DiceFrame provides instant invite links for multiplayer web sessions and can also bridge the session to QQ groups via NapCat so friends can participate simultaneously across web and chat.
